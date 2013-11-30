@@ -2,6 +2,7 @@ package com.jso.deco;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -19,7 +20,8 @@ public class MyResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
-        return "Got it!";
+    @Path("/{name}")
+    public String getIt(@PathParam("name") String name) {
+        return "Got it! " + name;
     }
 }
