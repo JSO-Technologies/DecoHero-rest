@@ -5,6 +5,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.joda.time.DateTime;
+
+import com.jso.deco.session.Session;
+import com.jso.deco.session.SessionManager;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -19,9 +25,12 @@ public class MyResource {
      * @return String that will be returned as a text/plain response.
      */
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{name}")
-    public String getIt(@PathParam("name") String name) {
-        return "Got it! " + name;
+    public Response getIt(@PathParam("name") String name) {
+    	
+        TestObject obj = new TestObject();
+        obj.setName(name);
+		return Response.status(200).entity(obj).build();
     }
 }
