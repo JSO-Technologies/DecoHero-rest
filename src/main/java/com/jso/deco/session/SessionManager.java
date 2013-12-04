@@ -69,7 +69,13 @@ public class SessionManager {
 	 * @return
 	 */
 	public NewCookie getCookie(ContainerRequestContext requestContext) {
-		return CookieEncoder.getInstance().sessionToCookie(getSession(), requestContext);
+		Session session = getSession();
+		if(session != null) {
+			return CookieEncoder.getInstance().sessionToCookie(getSession(), requestContext);
+		}
+		else {
+			return null;
+		}
 	}
 	
 }

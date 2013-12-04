@@ -67,8 +67,9 @@ public class SessionTest {
 	@Test
 	public void isValid_should_return_true() {
 		//given
-		String decoded_cookie_value = "tLJqS78ju2pK8cqlpaVw8/Kphvw=;123;1387926000000";
-		Session session = new Session(decoded_cookie_value);
+		DateTime expireDate = new DateTime().plusHours(1);
+		
+		Session session = new Session(123L, expireDate.getMillis());
 		
 		//when
 		boolean isValid = session.isValid();
@@ -80,7 +81,9 @@ public class SessionTest {
 	@Test
 	public void isValid_should_return_false_coz_hash() {
 		//given
-		String decoded_cookie_value = "tLJqS78ju2pK8cqlpaVw9/Kphvw=;123;1387926000000";
+		DateTime expireDate = new DateTime().plusHours(1);
+		
+		String decoded_cookie_value = "AZERTY;123;" + expireDate.getMillis();
 		Session session = new Session(decoded_cookie_value);
 		
 		//when
@@ -93,8 +96,9 @@ public class SessionTest {
 	@Test
 	public void isValid_should_return_false_coz_expiration_time() {
 		//given
-		String decoded_cookie_value = "tLJqS78ju2pK8cqlpaVw8/Kphvw=;123;1386926000000";
-		Session session = new Session(decoded_cookie_value);
+		DateTime expireDate = new DateTime().minusHours(1);
+		
+		Session session = new Session(123L, expireDate.getMillis());
 		
 		//when
 		boolean isValid = session.isValid();
