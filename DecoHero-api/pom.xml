@@ -12,4 +12,11 @@
 	<packaging>jar</packaging>
 	<name>DecoHero-api</name>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${spring.mongodb.version}</version>
+		</dependency>
+	</dependencies>
 </project>
