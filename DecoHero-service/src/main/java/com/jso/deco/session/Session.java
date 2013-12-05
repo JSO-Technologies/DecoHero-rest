@@ -7,30 +7,37 @@ import org.joda.time.DateTime;
 public class Session {
 	private static final String SERIALIZATION_SEPARATOR = ";";
 	private static final int DURATION_IN_MINUTES = 60;
-	private final Long userId;
+	private final String userId;
 	private long expirationTime;
 	private String hash;
 	
-	public Session(final Long userId) {
+	public Session(final String userId) {
 		this.userId = userId;
 		refreshExpiredDate();
 	}
 	
-	public Session(final Long userId, final long expirationTime) {
+	public Session(final String userId, final long expirationTime) {
 		this.userId = userId;
 		this.expirationTime = expirationTime;
 		refreshHash();
 	}
 	
-	public Session(String serializedSession) {
+	private Session(final String userId, final long expirationTime, final String hash) {
+		this.userId = userId;
+		this.expirationTime = expirationTime;
+		this.hash = hash;
+	}
+	
+	public static Session fromSerialized(String serializedSession) {
 		String[] parts = serializedSession.split(SERIALIZATION_SEPARATOR);
 		if(parts.length != 3) {
 			throw new IllegalArgumentException();
 		}
 		
-		this.userId = new Long(parts[1]);
-		this.expirationTime = new Long(parts[2]);
-		this.hash = parts[0];
+		String hash = parts[0];
+		String userId = parts[1];
+		Long expirationTime = new Long(parts[2]);
+		return new Session(userId, expirationTime, hash);
 	}
 
 	public boolean isExpired() {
@@ -48,7 +55,7 @@ public class Session {
 		this.hash = new String(cookieEncoder.encodeBase64(cookieEncoder.hashFromSession(this)));
 	}
 	
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 	

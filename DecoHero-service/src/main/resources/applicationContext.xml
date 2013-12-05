@@ -8,6 +8,8 @@
   http://www.springframework.org/schema/context
   http://www.springframework.org/schema/context/spring-context.xsd"
         >
+        
+        <import resource="classpath:DecoHero-controller.spring.xml"/>
 
 <!--     <bean id="greetingService" class="org.glassfish.jersey.examples.helloworld.spring.GreetingServiceImpl"/> -->
 

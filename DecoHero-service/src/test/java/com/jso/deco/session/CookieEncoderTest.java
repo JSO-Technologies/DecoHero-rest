@@ -22,7 +22,7 @@ public class CookieEncoderTest {
 	public void hashFromSession_should_encode_session_to_correct_hash() throws NoSuchAlgorithmException {
 		//given
 		DateTime date = new DateTime();
-		Session session = new Session(123L, date.getMillis());
+		Session session = new Session("123", date.getMillis());
 
 		String serializedSession = session.getExpirationTime() + ";" + session.getUserId() + ";decoherodecohero";
 		byte[] expectedHash = MessageDigest.getInstance("SHA-1").digest(serializedSession.getBytes());
@@ -37,7 +37,7 @@ public class CookieEncoderTest {
 	@Test
 	public void cookieToSession_should_deserialize_sessionToCookie_result() throws URISyntaxException, IOException {
 		//given
-		Session session = new Session(123L, new DateTime().getMillis());
+		Session session = new Session("123", new DateTime().getMillis());
 		NewCookie cookie = cookieEncoder.sessionToCookie(session, RequestUtils.getMockedRequestContext("http://localhost"));
 
 		//when
@@ -58,7 +58,7 @@ public class CookieEncoderTest {
 		Session resultingSession = cookieEncoder.cookieToSession(cookie_value);
 
 		//then
-		assertThat(resultingSession.getUserId()).isEqualTo(123L);
+		assertThat(resultingSession.getUserId()).isEqualTo("123");
 		assertThat(resultingSession.getExpirationTime()).isEqualTo(new DateTime(2013, 12, 25, 0, 0, 0).getMillis());
 		assertThat(resultingSession.getHash()).isEqualTo("tLJqS78ju2pK8cqlpaVw8/Kphvw=");
 	}
@@ -66,7 +66,7 @@ public class CookieEncoderTest {
 	@Test
 	public void sessionToCookie_should_serialize_session() throws URISyntaxException {
 		//given
-		Session session = new Session(123L, new DateTime(2013, 12, 25, 0, 0, 0).getMillis());
+		Session session = new Session("123", new DateTime(2013, 12, 25, 0, 0, 0).getMillis());
 
 		//when
 		NewCookie resultingCookie = cookieEncoder.sessionToCookie(session, RequestUtils.getMockedRequestContext("http://localhost"));

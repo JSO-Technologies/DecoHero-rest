@@ -31,7 +31,7 @@ public class CookieEncoder {
 	public Session cookieToSession(String cookie_value) throws IOException {
 		byte[] value = encoder.decode(cookie_value.getBytes());
 		try {
-			return new Session(new String(value));
+			return Session.fromSerialized(new String(value));
 		}
 		catch(IllegalArgumentException e) {
 			return null;
