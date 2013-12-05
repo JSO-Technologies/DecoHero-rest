@@ -1,4 +1,4 @@
-package com.jso.deco.user;
+package com.jso.deco.service.user;
 
 import java.util.Date;
 
@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jso.deco.api.service.User;
 import com.jso.deco.controller.UserController;
-import com.jso.deco.exception.DHServiceException;
-import com.jso.deco.session.Session;
-import com.jso.deco.session.SessionManager;
-import com.jso.deco.utils.Encoder;
+import com.jso.deco.service.exception.DHServiceException;
+import com.jso.deco.service.session.Session;
+import com.jso.deco.service.session.SessionManager;
+import com.jso.deco.service.utils.Encoder;
 
 @Path("user")
 public class UserService {

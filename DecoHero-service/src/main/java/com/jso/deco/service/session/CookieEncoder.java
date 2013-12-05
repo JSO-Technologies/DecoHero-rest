@@ -1,4 +1,4 @@
-package com.jso.deco.session;
+package com.jso.deco.service.session;
 
 import java.io.IOException;
 import java.util.Date;
@@ -8,7 +8,7 @@ import javax.ws.rs.core.NewCookie;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.jso.deco.utils.Encoder;
+import com.jso.deco.service.utils.Encoder;
 
 public class CookieEncoder {
 	private static CookieEncoder INSTANCE = new CookieEncoder();

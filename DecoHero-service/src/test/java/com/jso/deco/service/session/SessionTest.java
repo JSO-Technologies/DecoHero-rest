@@ -1,4 +1,4 @@
-package com.jso.deco.session;
+package com.jso.deco.service.session;
 
 import static org.fest.assertions.Assertions.assertThat;
 

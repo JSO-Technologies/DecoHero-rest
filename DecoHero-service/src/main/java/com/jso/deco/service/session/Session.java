@@ -1,4 +1,4 @@
-package com.jso.deco.session;
+package com.jso.deco.service.session;
 
 import java.util.Arrays;
 

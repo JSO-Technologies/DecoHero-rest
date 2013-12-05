@@ -1,4 +1,4 @@
-package com.jso.deco.exception;
+package com.jso.deco.service.exception;
 
 import org.springframework.http.HttpStatus;
 

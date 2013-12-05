@@ -1,11 +1,11 @@
-package com.jso.deco.user;
+package com.jso.deco.service.user;
 
 import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.service.User;
 import com.jso.deco.controller.UserController;
-import com.jso.deco.exception.DHMessage;
-import com.jso.deco.exception.DHServiceException;
+import com.jso.deco.service.exception.DHMessage;
+import com.jso.deco.service.exception.DHServiceException;
 
 public class UserValidator {
 	private UserController controller;

@@ -1,4 +1,4 @@
-package com.jso.deco.utils;
+package com.jso.deco.service.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-package com.jso.deco.filter;
+package com.jso.deco.service.filter;
 
 import java.io.IOException;
 
@@ -6,7 +6,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 
-import com.jso.deco.session.SessionManager;
+import com.jso.deco.service.session.SessionManager;
 
 public class SessionManagerResponseFilter implements ContainerResponseFilter {
 
