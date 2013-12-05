@@ -72,6 +72,17 @@ public class UserDataService {
 		return mongoTemplate.findOne(searchUserQuery, DBUser.class);
 	}
 	
+	/**
+	 * Test if a username already exists
+	 * @param username
+	 * @return
+	 */
+	public boolean exists(String username) {
+		Criteria idCriteria = Criteria.where(USERNAME).is(username);
+		Query searchUserQuery = new Query(idCriteria);
+		return mongoTemplate.exists(searchUserQuery, DBUser.class);
+	}
+
 	public void setMongoTemplate(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}

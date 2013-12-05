@@ -1,8 +1,6 @@
 package com.jso.deco.session;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.ws.rs.container.ContainerRequestContext;
@@ -10,18 +8,15 @@ import javax.ws.rs.core.NewCookie;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.jso.deco.utils.Encoder;
+
 public class CookieEncoder {
 	private static CookieEncoder INSTANCE = new CookieEncoder();
 	private static final String HASH_SALT = "decoherodecohero";
-	private final Base64 encoder = new Base64();
-	private MessageDigest digestSHA1;
+	private final Encoder encoder;
 
 	private CookieEncoder() {
-		try {
-			digestSHA1 = MessageDigest.getInstance("SHA-1");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+		encoder = new Encoder();
 	}
 
 	public static CookieEncoder getInstance() {
@@ -29,7 +24,7 @@ public class CookieEncoder {
 	}
 
 	public Session cookieToSession(String cookie_value) throws IOException {
-		byte[] value = encoder.decode(cookie_value.getBytes());
+		byte[] value = encoder.decodeBase64(cookie_value);
 		try {
 			return Session.fromSerialized(new String(value));
 		}
@@ -54,16 +49,12 @@ public class CookieEncoder {
 				true);
 	}
 
-	public byte[] decodeBase64(String encoded) {
-		return encoder.decode(encoded);
-	}
-
-	public byte[] encodeBase64(byte[] decoded) {
-		return encoder.encode(decoded);
+	public byte[] base64HashFromSession(Session session) {
+		return encoder.encodeBase64(hashFromSession(session));
 	}
 
 	public byte[] hashFromSession(Session session) {
 		String value = session.getExpirationTime() + ";" + session.getUserId() + ";" + HASH_SALT;
-		return digestSHA1.digest(value.getBytes());
+		return encoder.digestSHA1(value.getBytes());
 	}
 }

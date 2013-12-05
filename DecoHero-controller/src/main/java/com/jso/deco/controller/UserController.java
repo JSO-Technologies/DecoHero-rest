@@ -8,13 +8,26 @@ import com.jso.deco.data.user.UserDataService;
 public class UserController {
     private UserDataService userDataService;
     
+    /**
+     * Create a new user
+     * @param user
+     */
     public void createUser(User user) {
     	DBUser dbUser = UserAdapter.userToDBUser(user);
 		userDataService.create(dbUser);
 		user.setId(dbUser.getId());
     }
-    
-    public void setUserDataService(UserDataService userDataService) {
+
+    /**
+     * Test if a username already exists
+     * @param user
+     * @return
+     */
+	public boolean usernameExists(User user) {
+		return userDataService.exists(user.getUsername());
+	}
+	
+	public void setUserDataService(UserDataService userDataService) {
 		this.userDataService = userDataService;
 	}
 }

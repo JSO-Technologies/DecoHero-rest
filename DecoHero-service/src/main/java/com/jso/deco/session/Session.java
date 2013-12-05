@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 public class Session {
 	private static final String SERIALIZATION_SEPARATOR = ";";
 	private static final int DURATION_IN_MINUTES = 60;
+	
 	private final String userId;
 	private long expirationTime;
 	private String hash;
@@ -52,7 +53,7 @@ public class Session {
 	
 	private void refreshHash() {
 		CookieEncoder cookieEncoder = CookieEncoder.getInstance();
-		this.hash = new String(cookieEncoder.encodeBase64(cookieEncoder.hashFromSession(this)));
+		this.hash = new String(cookieEncoder.base64HashFromSession(this));
 	}
 	
 	public String getUserId() {
@@ -76,9 +77,8 @@ public class Session {
 			return false;
 		}
 		
-		byte[] calculatedHash = CookieEncoder.getInstance().hashFromSession(this);
-		byte[] currentHash = CookieEncoder.getInstance().decodeBase64(hash);
-		return Arrays.equals(calculatedHash, currentHash);
+		byte[] calculatedHash = CookieEncoder.getInstance().base64HashFromSession(this);
+		return Arrays.equals(calculatedHash, hash.getBytes());
 	}
 
 }

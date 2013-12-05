@@ -10,15 +10,11 @@
         >
         
         <import resource="classpath:DecoHero-controller.spring.xml"/>
-
-<!--     <bean id="greetingService" class="org.glassfish.jersey.examples.helloworld.spring.GreetingServiceImpl"/> -->
-
-<!--     <bean class="org.glassfish.jersey.examples.helloworld.spring.DateTimeService" scope="request"/> -->
-
-<!--     <bean class="org.glassfish.jersey.examples.helloworld.spring.SpringSingletonResource"/> -->
-
-<!--     <bean class="org.glassfish.jersey.examples.helloworld.spring.SpringRequestResource" scope="request"/> -->
-
-<!--     <bean class="org.glassfish.jersey.examples.helloworld.spring.CustomExceptionMapper"/> -->
+        
+        <bean id="encoder" class="com.jso.deco.utils.Encoder"/>
+        
+        <bean id="userValidator" class="com.jso.deco.user.UserValidator">
+        	<property name="controller" ref="userController"/>
+        </bean>
 
 </beans>
