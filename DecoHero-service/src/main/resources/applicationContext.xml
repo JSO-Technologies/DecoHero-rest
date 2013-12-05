@@ -11,9 +11,9 @@
         
         <import resource="classpath:DecoHero-controller.spring.xml"/>
         
-        <bean id="encoder" class="com.jso.deco.utils.Encoder"/>
+        <bean id="encoder" class="com.jso.deco.service.utils.Encoder"/>
         
-        <bean id="userValidator" class="com.jso.deco.user.UserValidator">
+        <bean id="userValidator" class="com.jso.deco.service.user.UserValidator">
         	<property name="controller" ref="userController"/>
         </bean>
 
