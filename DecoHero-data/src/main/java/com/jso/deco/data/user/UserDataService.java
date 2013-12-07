@@ -16,6 +16,7 @@ public class UserDataService {
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 	public static final String DELETION_DATE = "deletionDate";
+	public static final String EMAIL = "email";
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
@@ -77,8 +78,8 @@ public class UserDataService {
 	 * @param username
 	 * @return
 	 */
-	public boolean exists(String username) {
-		Criteria idCriteria = Criteria.where(USERNAME).is(username);
+	public boolean exists(String field, String value) {
+		Criteria idCriteria = Criteria.where(field).is(value);
 		Query searchUserQuery = new Query(idCriteria);
 		return mongoTemplate.exists(searchUserQuery, DBUser.class);
 	}

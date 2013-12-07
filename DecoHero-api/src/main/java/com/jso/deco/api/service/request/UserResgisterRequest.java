@@ -1,24 +1,15 @@
-package com.jso.deco.api.service;
+package com.jso.deco.api.service.request;
 
 import java.util.Date;
 
-public class User {
-	private String id;
+public class UserResgisterRequest {
 	private String username;
 	private String email;
 	private String firstName;
 	private String lastName;
 	private Date birthDate;
 	private String password;
-	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
+
 	public String getUsername() {
 		return username;
 	}

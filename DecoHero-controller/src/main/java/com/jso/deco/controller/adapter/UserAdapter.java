@@ -1,18 +1,18 @@
 package com.jso.deco.controller.adapter;
 
 import com.jso.deco.api.database.DBUser;
-import com.jso.deco.api.service.User;
+import com.jso.deco.api.service.request.UserResgisterRequest;
 
 public class UserAdapter {
-	public static DBUser userToDBUser(User user) {
+	
+	public DBUser userToDBUser(UserResgisterRequest userRequest) {
 		DBUser dbUser = new DBUser();
-		dbUser.setId(user.getId());
-		dbUser.setUsername(user.getUsername());
-		dbUser.setEmail(user.getEmail());
-		dbUser.setFirstName(user.getFirstName());
-		dbUser.setLastName(user.getLastName());
-		dbUser.setPassword(user.getPassword());
-		dbUser.setBirthDate(user.getBirthDate());
+		dbUser.setUsername(userRequest.getUsername());
+		dbUser.setEmail(userRequest.getEmail());
+		dbUser.setFirstName(userRequest.getFirstName());
+		dbUser.setLastName(userRequest.getLastName());
+		dbUser.setPassword(userRequest.getPassword());
+		dbUser.setBirthDate(userRequest.getBirthDate());
 		
 		return dbUser;
 	}

@@ -13,8 +13,8 @@
         
         <bean id="encoder" class="com.jso.deco.service.utils.Encoder"/>
         
-        <bean id="userValidator" class="com.jso.deco.service.user.UserValidator">
-        	<property name="controller" ref="userController"/>
-        </bean>
+        <bean id="userServiceValidator" class="com.jso.deco.service.user.UserServiceValidator"/>
+
+        <bean id="serviceResponseAdapter" class="com.jso.deco.service.adapter.ServiceResponseAdapter"/>
 
 </beans>

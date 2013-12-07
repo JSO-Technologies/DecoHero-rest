@@ -12,9 +12,11 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.jso.deco.api.service.User;
+import com.jso.deco.api.exception.DHServiceException;
+import com.jso.deco.api.service.request.UserResgisterRequest;
+import com.jso.deco.api.service.response.ServiceResponse;
 import com.jso.deco.controller.UserController;
-import com.jso.deco.service.exception.DHServiceException;
+import com.jso.deco.service.adapter.ServiceResponseAdapter;
 import com.jso.deco.service.session.Session;
 import com.jso.deco.service.session.SessionManager;
 import com.jso.deco.service.utils.Encoder;
@@ -28,38 +30,38 @@ public class UserService {
 	private Encoder encoder;
 	
 	@Autowired
-	private UserValidator validator;
+	private UserServiceValidator validator;
+	
+	@Autowired
+	private ServiceResponseAdapter adapter;
    
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/register")
-    public Response getIt(@FormParam("username") String username, @FormParam("firstName") String firstName, @FormParam("lastName") String lastName, @FormParam("email") String email, @FormParam("password") String password, @FormParam("birthdate") Long birthDate) {
-    	User user = new User();
-    	user.setUsername(username);
-    	user.setFirstName(firstName);
-    	user.setLastName(lastName);
-    	user.setEmail(email);
-    	user.setPassword(password);
-    	user.setBirthDate(new Date(birthDate));
+    public Response getIt(@FormParam("username") String username, @FormParam("firstname") String firstName, @FormParam("lastname") String lastName, @FormParam("email") String email, @FormParam("password") String password, @FormParam("birthdate") Long birthDate) {
+    	UserResgisterRequest request = new UserResgisterRequest();
+    	request.setUsername(username);
+    	request.setFirstName(firstName);
+    	request.setLastName(lastName);
+    	request.setEmail(email);
+    	request.setPassword(password);
+    	request.setBirthDate(birthDate == null ? null : new Date(birthDate));
     	
     	try {
-    		validator.validateCreationValues(user);
+    		validator.validateCreationValues(request);
 
-    		user.setPassword(new String(encoder.digestSHA1(password.getBytes())));
-    		controller.createUser(user);
+    		request.setPassword(new String(encoder.digestSHA1(password.getBytes())));
+    		String createdId = controller.createUser(request);
     		
-    		Session session = new Session(user.getId());
+    		Session session = new Session(createdId);
     		SessionManager.getInstance().setSession(session);
     		
-    		return Response.status(200).entity(user).build();
+    		return Response.status(200).build();
     	}
     	catch(DHServiceException e) {
-    		return Response.status(e.getHttpStatus().value()).entity(e.getDhMessage()).build();
+    		ServiceResponse response = adapter.fromException(e);
+    		return Response.status(response.getStatus()).entity(response.getContent()).build();
     	}
     }
-    
-    public void setController(UserController controller) {
-		this.controller = controller;
-	}
 }
