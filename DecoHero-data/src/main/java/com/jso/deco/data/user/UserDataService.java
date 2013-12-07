@@ -60,16 +60,18 @@ public class UserDataService {
 	}
 	
 	/**
-	 * Find user from username/encrypted_password
-	 * @param username
+	 * Find user from email/encrypted_password
+	 * @param email
 	 * @param password
 	 * @return
 	 */
-	public DBUser findById(String username, String password) {
-		Criteria usernameCriteria = Criteria.where(USERNAME).is(username);
+	public DBUser find(String email, String password) {
+		Criteria emailCriteria = Criteria.where(EMAIL).is(email);
 		Criteria passwordCriteria = Criteria.where(PASSWORD).is(password);
 		Criteria notDeletedCriteria = Criteria.where(DELETION_DATE).is(null);
-		Query searchUserQuery = new Query(usernameCriteria.andOperator(passwordCriteria).andOperator(notDeletedCriteria));
+		
+		Criteria searchUserCriteria = new Criteria().andOperator(emailCriteria, passwordCriteria, notDeletedCriteria);
+		Query searchUserQuery = new Query(searchUserCriteria);
 		return mongoTemplate.findOne(searchUserQuery, DBUser.class);
 	}
 	

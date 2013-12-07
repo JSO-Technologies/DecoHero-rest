@@ -12,9 +12,7 @@
         <import resource="classpath:DecoHero-controller.spring.xml"/>
         
         <bean id="encoder" class="com.jso.deco.service.utils.Encoder"/>
-        
         <bean id="userServiceValidator" class="com.jso.deco.service.user.UserServiceValidator"/>
-
         <bean id="serviceResponseAdapter" class="com.jso.deco.service.adapter.ServiceResponseAdapter"/>
 
 </beans>

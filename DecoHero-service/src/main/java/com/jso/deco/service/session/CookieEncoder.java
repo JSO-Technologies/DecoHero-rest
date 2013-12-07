@@ -34,7 +34,14 @@ public class CookieEncoder {
 	}
 
 	public NewCookie sessionToCookie(Session session, ContainerRequestContext requestContext) {
-		String token_value = new String(Base64.encodeBase64(session.toString().getBytes()));
+		String token_value = null;
+		Date expirationTime = null;
+		int maxAge = 0;
+		if(session != null) {
+			token_value = new String(Base64.encodeBase64(session.toString().getBytes()));
+			maxAge = (int) (session.getExpirationTime() - System.currentTimeMillis()) / 1000;
+			expirationTime  = new Date(session.getExpirationTime());
+		}
 
 		return new NewCookie(
 				SessionManager.DECO_COOKIE, 
@@ -43,8 +50,8 @@ public class CookieEncoder {
 				requestContext.getUriInfo().getBaseUri().getHost(), 
 				1,
 				null, 
-				(int) (session.getExpirationTime() - System.currentTimeMillis()) / 1000,
-				new Date(session.getExpirationTime()),
+				maxAge,
+				expirationTime,
 				false, //is secured 
 				true);
 	}

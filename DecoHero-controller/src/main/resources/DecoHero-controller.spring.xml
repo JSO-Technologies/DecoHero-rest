@@ -10,7 +10,7 @@
 <!-- 	<context:component-scan base-package="com.jso.deco.controller" /> -->
 	<import resource="classpath:DecoHero-data.spring.xml"/>
 	
-	<bean id="userAdapter" class="com.jso.deco.controller.adapter.UserAdapter"/>
+	<bean id="userAdapter" class="com.jso.deco.api.adapter.UserAdapter"/>
 	
 	<bean id="userController" class="com.jso.deco.controller.UserController">
 		<property name="userDataService" ref="userDataService" />

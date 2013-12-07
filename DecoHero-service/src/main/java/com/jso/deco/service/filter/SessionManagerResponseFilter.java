@@ -16,8 +16,8 @@ public class SessionManagerResponseFilter implements ContainerResponseFilter {
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
 		if(SessionManager.getInstance().isAuthenticated()) {
 			SessionManager.getInstance().getSession().refreshExpiredDate();
-			responseContext.getHeaders().add(SET_COOKIE, SessionManager.getInstance().getCookie(requestContext));
 		}
+		responseContext.getHeaders().add(SET_COOKIE, SessionManager.getInstance().getCookie(requestContext));
 		
 		SessionManager.getInstance().clearSession();
 	}

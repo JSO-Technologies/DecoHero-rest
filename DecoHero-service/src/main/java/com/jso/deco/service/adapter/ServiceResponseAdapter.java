@@ -22,6 +22,9 @@ public class ServiceResponseAdapter {
 			case REGISTRATION_EMAIL_ALREADY_EXISTS: 
 				status = HttpStatus.CONFLICT.value();
 				break;
+			case USER_DOESNT_EXIST: 
+				status = HttpStatus.NOT_FOUND.value();
+				break;
 			case MISSING_FIELD: 
 				status = HttpStatus.BAD_REQUEST.value();
 				break;
