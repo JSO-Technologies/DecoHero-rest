@@ -22,8 +22,8 @@ public class UserAdapter {
 		UserLoginResponse response = new UserLoginResponse();
 		response.setUsername(dbUser.getUsername());
 		response.setEmail(dbUser.getEmail());
-		response.setFirstName(dbUser.getFirstName());
-		response.setLastName(dbUser.getLastName());
+		response.setFirstname(dbUser.getFirstName());
+		response.setLastname(dbUser.getLastName());
 		response.setBirthDate(dbUser.getBirthDate().getTime());
 		return response;
 	}

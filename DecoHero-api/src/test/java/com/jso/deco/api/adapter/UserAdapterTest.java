@@ -54,8 +54,8 @@ public class UserAdapterTest {
 		//then
 		assertThat(userResponse.getUsername()).isEqualTo(dbUser.getUsername());
 		assertThat(userResponse.getEmail()).isEqualTo(dbUser.getEmail());
-		assertThat(userResponse.getFirstName()).isEqualTo(dbUser.getFirstName());
-		assertThat(userResponse.getLastName()).isEqualTo(dbUser.getLastName());
+		assertThat(userResponse.getFirstname()).isEqualTo(dbUser.getFirstName());
+		assertThat(userResponse.getLastname()).isEqualTo(dbUser.getLastName());
 		assertThat(userResponse.getBirthDate()).isEqualTo(dbUser.getBirthDate().getTime());
 	}
 }

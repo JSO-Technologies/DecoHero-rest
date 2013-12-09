@@ -47,14 +47,14 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/register")
-    public Response createUser(@FormParam("username") String username, @FormParam("firstname") String firstName, @FormParam("lastname") String lastName, @FormParam("email") String email, @FormParam("password") String password, @FormParam("birthdate") Long birthDate) {
+    public Response createUser(@FormParam("username") String username, @FormParam("firstname") String firstname, @FormParam("lastname") String lastname, @FormParam("email") String email, @FormParam("password") String password, @FormParam("birthdate") Long birthdate) {
     	UserResgisterRequest request = new UserResgisterRequest();
     	request.setUsername(username);
-    	request.setFirstName(firstName);
-    	request.setLastName(lastName);
+    	request.setFirstName(firstname);
+    	request.setLastName(lastname);
     	request.setEmail(email);
     	request.setPassword(password);
-    	request.setBirthDate(birthDate == null ? null : new Date(birthDate));
+    	request.setBirthDate(birthdate == null ? null : new Date(birthdate));
     	
     	try {
     		validator.validateCreationValues(request);

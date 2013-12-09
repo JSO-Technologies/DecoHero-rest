@@ -20,6 +20,9 @@ public class SessionManagerResponseFilter implements ContainerResponseFilter {
 		responseContext.getHeaders().add(SET_COOKIE, SessionManager.getInstance().getCookie(requestContext));
 		
 		SessionManager.getInstance().clearSession();
+
+		responseContext.getHeaders().add("Access-Control-Allow-Origin", requestContext.getHeaders().get("origin").get(0));
+		responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
 	}
 	
 }
