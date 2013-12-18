@@ -1,6 +1,7 @@
 package com.jso.deco.service.filter;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
@@ -21,7 +22,10 @@ public class SessionManagerResponseFilter implements ContainerResponseFilter {
 		
 		SessionManager.getInstance().clearSession();
 
-		responseContext.getHeaders().add("Access-Control-Allow-Origin", requestContext.getHeaders().get("origin").get(0));
+		List<String> origin = requestContext.getHeaders().get("origin");
+		if(origin != null && !origin.isEmpty()) {
+			responseContext.getHeaders().add("Access-Control-Allow-Origin", requestContext.getHeaders().get("origin").get(0));
+		}
 		responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
 	}
 	

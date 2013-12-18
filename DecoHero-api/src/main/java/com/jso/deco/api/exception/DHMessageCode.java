@@ -2,13 +2,9 @@ package com.jso.deco.api.exception;
 
 public enum DHMessageCode {
 	/**
-	 * User creation : username already exists
+	 * User creation : username or email already exists
 	 */
-	REGISTRATION_USERNAME_ALREADY_EXISTS, 
-	/**
-	 * User creation : email already exists
-	 */
-	REGISTRATION_EMAIL_ALREADY_EXISTS,
+	USER_ALREADY_EXISTS,
 	/**
 	 * Login : user does not exist
 	 */

@@ -16,10 +16,7 @@ public class ServiceResponseAdapter {
 	public ServiceResponse fromException(DHServiceException e) {
 		int status;
 		switch(e.getDhMessage()) {
-			case REGISTRATION_USERNAME_ALREADY_EXISTS: 
-				status = HttpStatus.CONFLICT.value();
-				break;
-			case REGISTRATION_EMAIL_ALREADY_EXISTS: 
+			case USER_ALREADY_EXISTS: 
 				status = HttpStatus.CONFLICT.value();
 				break;
 			case USER_DOESNT_EXIST: 

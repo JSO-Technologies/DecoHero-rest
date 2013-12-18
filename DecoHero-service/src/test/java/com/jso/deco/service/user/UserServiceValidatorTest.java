@@ -21,10 +21,10 @@ public class UserServiceValidatorTest {
 		UserResgisterRequest request = new UserResgisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
-		request.setFirstName("azerty");
-		request.setLastName("azerty");
+		request.setFirstname("azerty");
+		request.setLastname("azerty");
 		request.setPassword("azerty");
-		request.setBirthDate(new Date());
+		request.setBirthdate(new Date());
 		
 		//when
 		validator.validateCreationValues(request);
@@ -38,10 +38,10 @@ public class UserServiceValidatorTest {
 		UserResgisterRequest request = new UserResgisterRequest();
 		request.setUsername(null);
 		request.setEmail("azerty@azerty.com");
-		request.setFirstName("azerty");
-		request.setLastName("azerty");
+		request.setFirstname("azerty");
+		request.setLastname("azerty");
 		request.setPassword("azerty");
-		request.setBirthDate(new Date());
+		request.setBirthdate(new Date());
 		
 		//when
 		try {
@@ -61,10 +61,10 @@ public class UserServiceValidatorTest {
 		UserResgisterRequest request = new UserResgisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("");
-		request.setFirstName("azerty");
-		request.setLastName("azerty");
+		request.setFirstname("azerty");
+		request.setLastname("azerty");
 		request.setPassword("azerty");
-		request.setBirthDate(new Date());
+		request.setBirthdate(new Date());
 		
 		//when
 		try {
@@ -84,10 +84,10 @@ public class UserServiceValidatorTest {
 		UserResgisterRequest request = new UserResgisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
-		request.setFirstName(" ");
-		request.setLastName("azerty");
+		request.setFirstname(" ");
+		request.setLastname("azerty");
 		request.setPassword("azerty");
-		request.setBirthDate(new Date());
+		request.setBirthdate(new Date());
 		
 		//when
 		try {
@@ -107,10 +107,10 @@ public class UserServiceValidatorTest {
 		UserResgisterRequest request = new UserResgisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
-		request.setFirstName("azerty");
-		request.setLastName(null);
+		request.setFirstname("azerty");
+		request.setLastname(null);
 		request.setPassword("azerty");
-		request.setBirthDate(new Date());
+		request.setBirthdate(new Date());
 		
 		//when
 		try {
@@ -130,10 +130,10 @@ public class UserServiceValidatorTest {
 		UserResgisterRequest request = new UserResgisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
-		request.setFirstName("azerty");
-		request.setLastName("azerty");
+		request.setFirstname("azerty");
+		request.setLastname("azerty");
 		request.setPassword(" ");
-		request.setBirthDate(new Date());
+		request.setBirthdate(new Date());
 		
 		//when
 		try {
@@ -153,10 +153,10 @@ public class UserServiceValidatorTest {
 		UserResgisterRequest request = new UserResgisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
-		request.setFirstName("azerty");
-		request.setLastName("azerty");
+		request.setFirstname("azerty");
+		request.setLastname("azerty");
 		request.setPassword("azerty");
-		request.setBirthDate(null);
+		request.setBirthdate(null);
 		
 		//when
 		try {

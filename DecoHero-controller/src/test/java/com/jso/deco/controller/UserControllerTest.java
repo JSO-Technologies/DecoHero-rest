@@ -1,7 +1,6 @@
 package com.jso.deco.controller;
 
-import static com.jso.deco.api.exception.DHMessageCode.REGISTRATION_EMAIL_ALREADY_EXISTS;
-import static com.jso.deco.api.exception.DHMessageCode.REGISTRATION_USERNAME_ALREADY_EXISTS;
+import static com.jso.deco.api.exception.DHMessageCode.USER_ALREADY_EXISTS;
 import static com.jso.deco.data.user.UserDataService.EMAIL;
 import static com.jso.deco.data.user.UserDataService.USERNAME;
 import static org.fest.assertions.Assertions.assertThat;
@@ -49,7 +48,7 @@ public class UserControllerTest {
 		} 
 		//then
 		catch (DHServiceException e) {
-			assertThat(e.getDhMessage()).isEqualTo(REGISTRATION_USERNAME_ALREADY_EXISTS);
+			assertThat(e.getDhMessage()).isEqualTo(USER_ALREADY_EXISTS);
 			assertThat(e.getDetails()).isEqualTo("username");
 		}
 	}
@@ -71,7 +70,7 @@ public class UserControllerTest {
 		} 
 		//then
 		catch (DHServiceException e) {
-			assertThat(e.getDhMessage()).isEqualTo(REGISTRATION_EMAIL_ALREADY_EXISTS);
+			assertThat(e.getDhMessage()).isEqualTo(USER_ALREADY_EXISTS);
 			assertThat(e.getDetails()).isEqualTo("email");
 		}
 	}

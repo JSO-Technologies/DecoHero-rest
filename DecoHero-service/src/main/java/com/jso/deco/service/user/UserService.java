@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -12,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.adapter.UserAdapter;
 import com.jso.deco.api.database.DBUser;
@@ -50,11 +52,11 @@ public class UserService {
     public Response createUser(@FormParam("username") String username, @FormParam("firstname") String firstname, @FormParam("lastname") String lastname, @FormParam("email") String email, @FormParam("password") String password, @FormParam("birthdate") Long birthdate) {
     	UserResgisterRequest request = new UserResgisterRequest();
     	request.setUsername(username);
-    	request.setFirstName(firstname);
-    	request.setLastName(lastname);
+    	request.setFirstname(firstname);
+    	request.setLastname(lastname);
     	request.setEmail(email);
     	request.setPassword(password);
-    	request.setBirthDate(birthdate == null ? null : new Date(birthdate));
+    	request.setBirthdate(birthdate == null ? null : new Date(birthdate));
     	
     	try {
     		validator.validateCreationValues(request);
@@ -67,7 +69,7 @@ public class UserService {
     		Session session = new Session(dbUser.getId());
     		SessionManager.getInstance().setSession(session);
     		
-    		return Response.status(200).entity(loginResponse).build();
+    		return Response.status(HttpStatus.OK.value()).entity(loginResponse).build();
     	}
     	catch(DHServiceException e) {
     		ServiceResponse response = errorAdapter.fromException(e);
@@ -95,11 +97,22 @@ public class UserService {
     		Session session = new Session(dbUser.getId());
     		SessionManager.getInstance().setSession(session);
     		
-    		return Response.status(200).entity(loginResponse).build();
+    		return Response.status(HttpStatus.OK.value()).entity(loginResponse).build();
     	}
     	catch(DHServiceException e) {
     		ServiceResponse response = errorAdapter.fromException(e);
     		return Response.status(response.getStatus()).entity(response.getContent()).build();
+    	}
+    }
+    
+    @GET
+    @Path("/session")
+    public Response getSession() {
+    	if(SessionManager.getInstance().isAuthenticated()) {
+    		return Response.status(HttpStatus.OK.value()).build();
+    	}
+    	else {
+    		return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
     	}
     }
     

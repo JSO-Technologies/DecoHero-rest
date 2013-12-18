@@ -1,7 +1,6 @@
 package com.jso.deco.controller;
 
-import static com.jso.deco.api.exception.DHMessageCode.REGISTRATION_EMAIL_ALREADY_EXISTS;
-import static com.jso.deco.api.exception.DHMessageCode.REGISTRATION_USERNAME_ALREADY_EXISTS;
+import static com.jso.deco.api.exception.DHMessageCode.USER_ALREADY_EXISTS;
 import static com.jso.deco.api.exception.DHMessageCode.USER_DOESNT_EXIST;
 import static com.jso.deco.data.user.UserDataService.EMAIL;
 import static com.jso.deco.data.user.UserDataService.USERNAME;
@@ -25,10 +24,10 @@ public class UserController {
      */
     public DBUser createUser(final UserResgisterRequest user) throws DHServiceException {
     	if(userDataService.exists(USERNAME, user.getUsername())) {
-			throw new DHServiceException(REGISTRATION_USERNAME_ALREADY_EXISTS, "username");
+			throw new DHServiceException(USER_ALREADY_EXISTS, "username");
 		}
     	if(userDataService.exists(EMAIL, user.getEmail())) {
-			throw new DHServiceException(REGISTRATION_EMAIL_ALREADY_EXISTS, "email");
+			throw new DHServiceException(USER_ALREADY_EXISTS, "email");
 		}
     	
     	DBUser dbUser = adapter.userRequestToDBUser(user);

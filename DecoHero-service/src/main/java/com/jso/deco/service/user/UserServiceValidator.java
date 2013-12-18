@@ -22,16 +22,16 @@ public class UserServiceValidator {
 		else if(StringUtils.isBlank(request.getUsername())) {
 			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "username");
 		}
-		else if(StringUtils.isBlank(request.getFirstName())) {
+		else if(StringUtils.isBlank(request.getFirstname())) {
 			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "firstname");
 		}
-		else if(StringUtils.isBlank(request.getLastName())) {
+		else if(StringUtils.isBlank(request.getLastname())) {
 			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "lastname");
 		}
 		else if(StringUtils.isBlank(request.getPassword())) {
 			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "password");
 		}
-		else if(request.getBirthDate() == null) {
+		else if(request.getBirthdate() == null) {
 			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "birthdate");
 		}
 	}

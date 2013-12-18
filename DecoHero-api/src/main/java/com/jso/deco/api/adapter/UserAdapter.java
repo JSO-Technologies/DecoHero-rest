@@ -10,10 +10,10 @@ public class UserAdapter {
 		DBUser dbUser = new DBUser();
 		dbUser.setUsername(userRequest.getUsername());
 		dbUser.setEmail(userRequest.getEmail());
-		dbUser.setFirstName(userRequest.getFirstName());
-		dbUser.setLastName(userRequest.getLastName());
+		dbUser.setFirstname(userRequest.getFirstname());
+		dbUser.setLastname(userRequest.getLastname());
 		dbUser.setPassword(userRequest.getPassword());
-		dbUser.setBirthDate(userRequest.getBirthDate());
+		dbUser.setBirthdate(userRequest.getBirthdate());
 		
 		return dbUser;
 	}
@@ -22,9 +22,9 @@ public class UserAdapter {
 		UserLoginResponse response = new UserLoginResponse();
 		response.setUsername(dbUser.getUsername());
 		response.setEmail(dbUser.getEmail());
-		response.setFirstname(dbUser.getFirstName());
-		response.setLastname(dbUser.getLastName());
-		response.setBirthDate(dbUser.getBirthDate().getTime());
+		response.setFirstname(dbUser.getFirstname());
+		response.setLastname(dbUser.getLastname());
+		response.setBirthDate(dbUser.getBirthdate().getTime());
 		return response;
 	}
 }

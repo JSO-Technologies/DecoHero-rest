@@ -5,9 +5,9 @@ import java.util.Date;
 public class UserResgisterRequest {
 	private String username;
 	private String email;
-	private String firstName;
-	private String lastName;
-	private Date birthDate;
+	private String firstname;
+	private String lastname;
+	private Date birthdate;
 	private String password;
 
 	public String getUsername() {
@@ -26,28 +26,28 @@ public class UserResgisterRequest {
 		this.email = email;
 	}
 	
-	public String getFirstName() {
-		return firstName;
+	public String getFirstname() {
+		return firstname;
 	}
 	
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 	
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
 	
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 	
-	public Date getBirthDate() {
-		return birthDate;
+	public Date getBirthdate() {
+		return birthdate;
 	}
 	
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
 	}
 	
 	public String getPassword() {

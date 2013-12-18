@@ -20,10 +20,10 @@ public class UserAdapterTest {
 		UserResgisterRequest userRequest = new UserResgisterRequest();
 		userRequest.setUsername("username");
 		userRequest.setEmail("email");
-		userRequest.setFirstName("firstName");
-		userRequest.setLastName("lastName");
+		userRequest.setFirstname("firstName");
+		userRequest.setLastname("lastName");
 		userRequest.setPassword("password");
-		userRequest.setBirthDate(new Date());
+		userRequest.setBirthdate(new Date());
 
 		//when
 		DBUser dbUser = adapter.userRequestToDBUser(userRequest);
@@ -31,10 +31,10 @@ public class UserAdapterTest {
 		//then
 		assertThat(dbUser.getUsername()).isEqualTo(userRequest.getUsername());
 		assertThat(dbUser.getEmail()).isEqualTo(userRequest.getEmail());
-		assertThat(dbUser.getFirstName()).isEqualTo(userRequest.getFirstName());
-		assertThat(dbUser.getLastName()).isEqualTo(userRequest.getLastName());
+		assertThat(dbUser.getFirstname()).isEqualTo(userRequest.getFirstname());
+		assertThat(dbUser.getLastname()).isEqualTo(userRequest.getLastname());
 		assertThat(dbUser.getPassword()).isEqualTo(userRequest.getPassword());
-		assertThat(dbUser.getBirthDate()).isEqualTo(userRequest.getBirthDate());
+		assertThat(dbUser.getBirthdate()).isEqualTo(userRequest.getBirthdate());
 	}
 	
 	@Test
@@ -44,9 +44,9 @@ public class UserAdapterTest {
 		dbUser.setId("1234");
 		dbUser.setUsername("jsomsanith");
 		dbUser.setEmail("jsomsanith@mail.com");
-		dbUser.setFirstName("Jimmy");
-		dbUser.setLastName("Somsanith");
-		dbUser.setBirthDate(new Date());
+		dbUser.setFirstname("Jimmy");
+		dbUser.setLastname("Somsanith");
+		dbUser.setBirthdate(new Date());
 		
 		//when
 		UserLoginResponse userResponse = adapter.dbUserToUserResponse(dbUser);
@@ -54,8 +54,8 @@ public class UserAdapterTest {
 		//then
 		assertThat(userResponse.getUsername()).isEqualTo(dbUser.getUsername());
 		assertThat(userResponse.getEmail()).isEqualTo(dbUser.getEmail());
-		assertThat(userResponse.getFirstname()).isEqualTo(dbUser.getFirstName());
-		assertThat(userResponse.getLastname()).isEqualTo(dbUser.getLastName());
-		assertThat(userResponse.getBirthDate()).isEqualTo(dbUser.getBirthDate().getTime());
+		assertThat(userResponse.getFirstname()).isEqualTo(dbUser.getFirstname());
+		assertThat(userResponse.getLastname()).isEqualTo(dbUser.getLastname());
+		assertThat(userResponse.getBirthDate()).isEqualTo(dbUser.getBirthdate().getTime());
 	}
 }

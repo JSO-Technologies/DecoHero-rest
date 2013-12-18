@@ -17,7 +17,7 @@ public class ServiceResponseAdapterTest {
 	public void fromException_with_REGISTRATION_USERNAME_ALREADY_EXISTS() throws Exception {
 		//given
 		String details = "azerty";
-		DHServiceException dhServiceException = new DHServiceException(DHMessageCode.REGISTRATION_USERNAME_ALREADY_EXISTS, details);
+		DHServiceException dhServiceException = new DHServiceException(DHMessageCode.USER_ALREADY_EXISTS, details);
 		
 		//when
 		ServiceResponse response = adapter.fromException(dhServiceException);
@@ -26,7 +26,7 @@ public class ServiceResponseAdapterTest {
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.CONFLICT.value());
 		assertThat(response.getContent()).isInstanceOf(ErrorMessageResponse.class);
 		ErrorMessageResponse errorMessageResponse = (ErrorMessageResponse) response.getContent();
-		assertThat(errorMessageResponse.getError()).isEqualTo(DHMessageCode.REGISTRATION_USERNAME_ALREADY_EXISTS.name());
+		assertThat(errorMessageResponse.getError()).isEqualTo(DHMessageCode.USER_ALREADY_EXISTS.name());
 		assertThat(errorMessageResponse.getDetails()).isEqualTo(details);
 	}
 	
@@ -34,7 +34,7 @@ public class ServiceResponseAdapterTest {
 	public void fromException_with_REGISTRATION_EMAIL_ALREADY_EXISTS() throws Exception {
 		//given
 		String details = "azerty";
-		DHServiceException dhServiceException = new DHServiceException(DHMessageCode.REGISTRATION_EMAIL_ALREADY_EXISTS, details);
+		DHServiceException dhServiceException = new DHServiceException(DHMessageCode.USER_ALREADY_EXISTS, details);
 		
 		//when
 		ServiceResponse response = adapter.fromException(dhServiceException);
@@ -43,7 +43,7 @@ public class ServiceResponseAdapterTest {
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.CONFLICT.value());
 		assertThat(response.getContent()).isInstanceOf(ErrorMessageResponse.class);
 		ErrorMessageResponse errorMessageResponse = (ErrorMessageResponse) response.getContent();
-		assertThat(errorMessageResponse.getError()).isEqualTo(DHMessageCode.REGISTRATION_EMAIL_ALREADY_EXISTS.name());
+		assertThat(errorMessageResponse.getError()).isEqualTo(DHMessageCode.USER_ALREADY_EXISTS.name());
 		assertThat(errorMessageResponse.getDetails()).isEqualTo(details);
 	}
 	
