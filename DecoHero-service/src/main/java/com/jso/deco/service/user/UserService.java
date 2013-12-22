@@ -112,7 +112,7 @@ public class UserService {
     		return Response.status(HttpStatus.OK.value()).build();
     	}
     	else {
-    		return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
+    		return Response.status(HttpStatus.NOT_FOUND.value()).build();
     	}
     }
     
