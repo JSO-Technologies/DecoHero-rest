@@ -1,12 +1,21 @@
-package com.jso.deco.api.service.response;
+package com.jso.deco.api.controller;
 
 
 public class UserLoginResponse {
+	private String id;
 	private String username;
 	private String email;
 	private String firstname;
 	private String lastname;
 	private Long birthDate;
+	
+	public String getId() {
+		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;

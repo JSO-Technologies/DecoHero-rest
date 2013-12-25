@@ -1,12 +1,12 @@
-package com.jso.deco.api.adapter;
+package com.jso.deco.controller.adapter;
 
+import com.jso.deco.api.controller.UserLoginResponse;
 import com.jso.deco.api.database.DBUser;
-import com.jso.deco.api.service.request.UserResgisterRequest;
-import com.jso.deco.api.service.response.UserLoginResponse;
+import com.jso.deco.api.service.request.UserRegisterRequest;
 
 public class UserAdapter {
 	
-	public DBUser userRequestToDBUser(UserResgisterRequest userRequest) {
+	public DBUser userRequestToDBUser(UserRegisterRequest userRequest) {
 		DBUser dbUser = new DBUser();
 		dbUser.setUsername(userRequest.getUsername());
 		dbUser.setEmail(userRequest.getEmail());
@@ -20,6 +20,7 @@ public class UserAdapter {
 	
 	public UserLoginResponse dbUserToUserResponse(DBUser dbUser) {
 		UserLoginResponse response = new UserLoginResponse();
+		response.setId(dbUser.getId());
 		response.setUsername(dbUser.getUsername());
 		response.setEmail(dbUser.getEmail());
 		response.setFirstname(dbUser.getFirstname());
@@ -27,4 +28,5 @@ public class UserAdapter {
 		response.setBirthDate(dbUser.getBirthdate().getTime());
 		return response;
 	}
+
 }

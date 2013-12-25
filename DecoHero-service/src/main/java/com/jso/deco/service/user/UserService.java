@@ -1,10 +1,8 @@
 package com.jso.deco.service.user;
 
-import java.util.Date;
-
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,18 +13,16 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import com.jso.deco.api.adapter.UserAdapter;
-import com.jso.deco.api.database.DBUser;
+import com.jso.deco.api.controller.UserLoginResponse;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.UserLoginRequest;
-import com.jso.deco.api.service.request.UserResgisterRequest;
+import com.jso.deco.api.service.request.UserRegisterRequest;
 import com.jso.deco.api.service.response.ServiceResponse;
-import com.jso.deco.api.service.response.UserLoginResponse;
 import com.jso.deco.controller.UserController;
 import com.jso.deco.service.adapter.ServiceResponseAdapter;
+import com.jso.deco.service.adapter.UserServiceAdapter;
 import com.jso.deco.service.session.Session;
 import com.jso.deco.service.session.SessionManager;
-import com.jso.deco.service.utils.Encoder;
 
 @Path("user")
 public class UserService {
@@ -34,13 +30,10 @@ public class UserService {
 	private UserController controller;
 	
 	@Autowired
-	private Encoder encoder;
-	
-	@Autowired
 	private UserServiceValidator validator;
 	
 	@Autowired
-	private UserAdapter userAdapter;
+	private UserServiceAdapter userAdapter;
 	
 	@Autowired
 	private ServiceResponseAdapter errorAdapter;
@@ -49,24 +42,15 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/register")
-    public Response createUser(@FormParam("username") String username, @FormParam("firstname") String firstname, @FormParam("lastname") String lastname, @FormParam("email") String email, @FormParam("password") String password, @FormParam("birthdate") Long birthdate) {
-    	UserResgisterRequest request = new UserResgisterRequest();
-    	request.setUsername(username);
-    	request.setFirstname(firstname);
-    	request.setLastname(lastname);
-    	request.setEmail(email);
-    	request.setPassword(password);
-    	request.setBirthdate(birthdate == null ? null : new Date(birthdate));
+    public Response createUser(@BeanParam UserRegisterRequest request) {
     	
     	try {
-    		validator.validateCreationValues(request);
+    		validator.validate(request);
+    		userAdapter.adapt(request);
 
-    		request.setPassword(new String(encoder.digestSHA1(password.getBytes())));
-    		DBUser dbUser = controller.createUser(request);
+    		UserLoginResponse loginResponse = controller.createUser(request);
     		
-    		UserLoginResponse loginResponse = userAdapter.dbUserToUserResponse(dbUser);
-    		
-    		Session session = new Session(dbUser.getId());
+    		Session session = new Session(loginResponse.getId());
     		SessionManager.getInstance().setSession(session);
     		
     		return Response.status(HttpStatus.OK.value()).entity(loginResponse).build();
@@ -81,20 +65,15 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/session")
-    public Response login(@FormParam("email") String email, @FormParam("password") String password) {
-    	UserLoginRequest request = new UserLoginRequest();
-    	request.setEmail(email);
-    	request.setPassword(password);
+    public Response login(@BeanParam UserLoginRequest request) {
     	
     	try {
-    		validator.validateLoginValues(request);
+    		validator.validate(request);
+    		userAdapter.adapt(request);
 
-    		request.setPassword(new String(encoder.digestSHA1(password.getBytes())));
-    		DBUser dbUser = controller.login(request);
+    		UserLoginResponse loginResponse = controller.login(request);
     		
-    		UserLoginResponse loginResponse = userAdapter.dbUserToUserResponse(dbUser);
-    		
-    		Session session = new Session(dbUser.getId());
+    		Session session = new Session(loginResponse.getId());
     		SessionManager.getInstance().setSession(session);
     		
     		return Response.status(HttpStatus.OK.value()).entity(loginResponse).build();
@@ -123,4 +102,5 @@ public class UserService {
     	SessionManager.getInstance().clearSession();
     	return Response.status(200).build();
     }
+    
 }

@@ -1,4 +1,4 @@
-package com.jso.deco.api.adapter;
+package com.jso.deco.controller.adapter;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -6,9 +6,9 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import com.jso.deco.api.controller.UserLoginResponse;
 import com.jso.deco.api.database.DBUser;
-import com.jso.deco.api.service.request.UserResgisterRequest;
-import com.jso.deco.api.service.response.UserLoginResponse;
+import com.jso.deco.api.service.request.UserRegisterRequest;
 
 
 public class UserAdapterTest {
@@ -17,7 +17,7 @@ public class UserAdapterTest {
 	@Test
 	public void userRequestToDBUser_should_adapt_all_request_fields() throws Exception {
 		//given
-		UserResgisterRequest userRequest = new UserResgisterRequest();
+		UserRegisterRequest userRequest = new UserRegisterRequest();
 		userRequest.setUsername("username");
 		userRequest.setEmail("email");
 		userRequest.setFirstname("firstName");
@@ -52,6 +52,7 @@ public class UserAdapterTest {
 		UserLoginResponse userResponse = adapter.dbUserToUserResponse(dbUser);
 		
 		//then
+		assertThat(userResponse.getId()).isEqualTo(dbUser.getId());
 		assertThat(userResponse.getUsername()).isEqualTo(dbUser.getUsername());
 		assertThat(userResponse.getEmail()).isEqualTo(dbUser.getEmail());
 		assertThat(userResponse.getFirstname()).isEqualTo(dbUser.getFirstname());

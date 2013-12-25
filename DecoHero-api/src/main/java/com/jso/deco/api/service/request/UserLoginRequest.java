@@ -1,7 +1,11 @@
 package com.jso.deco.api.service.request;
 
+import javax.ws.rs.FormParam;
+
 public class UserLoginRequest {
+	@FormParam("email")
 	private String email;
+	@FormParam("password")
 	private String password;
 
 	public String getEmail() {

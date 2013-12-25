@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.jso.deco.api.exception.DHMessageCode;
 import com.jso.deco.api.exception.DHServiceException;
-import com.jso.deco.api.service.request.UserResgisterRequest;
+import com.jso.deco.api.service.request.UserRegisterRequest;
 
 
 public class UserServiceValidatorTest {
@@ -18,16 +18,16 @@ public class UserServiceValidatorTest {
 	@Test
 	public void validateCreationValues_should_pass() throws Exception {
 		//given
-		UserResgisterRequest request = new UserResgisterRequest();
+		UserRegisterRequest request = new UserRegisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
 		request.setFirstname("azerty");
 		request.setLastname("azerty");
 		request.setPassword("azerty");
-		request.setBirthdate(new Date());
+		request.setBirthdateTimestamp(1L);
 		
 		//when
-		validator.validateCreationValues(request);
+		validator.validate(request);
 		
 		//then
 	}
@@ -35,7 +35,7 @@ public class UserServiceValidatorTest {
 	@Test
 	public void validateCreationValues_should_fail_coz_username() {
 		//given
-		UserResgisterRequest request = new UserResgisterRequest();
+		UserRegisterRequest request = new UserRegisterRequest();
 		request.setUsername(null);
 		request.setEmail("azerty@azerty.com");
 		request.setFirstname("azerty");
@@ -45,7 +45,7 @@ public class UserServiceValidatorTest {
 		
 		//when
 		try {
-			validator.validateCreationValues(request);
+			validator.validate(request);
 			fail();
 		} 
 		//then
@@ -58,7 +58,7 @@ public class UserServiceValidatorTest {
 	@Test
 	public void validateCreationValues_should_fail_coz_email() {
 		//given
-		UserResgisterRequest request = new UserResgisterRequest();
+		UserRegisterRequest request = new UserRegisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("");
 		request.setFirstname("azerty");
@@ -68,7 +68,7 @@ public class UserServiceValidatorTest {
 		
 		//when
 		try {
-			validator.validateCreationValues(request);
+			validator.validate(request);
 			fail();
 		} 
 		//then
@@ -81,7 +81,7 @@ public class UserServiceValidatorTest {
 	@Test
 	public void validateCreationValues_should_fail_coz_firstname() {
 		//given
-		UserResgisterRequest request = new UserResgisterRequest();
+		UserRegisterRequest request = new UserRegisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
 		request.setFirstname(" ");
@@ -91,7 +91,7 @@ public class UserServiceValidatorTest {
 		
 		//when
 		try {
-			validator.validateCreationValues(request);
+			validator.validate(request);
 			fail();
 		} 
 		//then
@@ -104,7 +104,7 @@ public class UserServiceValidatorTest {
 	@Test
 	public void validateCreationValues_should_fail_coz_lastname() {
 		//given
-		UserResgisterRequest request = new UserResgisterRequest();
+		UserRegisterRequest request = new UserRegisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
 		request.setFirstname("azerty");
@@ -114,7 +114,7 @@ public class UserServiceValidatorTest {
 		
 		//when
 		try {
-			validator.validateCreationValues(request);
+			validator.validate(request);
 			fail();
 		} 
 		//then
@@ -127,7 +127,7 @@ public class UserServiceValidatorTest {
 	@Test
 	public void validateCreationValues_should_fail_coz_password() {
 		//given
-		UserResgisterRequest request = new UserResgisterRequest();
+		UserRegisterRequest request = new UserRegisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
 		request.setFirstname("azerty");
@@ -137,7 +137,7 @@ public class UserServiceValidatorTest {
 		
 		//when
 		try {
-			validator.validateCreationValues(request);
+			validator.validate(request);
 			fail();
 		} 
 		//then
@@ -150,7 +150,7 @@ public class UserServiceValidatorTest {
 	@Test
 	public void validateCreationValues_should_fail_coz_birthdate() {
 		//given
-		UserResgisterRequest request = new UserResgisterRequest();
+		UserRegisterRequest request = new UserRegisterRequest();
 		request.setUsername("azerty");
 		request.setEmail("azerty@azerty.com");
 		request.setFirstname("azerty");
@@ -160,7 +160,7 @@ public class UserServiceValidatorTest {
 		
 		//when
 		try {
-			validator.validateCreationValues(request);
+			validator.validate(request);
 			fail();
 		} 
 		//then

@@ -2,12 +2,21 @@ package com.jso.deco.api.service.request;
 
 import java.util.Date;
 
-public class UserResgisterRequest {
+import javax.ws.rs.FormParam;
+
+public class UserRegisterRequest {
+	@FormParam("username")
 	private String username;
+	@FormParam("email")
 	private String email;
+	@FormParam("firstname")
 	private String firstname;
+	@FormParam("lastname")
 	private String lastname;
+	@FormParam("birthdate")
+	private Long birthdateTimestamp;
 	private Date birthdate;
+	@FormParam("password")
 	private String password;
 
 	public String getUsername() {
@@ -40,6 +49,14 @@ public class UserResgisterRequest {
 	
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+	
+	public void setBirthdateTimestamp(Long birthdateTimestamp) {
+		this.birthdateTimestamp = birthdateTimestamp;
+	}
+	
+	public Long getBirthdateTimestamp() {
+		return birthdateTimestamp;
 	}
 	
 	public Date getBirthdate() {
