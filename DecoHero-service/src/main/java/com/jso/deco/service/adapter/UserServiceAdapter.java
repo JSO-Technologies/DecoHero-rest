@@ -9,12 +9,14 @@ import com.jso.deco.service.utils.Encoder;
 public class UserServiceAdapter {
 	private Encoder encoder;
 	
-	public void adapt(UserRegisterRequest request) {
+	public void adapt(final UserRegisterRequest request) {
+		request.setEmail(request.getEmail().toLowerCase());
 		request.setBirthdate(new Date(request.getBirthdateTimestamp()));
 		request.setPassword(new String(encoder.digestSHA1(request.getPassword().getBytes())));
 	}
 	
-	public void adapt(UserLoginRequest request) {
+	public void adapt(final UserLoginRequest request) {
+		request.setEmail(request.getEmail().toLowerCase());
 		request.setPassword(new String(encoder.digestSHA1(request.getPassword().getBytes())));
 	}
 
