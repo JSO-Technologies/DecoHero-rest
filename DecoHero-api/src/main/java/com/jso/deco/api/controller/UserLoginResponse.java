@@ -7,7 +7,7 @@ public class UserLoginResponse {
 	private String email;
 	private String firstname;
 	private String lastname;
-	private Long birthDate;
+	private Long birthdate;
 	
 	public String getId() {
 		return id;
@@ -49,12 +49,12 @@ public class UserLoginResponse {
 		this.lastname = lastname;
 	}
 
-	public Long getBirthDate() {
-		return birthDate;
+	public Long getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthDate(Long birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthdate(Long birthdate) {
+		this.birthdate = birthdate;
 	}
 
 }	

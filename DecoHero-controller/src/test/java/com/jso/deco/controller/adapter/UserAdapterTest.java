@@ -6,9 +6,12 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import com.jso.deco.api.controller.UserInfosResponse;
 import com.jso.deco.api.controller.UserLoginResponse;
 import com.jso.deco.api.database.DBUser;
+import com.jso.deco.api.database.DBUserInfos;
 import com.jso.deco.api.service.request.UserRegisterRequest;
+import com.jso.deco.controller.utils.DefaultTestData;
 
 
 public class UserAdapterTest {
@@ -38,7 +41,7 @@ public class UserAdapterTest {
 	}
 	
 	@Test
-	public void dbUserToUserResponse_should_adapt_all_fields() throws Exception {
+	public void dbUserToUserLoginResponse_should_adapt_all_fields() throws Exception {
 		//given
 		DBUser dbUser = new DBUser();
 		dbUser.setId("1234");
@@ -49,7 +52,7 @@ public class UserAdapterTest {
 		dbUser.setBirthdate(new Date());
 		
 		//when
-		UserLoginResponse userResponse = adapter.dbUserToUserResponse(dbUser);
+		UserLoginResponse userResponse = adapter.dbUserToUserLoginResponse(dbUser);
 		
 		//then
 		assertThat(userResponse.getId()).isEqualTo(dbUser.getId());
@@ -57,6 +60,77 @@ public class UserAdapterTest {
 		assertThat(userResponse.getEmail()).isEqualTo(dbUser.getEmail());
 		assertThat(userResponse.getFirstname()).isEqualTo(dbUser.getFirstname());
 		assertThat(userResponse.getLastname()).isEqualTo(dbUser.getLastname());
-		assertThat(userResponse.getBirthDate()).isEqualTo(dbUser.getBirthdate().getTime());
+		assertThat(userResponse.getBirthdate()).isEqualTo(dbUser.getBirthdate().getTime());
 	}
+	
+	@Test
+	public void dbUserInfosToUserInfosResponse_should_adapt_all_fields() {
+		//given
+		DBUserInfos dbUserInfos = DefaultTestData.getDefaultDBUserInfos();
+		
+		//when
+		UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, true);
+		
+		//then
+		assertThat(response.getId()).isEqualTo(dbUserInfos.getId());
+		assertThat(response.getUsername()).isEqualTo(dbUserInfos.getUsername());
+		assertThat(response.getBirthdate()).isEqualTo(dbUserInfos.getBirthdate().getTime());
+		assertThat(response.isProfessionnal()).isEqualTo(dbUserInfos.isProfessionnal());
+		assertThat(response.getGender()).isEqualTo(dbUserInfos.getGender());
+		assertThat(response.getStyle()).isEqualTo(dbUserInfos.getStyle());
+		
+		assertThat(response.getEmail()).isEqualTo(dbUserInfos.getEmail());
+		assertThat(response.getFirstname()).isEqualTo(dbUserInfos.getFirstname());
+		assertThat(response.getLastname()).isEqualTo(dbUserInfos.getLastname());
+		
+		assertThat(response.getRelationship()).isEqualTo(dbUserInfos.getRelationship());
+		assertThat(response.getChildren()).isEqualTo(dbUserInfos.getChildren());
+		
+		assertThat(response.getAddress()).isEqualTo(dbUserInfos.getAddress());
+		assertThat(response.getZipcode()).isEqualTo(dbUserInfos.getZipcode());
+		assertThat(response.getCity()).isEqualTo(dbUserInfos.getCity());
+		assertThat(response.getPhone()).isEqualTo(dbUserInfos.getPhone());
+		
+		assertThat(response.getJob()).isEqualTo(dbUserInfos.getJob());
+		assertThat(response.getJob_field()).isEqualTo(dbUserInfos.getJob_field());
+		
+		assertThat(response.getFavorite_color()).isEqualTo(dbUserInfos.getFavorite_color());
+		assertThat(response.getHouse_type()).isEqualTo(dbUserInfos.getHouse_type());
+	}
+
+	@Test
+	public void dbUserInfosToUserInfosResponse_should_adapt_only_public_fields() {
+		//given
+		DBUserInfos dbUserInfos = DefaultTestData.getDefaultDBUserInfos();
+		
+		//when
+		UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, false);
+		
+		//then
+		assertThat(response.getId()).isEqualTo(dbUserInfos.getId());
+		assertThat(response.getUsername()).isEqualTo(dbUserInfos.getUsername());
+		assertThat(response.getBirthdate()).isEqualTo(dbUserInfos.getBirthdate().getTime());
+		assertThat(response.isProfessionnal()).isEqualTo(dbUserInfos.isProfessionnal());
+		assertThat(response.getGender()).isEqualTo(dbUserInfos.getGender());
+		assertThat(response.getStyle()).isEqualTo(dbUserInfos.getStyle());
+		
+		assertThat(response.getEmail()).isNull();
+		assertThat(response.getFirstname()).isNull();
+		assertThat(response.getLastname()).isNull();
+		
+		assertThat(response.getRelationship()).isNull();
+		assertThat(response.getChildren()).isNull();
+		
+		assertThat(response.getAddress()).isNull();
+		assertThat(response.getZipcode()).isNull();
+		assertThat(response.getCity()).isNull();
+		assertThat(response.getPhone()).isNull();
+		
+		assertThat(response.getJob()).isNull();
+		assertThat(response.getJob_field()).isNull();
+		
+		assertThat(response.getFavorite_color()).isNull();
+		assertThat(response.getHouse_type()).isNull();
+	}
+	
 }

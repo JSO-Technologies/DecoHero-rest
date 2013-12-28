@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.jso.deco.api.database.DBUser;
+import com.jso.deco.api.database.DBUserInfos;
 
 @Repository
 public class UserDataService {
@@ -57,6 +58,17 @@ public class UserDataService {
 		Criteria idCriteria = Criteria.where(ID).is(id);
 		Query searchUserQuery = new Query(idCriteria);
 		return mongoTemplate.findOne(searchUserQuery, DBUser.class);
+	}
+	
+	/**
+	 * Find user infos by id
+	 * @param id
+	 * @return
+	 */
+	public DBUserInfos findInfosById(String id) {
+		Criteria idCriteria = Criteria.where(ID).is(id);
+		Query searchUserQuery = new Query(idCriteria);
+		return mongoTemplate.findOne(searchUserQuery, DBUserInfos.class);
 	}
 	
 	/**

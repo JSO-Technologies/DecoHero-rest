@@ -1,16 +1,18 @@
-package com.jso.deco.api.controller;
+package com.jso.deco.api.database;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.jso.deco.api.common.Gender;
 import com.jso.deco.api.common.HouseType;
 import com.jso.deco.api.common.Job;
 import com.jso.deco.api.common.JobField;
 import com.jso.deco.api.common.Relationship;
+import com.jso.deco.api.common.Style;
 
-public class UserInfosResponse extends UserPublicInfosResponse {
-	private String email;
-	private String firstname;
-	private String lastname;
-	private Long birthdate;
-	
+@Document(collection = "users")
+public class DBUserInfos extends DBUser {
+	private boolean professionnal;
+	private Gender gender;
 	private Relationship relationship; 
 	private Integer children;
 
@@ -22,110 +24,87 @@ public class UserInfosResponse extends UserPublicInfosResponse {
 	private Job job;
 	private JobField job_field;
 	
+	private String favorite_color;
 	private HouseType house_type;
-
-	public String getEmail() {
-		return email;
+	private Style style;
+	
+	public boolean isProfessionnal() {
+		return professionnal;
 	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setProfessionnal(boolean professionnal) {
+		this.professionnal = professionnal;
 	}
-
-	public String getFirstname() {
-		return firstname;
+	public Gender getGender() {
+		return gender;
 	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public Long getBirthdate() {
-		return birthdate;
-	}
-
-	public void setBirthdate(Long birthdate) {
-		this.birthdate = birthdate;
-	}
-
 	public Relationship getRelationship() {
 		return relationship;
 	}
-
 	public void setRelationship(Relationship relationship) {
 		this.relationship = relationship;
 	}
-
 	public Integer getChildren() {
 		return children;
 	}
-
 	public void setChildren(Integer children) {
 		this.children = children;
 	}
-
 	public String getAddress() {
 		return address;
 	}
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 	public Integer getZipcode() {
 		return zipcode;
 	}
-
 	public void setZipcode(Integer zipcode) {
 		this.zipcode = zipcode;
 	}
-
 	public String getCity() {
 		return city;
 	}
-
 	public void setCity(String city) {
 		this.city = city;
 	}
-
 	public String getPhone() {
 		return phone;
 	}
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 	public Job getJob() {
 		return job;
 	}
-
 	public void setJob(Job job) {
 		this.job = job;
 	}
-
 	public JobField getJob_field() {
 		return job_field;
 	}
-
 	public void setJob_field(JobField job_field) {
 		this.job_field = job_field;
 	}
-
+	public String getFavorite_color() {
+		return favorite_color;
+	}
+	public void setFavorite_color(String favorite_color) {
+		this.favorite_color = favorite_color;
+	}
 	public HouseType getHouse_type() {
 		return house_type;
 	}
-
 	public void setHouse_type(HouseType house_type) {
 		this.house_type = house_type;
 	}
+	public Style getStyle() {
+		return style;
+	}
+	public void setStyle(Style style) {
+		this.style = style;
+	}
 	
-}
+}	

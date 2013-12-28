@@ -5,8 +5,10 @@ import static com.jso.deco.api.exception.DHMessageCode.USER_DOESNT_EXIST;
 import static com.jso.deco.data.user.UserDataService.EMAIL;
 import static com.jso.deco.data.user.UserDataService.USERNAME;
 
+import com.jso.deco.api.controller.UserInfosResponse;
 import com.jso.deco.api.controller.UserLoginResponse;
 import com.jso.deco.api.database.DBUser;
+import com.jso.deco.api.database.DBUserInfos;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.UserLoginRequest;
 import com.jso.deco.api.service.request.UserRegisterRequest;
@@ -33,7 +35,7 @@ public class UserController {
     	
     	DBUser dbUser = adapter.userRequestToDBUser(user);
 		userDataService.create(dbUser);
-		UserLoginResponse response = adapter.dbUserToUserResponse(dbUser);
+		UserLoginResponse response = adapter.dbUserToUserLoginResponse(dbUser);
 		
 		return response;
     }
@@ -44,15 +46,32 @@ public class UserController {
      * @return
      * @throws DHServiceException 
      */
-    public UserLoginResponse login(UserLoginRequest request) throws DHServiceException {
-		DBUser dbUser = userDataService.find(request.getEmail(), request.getPassword());
+    public UserLoginResponse login(final UserLoginRequest request) throws DHServiceException {
+		final DBUser dbUser = userDataService.find(request.getEmail(), request.getPassword());
 		if(dbUser == null) {
 			throw new DHServiceException(USER_DOESNT_EXIST, null);
 		}
 		
-		UserLoginResponse response = adapter.dbUserToUserResponse(dbUser);
+		final UserLoginResponse response = adapter.dbUserToUserLoginResponse(dbUser);
 		
 		return response;
+    }
+
+    /**
+     * Get user whole infos
+     * @param userId
+     * @param wholeInfos
+     * @return
+     * @throws DHServiceException
+     */
+    public UserInfosResponse getUserInfos(final String userId, final boolean wholeInfos) throws DHServiceException {
+    	final DBUserInfos dbUserInfos = userDataService.findInfosById(userId);
+    	if(dbUserInfos == null) {
+			throw new DHServiceException(USER_DOESNT_EXIST, null);
+		}
+    	
+    	final UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, wholeInfos);
+    	return response;
     }
 	
 	public void setUserDataService(UserDataService userDataService) {
