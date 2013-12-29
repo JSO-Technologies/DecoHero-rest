@@ -66,7 +66,7 @@ public class UserAdapter {
 		response.setId(dbUserInfos.getId());
 		response.setUsername(dbUserInfos.getUsername());
 		response.setBirthdate(dbUserInfos.getBirthdate().getTime());
-		response.setProfessionnal(dbUserInfos.isProfessionnal());
+		response.setProfessional(dbUserInfos.isProfessionnal());
 		response.setGender(dbUserInfos.getGender());
 		response.setStyle(dbUserInfos.getStyle());
 	}

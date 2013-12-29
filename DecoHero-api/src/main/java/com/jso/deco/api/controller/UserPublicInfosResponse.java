@@ -7,7 +7,7 @@ public class UserPublicInfosResponse {
 	private String id;
 	private String username;
 	
-	private boolean professionnal;
+	private boolean professional;
 	private Gender gender;
 	
 	private String favorite_color;
@@ -25,11 +25,11 @@ public class UserPublicInfosResponse {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public boolean isProfessionnal() {
-		return professionnal;
+	public boolean isProfessional() {
+		return professional;
 	}
-	public void setProfessionnal(boolean professionnal) {
-		this.professionnal = professionnal;
+	public void setProfessional(boolean professional) {
+		this.professional = professional;
 	}
 	public Gender getGender() {
 		return gender;

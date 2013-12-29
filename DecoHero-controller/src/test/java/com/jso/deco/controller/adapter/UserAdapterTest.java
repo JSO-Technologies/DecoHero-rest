@@ -75,7 +75,7 @@ public class UserAdapterTest {
 		assertThat(response.getId()).isEqualTo(dbUserInfos.getId());
 		assertThat(response.getUsername()).isEqualTo(dbUserInfos.getUsername());
 		assertThat(response.getBirthdate()).isEqualTo(dbUserInfos.getBirthdate().getTime());
-		assertThat(response.isProfessionnal()).isEqualTo(dbUserInfos.isProfessionnal());
+		assertThat(response.isProfessional()).isEqualTo(dbUserInfos.isProfessionnal());
 		assertThat(response.getGender()).isEqualTo(dbUserInfos.getGender());
 		assertThat(response.getStyle()).isEqualTo(dbUserInfos.getStyle());
 		
@@ -110,7 +110,7 @@ public class UserAdapterTest {
 		assertThat(response.getId()).isEqualTo(dbUserInfos.getId());
 		assertThat(response.getUsername()).isEqualTo(dbUserInfos.getUsername());
 		assertThat(response.getBirthdate()).isEqualTo(dbUserInfos.getBirthdate().getTime());
-		assertThat(response.isProfessionnal()).isEqualTo(dbUserInfos.isProfessionnal());
+		assertThat(response.isProfessional()).isEqualTo(dbUserInfos.isProfessionnal());
 		assertThat(response.getGender()).isEqualTo(dbUserInfos.getGender());
 		assertThat(response.getStyle()).isEqualTo(dbUserInfos.getStyle());
 		
