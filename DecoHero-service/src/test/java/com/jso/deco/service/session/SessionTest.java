@@ -2,37 +2,43 @@ package com.jso.deco.service.session;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import org.apache.commons.codec.binary.Base64;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
 
 public class SessionTest {
 	@Test
-	public void hash_should_be_set_in_constructor() {
+	public void hash_should_be_set_in_constructor() throws NoSuchAlgorithmException {
 		//given
-		DateTime expirationTime = new DateTime(2013, 12, 25, 0, 0, 0);
+		long expirationTime = new DateTime(2013, 12, 25, 0, 0, 0).getMillis();
+		String expectedHash = cookieHash("123", expirationTime);
 		
 		//when
-		Session session = new Session("123", expirationTime.getMillis());
+		Session session = new Session("123", expirationTime);
 		
 		//then
-		assertThat(session.getHash()).isEqualTo("tLJqS78ju2pK8cqlpaVw8/Kphvw=");
+		assertThat(session.getHash()).isEqualTo(expectedHash);
 		
 	}
 	
 	@Test
-	public void constructor_from_cookie_value() {
+	public void constructor_from_cookie_value() throws NoSuchAlgorithmException {
 		//given
-		String decoded_cookie_value = "tLJqS78ju2pK8cqlpaVw8/Kphvw=;123;1387926000000";
-		DateTime expirationTime = new DateTime(2013, 12, 25, 0, 0, 0);
+		long expirationTime = new DateTime(2013, 12, 25, 0, 0, 0).getMillis();
+		String expectedHash = cookieHash("123", expirationTime);
+		String decoded_cookie_value = expectedHash + ";123;1387926000000";
 		
 		//when
 		Session session = Session.fromSerialized(decoded_cookie_value);
 		
 		//then
 		assertThat(session.getUserId()).isEqualTo("123");
-		assertThat(session.getExpirationTime()).isEqualTo(expirationTime.getMillis());
-		assertThat(session.getHash()).isEqualTo("tLJqS78ju2pK8cqlpaVw8/Kphvw=");
+		assertThat(session.getExpirationTime()).isEqualTo(expirationTime);
+		assertThat(session.getHash()).isEqualTo(expectedHash);
 		
 	}
 	
@@ -105,5 +111,11 @@ public class SessionTest {
 		
 		//then
 		assertThat(isValid).isFalse();
+	}
+	
+	private String cookieHash(String userId, long expirationTime) throws NoSuchAlgorithmException {
+		String toEncode = expirationTime + ";" + userId + ";decoherodecohero";
+		byte[] sha1 = MessageDigest.getInstance("SHA-1").digest(toEncode.getBytes());
+		return new String(Base64.encodeBase64(sha1));
 	}
 }
