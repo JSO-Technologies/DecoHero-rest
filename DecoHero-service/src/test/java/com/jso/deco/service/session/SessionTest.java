@@ -26,19 +26,17 @@ public class SessionTest {
 	}
 	
 	@Test
-	public void constructor_from_cookie_value() throws NoSuchAlgorithmException {
+	public void constructor_from_cookie_value() {
 		//given
-		long expirationTime = new DateTime(2013, 12, 25, 0, 0, 0).getMillis();
-		String expectedHash = cookieHash("123", expirationTime);
-		String decoded_cookie_value = expectedHash + ";123;1387926000000";
+		String decoded_cookie_value = "tLJqS78ju2pK8cqlpaVw8/Kphvw=;123;1387926000000";
 		
 		//when
 		Session session = Session.fromSerialized(decoded_cookie_value);
 		
 		//then
 		assertThat(session.getUserId()).isEqualTo("123");
-		assertThat(session.getExpirationTime()).isEqualTo(expirationTime);
-		assertThat(session.getHash()).isEqualTo(expectedHash);
+		assertThat(session.getExpirationTime()).isEqualTo(1387926000000L);
+		assertThat(session.getHash()).isEqualTo("tLJqS78ju2pK8cqlpaVw8/Kphvw=");
 		
 	}
 	
