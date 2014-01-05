@@ -29,13 +29,13 @@
 		<dependency>
 			<groupId>com.jso.deco</groupId>
 			<artifactId>DecoHero-api</artifactId>
-			<version>${version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.jso.deco</groupId>
 			<artifactId>DecoHero-controller</artifactId>
-			<version>${version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- Spring/Jersey -->
