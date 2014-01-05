@@ -7,8 +7,12 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-<!-- 	<context:component-scan base-package="com.jso.deco.data" /> -->
 	<context:property-placeholder location="classpath:database.properties"/>
+	
+	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
+		<constructor-arg name="username" value="${mongo.username}" />
+		<constructor-arg name="password" value="${mongo.password}" />
+	</bean>
 
 	<!-- Factory bean that creates the Mongo instance -->
 	<bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
@@ -20,6 +24,7 @@
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongo" ref="mongo" />
 		<constructor-arg name="databaseName" value="${mongo.database}" />
+		<constructor-arg name="userCredentials" ref="userCredentials" />
 	</bean>
 
 	<!-- Use this post processor to translate any MongoExceptions thrown in 
