@@ -96,6 +96,8 @@ public class UserAdapterTest {
 		
 		assertThat(response.getFavorite_color()).isEqualTo(dbUserInfos.getFavorite_color());
 		assertThat(response.getHouse_type()).isEqualTo(dbUserInfos.getHouse_type());
+
+		assertThat(response.getAvatar()).isEqualTo(dbUserInfos.getAvatar());
 	}
 
 	@Test
@@ -113,6 +115,7 @@ public class UserAdapterTest {
 		assertThat(response.isProfessional()).isEqualTo(dbUserInfos.isProfessionnal());
 		assertThat(response.getGender()).isEqualTo(dbUserInfos.getGender());
 		assertThat(response.getStyle()).isEqualTo(dbUserInfos.getStyle());
+		assertThat(response.getAvatar()).isEqualTo(dbUserInfos.getAvatar());
 		
 		assertThat(response.getEmail()).isNull();
 		assertThat(response.getFirstname()).isNull();

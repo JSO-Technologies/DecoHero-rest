@@ -51,6 +51,8 @@ public class DefaultTestData {
 		dbUserInfos.setFavorite_color("#000000");
 		dbUserInfos.setHouse_type(HouseType.AO);
 		
+		dbUserInfos.setAvatar("avatar");
+
 		return dbUserInfos;
 	}
 }

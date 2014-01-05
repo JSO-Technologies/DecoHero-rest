@@ -18,6 +18,7 @@ public class UserDataService {
 	public static final String PASSWORD = "password";
 	public static final String DELETION_DATE = "deletionDate";
 	public static final String EMAIL = "email";
+	public static final String AVATAR = "avatar";
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
@@ -97,8 +98,35 @@ public class UserDataService {
 		Query searchUserQuery = new Query(idCriteria);
 		return mongoTemplate.exists(searchUserQuery, DBUser.class);
 	}
+	
+	/**
+	 * Test if user avatar is NOT defined
+	 * @param userId
+	 * @return
+	 */
+	public boolean userAvatarEmpty(String userId) {
+		Criteria idCriteria = Criteria.where(ID).is(userId);
+		Criteria avatarEmptyCriteria = Criteria.where(AVATAR).is(null);
+		
+		Criteria searchUserCriteria = new Criteria().andOperator(idCriteria, avatarEmptyCriteria);
+		Query searchUserQuery = new Query(searchUserCriteria);
+		return mongoTemplate.exists(searchUserQuery, DBUser.class);
+	}
+
+	/**
+	 * Update user avatar
+	 * @param userId
+	 * @param imageEncodedId
+	 */
+	public void updateAvatar(String userId, String imageEncodedId) {
+		DBUserInfos user = findInfosById(userId);
+		user.setAvatar(imageEncodedId);
+		user.setModificationDate(new Date());
+		mongoTemplate.save(user);
+	}
 
 	public void setMongoTemplate(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
+
 }

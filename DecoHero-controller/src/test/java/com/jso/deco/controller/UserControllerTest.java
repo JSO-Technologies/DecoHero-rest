@@ -7,6 +7,8 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
@@ -24,18 +26,21 @@ import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.UserLoginRequest;
 import com.jso.deco.api.service.request.UserRegisterRequest;
 import com.jso.deco.controller.adapter.UserAdapter;
+import com.jso.deco.controller.image.ImageService;
 import com.jso.deco.controller.utils.DefaultTestData;
 import com.jso.deco.data.user.UserDataService;
 
 
 public class UserControllerTest {
 	private final UserController controller = new UserController();
-	private UserDataService userDataService = mock(UserDataService.class);
+	private final UserDataService userDataService = mock(UserDataService.class);
+	private final ImageService imageService = mock(ImageService.class);
 
 	@Before
 	public void init() {
 		controller.setUserDataService(userDataService);
 		controller.setAdapter(new UserAdapter());
+		controller.setImageService(imageService);
 	}
 
 	@Test
@@ -235,5 +240,43 @@ public class UserControllerTest {
 		catch (DHServiceException e) {
 			assertThat(e.getDhMessage()).isEqualTo(DHMessageCode.USER_DOESNT_EXIST);
 		}
+	}
+	
+	@Test
+	public void updateAvatar_should_update_avatar_and_update_user_infos_avatar_field() {
+		//given
+		String userId = "123";
+		String imageEncodedId = userId;
+		String avatarDataUrl = "data:image/png;base64,erhAAZJEOEankzelajzeARHfzgfe";
+		
+		doNothing().when(imageService).saveAvatar(userId, avatarDataUrl);
+		when(userDataService.userAvatarEmpty(userId)).thenReturn(true);
+		doNothing().when(userDataService).updateAvatar(userId, imageEncodedId);
+		
+		//when
+		controller.updateAvatar(userId, avatarDataUrl);
+		
+		//then
+		verify(imageService, times(1)).saveAvatar(userId, avatarDataUrl);
+		verify(userDataService, times(1)).updateAvatar(userId, imageEncodedId);
+	}
+	
+	@Test
+	public void updateAvatar_should_update_avatar_but_not_update_user_infos_avatar_field() {
+		//given
+		String userId = "123";
+		String imageEncodedId = userId;
+		String avatarDataUrl = "data:image/png;base64,erhAAZJEOEankzelajzeARHfzgfe";
+		
+		doNothing().when(imageService).saveAvatar(userId, avatarDataUrl);
+		when(userDataService.userAvatarEmpty(userId)).thenReturn(false);
+		doNothing().when(userDataService).updateAvatar(userId, imageEncodedId);
+		
+		//when
+		controller.updateAvatar(userId, avatarDataUrl);
+		
+		//then
+		verify(imageService, times(1)).saveAvatar(userId, avatarDataUrl);
+		verify(userDataService, times(0)).updateAvatar(userId, imageEncodedId);
 	}
 }

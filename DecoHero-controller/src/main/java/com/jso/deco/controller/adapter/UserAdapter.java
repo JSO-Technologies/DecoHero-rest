@@ -4,6 +4,7 @@ import com.jso.deco.api.controller.UserInfosResponse;
 import com.jso.deco.api.controller.UserLoginResponse;
 import com.jso.deco.api.database.DBUser;
 import com.jso.deco.api.database.DBUserInfos;
+import com.jso.deco.api.service.request.UserInfosRequest;
 import com.jso.deco.api.service.request.UserRegisterRequest;
 
 public class UserAdapter {
@@ -69,6 +70,28 @@ public class UserAdapter {
 		response.setProfessional(dbUserInfos.isProfessionnal());
 		response.setGender(dbUserInfos.getGender());
 		response.setStyle(dbUserInfos.getStyle());
+		response.setAvatar(dbUserInfos.getAvatar());
+	}
+
+	public void copyUserInfosFromRequest(DBUserInfos dbUserInfos, UserInfosRequest request) {
+		dbUserInfos.setFirstname(request.getFirstname());
+		dbUserInfos.setLastname(request.getLastname());
+		dbUserInfos.setGender(request.getGender());
+		dbUserInfos.setBirthdate(request.getBirthdate());
+		
+		dbUserInfos.setRelationship(request.getRelationship());
+		dbUserInfos.setChildren(request.getChildren());
+		dbUserInfos.setZipcode(request.getZipcode());
+		dbUserInfos.setAddress(request.getAddress());
+		dbUserInfos.setCity(request.getCity());
+		dbUserInfos.setPhone(request.getPhone());
+		
+		dbUserInfos.setJob(request.getJob());
+		dbUserInfos.setJob_field(request.getJob_field());
+		
+		dbUserInfos.setHouse_type(request.getHouse_type());
+		dbUserInfos.setFavorite_color(request.getFavorite_color());
+		dbUserInfos.setStyle(request.getStyle());
 	}
 
 }

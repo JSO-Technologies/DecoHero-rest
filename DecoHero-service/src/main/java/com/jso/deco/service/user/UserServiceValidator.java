@@ -4,11 +4,14 @@ import org.apache.commons.lang.StringUtils;
 
 import com.jso.deco.api.exception.DHMessageCode;
 import com.jso.deco.api.exception.DHServiceException;
+import com.jso.deco.api.service.request.UserInfosRequest;
 import com.jso.deco.api.service.request.UserLoginRequest;
 import com.jso.deco.api.service.request.UserRegisterRequest;
 
 public class UserServiceValidator {
 	
+	private static final String IMAGE_DATA_URL_TYPE = "data:image/png;base64,";
+
 	/**
 	 * Validate registration infos
 	 * 
@@ -48,6 +51,29 @@ public class UserServiceValidator {
 		}
 		else if(StringUtils.isBlank(request.getPassword())) {
 			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "password");
+		}
+	}
+
+	/**
+	 * Validate user update infos
+	 * 
+	 * @param request
+	 * @throws DHServiceException 
+	 */
+	public void validate(UserInfosRequest request) throws DHServiceException {
+		if(request.getBirthdateTimestamp() == null) {
+			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "birthdate");
+		}
+	}
+
+	/**
+	 * Validate image data url
+	 * @param avatarDataUrl
+	 * @throws DHServiceException 
+	 */
+	public void validateImage(String avatarDataUrl) throws DHServiceException {
+		if(! avatarDataUrl.startsWith(IMAGE_DATA_URL_TYPE)) {
+			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "Param is not png image data url");
 		}
 	}
 }

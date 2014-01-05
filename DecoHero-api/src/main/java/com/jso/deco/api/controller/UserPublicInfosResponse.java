@@ -13,6 +13,8 @@ public class UserPublicInfosResponse {
 	private String favorite_color;
 	private Style style;
 	
+	private String avatar;
+	
 	public String getId() {
 		return id;
 	}
@@ -48,6 +50,12 @@ public class UserPublicInfosResponse {
 	}
 	public void setStyle(Style style) {
 		this.style = style;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	
 }

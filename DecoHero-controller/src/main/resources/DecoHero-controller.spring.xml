@@ -9,10 +9,13 @@
 
 	<import resource="classpath:DecoHero-data.spring.xml"/>
 	
+	<bean id="imageService" class="com.jso.deco.controller.image.ImageService"/>
+        
 	<bean id="userAdapter" class="com.jso.deco.controller.adapter.UserAdapter"/>
 	
 	<bean id="userController" class="com.jso.deco.controller.UserController">
 		<property name="userDataService" ref="userDataService" />
 		<property name="adapter" ref="userAdapter" />
+		<property name="imageService" ref="imageService" />
 	</bean>
 </beans>
