@@ -1,5 +1,7 @@
 package com.jso.deco.service.user;
 
+import java.io.ByteArrayInputStream;
+
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -189,16 +191,30 @@ public class UserService {
 		}
 		
 		try {
-			validator.validateImage(avatarDataUrl);
+			validator.validateImageDataUrl(avatarDataUrl);
 			
 			final String userId = SessionManager.getInstance().getSession().getUserId();
 			UpdateAvatarResponse response = controller.updateAvatar(userId, avatarDataUrl);
 			
-			return Response.status(200).entity(response).build();
+			return Response.status(HttpStatus.OK.value()).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
 			return Response.status(response.getStatus()).entity(response.getContent()).build();
+		}
+	}
+	
+	@GET
+	@Produces("image/png")
+	@Path("/infos/avatar/public/{image}")
+	public Response getAvatar(@PathParam("image") String imageUrl) {
+		byte[] imageData = controller.getAvatar(imageUrl);
+		
+		if(imageData == null) {
+			return Response.status(HttpStatus.NOT_FOUND.value()).build();
+		}
+		else {
+			return Response.ok(new ByteArrayInputStream(imageData)).build();
 		}
 	}
 

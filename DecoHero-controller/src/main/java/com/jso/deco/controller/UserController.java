@@ -110,6 +110,15 @@ public class UserController {
 
 		return new UpdateAvatarResponse(imageEncodedId);
 	}
+	
+	/**
+	 * Get avatar from image name
+	 * @param imageUrl
+	 * @return
+	 */
+	public byte[] getAvatar(String imageUrl) {
+		return imageService.getAvatar(imageUrl);
+	}
 
 	public void setUserDataService(UserDataService userDataService) {
 		this.userDataService = userDataService;

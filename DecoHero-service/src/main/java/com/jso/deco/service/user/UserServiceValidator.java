@@ -71,7 +71,7 @@ public class UserServiceValidator {
 	 * @param avatarDataUrl
 	 * @throws DHServiceException 
 	 */
-	public void validateImage(String avatarDataUrl) throws DHServiceException {
+	public void validateImageDataUrl(String avatarDataUrl) throws DHServiceException {
 		if(! avatarDataUrl.startsWith(IMAGE_DATA_URL_TYPE)) {
 			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "Param is not png image data url");
 		}
