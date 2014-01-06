@@ -1,7 +1,5 @@
 package com.jso.deco.service.session;
 
-import java.io.IOException;
-
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.NewCookie;
 
@@ -43,15 +41,10 @@ public class SessionManager {
 	 * @param encodedValue
 	 */
 	public void bind(String encodedValue) {
+		Session session = CookieEncoder.getInstance().cookieToSession(encodedValue);
 		
-		try {
-			Session session = CookieEncoder.getInstance().cookieToSession(encodedValue);
-			
-			if(session.isValid()) {
-				threadSession.set(session);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(session != null && session.isValid()) {
+			threadSession.set(session);
 		}
 	}
 

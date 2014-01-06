@@ -1,6 +1,5 @@
 package com.jso.deco.service.session;
 
-import java.io.IOException;
 import java.util.Date;
 
 import javax.ws.rs.container.ContainerRequestContext;
@@ -23,7 +22,7 @@ public class CookieEncoder {
 		return INSTANCE;
 	}
 
-	public Session cookieToSession(String cookie_value) throws IOException {
+	public Session cookieToSession(String cookie_value) {
 		byte[] value = encoder.decodeBase64(cookie_value);
 		try {
 			return Session.fromSerialized(new String(value));

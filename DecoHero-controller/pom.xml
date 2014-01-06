@@ -19,14 +19,7 @@
 			<artifactId>DecoHero-data</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
-		<!-- Spring -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		
+
 		<!-- Utils -->
 		<dependency>
 			<groupId>commons-codec</groupId>
