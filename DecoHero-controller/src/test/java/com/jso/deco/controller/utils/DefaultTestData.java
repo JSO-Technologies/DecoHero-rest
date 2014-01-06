@@ -8,8 +8,8 @@ import com.jso.deco.api.common.Job;
 import com.jso.deco.api.common.JobField;
 import com.jso.deco.api.common.Relationship;
 import com.jso.deco.api.common.Style;
-import com.jso.deco.api.database.DBUser;
-import com.jso.deco.api.database.DBUserInfos;
+import com.jso.deco.data.api.DBUser;
+import com.jso.deco.data.api.DBUserInfos;
 
 public class DefaultTestData {
 	public static DBUser getDefaultDBUser() {

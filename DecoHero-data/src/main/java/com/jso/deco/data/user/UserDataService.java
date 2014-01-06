@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.jso.deco.api.database.DBUser;
-import com.jso.deco.api.database.DBUserInfos;
+import com.jso.deco.data.api.DBUser;
+import com.jso.deco.data.api.DBUserInfos;
 
 @Repository
 public class UserDataService {

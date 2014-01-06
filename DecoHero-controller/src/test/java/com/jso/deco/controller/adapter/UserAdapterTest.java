@@ -8,10 +8,10 @@ import org.junit.Test;
 
 import com.jso.deco.api.controller.UserInfosResponse;
 import com.jso.deco.api.controller.UserLoginResponse;
-import com.jso.deco.api.database.DBUser;
-import com.jso.deco.api.database.DBUserInfos;
 import com.jso.deco.api.service.request.UserRegisterRequest;
 import com.jso.deco.controller.utils.DefaultTestData;
+import com.jso.deco.data.api.DBUser;
+import com.jso.deco.data.api.DBUserInfos;
 
 
 public class UserAdapterTest {

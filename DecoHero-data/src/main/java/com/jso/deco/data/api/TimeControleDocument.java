@@ -1,4 +1,4 @@
-package com.jso.deco.api.database;
+package com.jso.deco.data.api;
 
 import java.util.Date;
 

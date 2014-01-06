@@ -8,14 +8,14 @@ import static com.jso.deco.data.user.UserDataService.USERNAME;
 import com.jso.deco.api.controller.UpdateAvatarResponse;
 import com.jso.deco.api.controller.UserInfosResponse;
 import com.jso.deco.api.controller.UserLoginResponse;
-import com.jso.deco.api.database.DBUser;
-import com.jso.deco.api.database.DBUserInfos;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.UserInfosRequest;
 import com.jso.deco.api.service.request.UserLoginRequest;
 import com.jso.deco.api.service.request.UserRegisterRequest;
 import com.jso.deco.controller.adapter.UserAdapter;
 import com.jso.deco.controller.image.ImageService;
+import com.jso.deco.data.api.DBUser;
+import com.jso.deco.data.api.DBUserInfos;
 import com.jso.deco.data.user.UserDataService;
 
 public class UserController {
