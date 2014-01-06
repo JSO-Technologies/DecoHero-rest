@@ -1,24 +1,30 @@
 package com.jso.deco.controller.image;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import javax.imageio.ImageIO;
+import java.nio.file.Files;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ImageService {
-	private static final String ENCODING_PREFIX = "base64,";
+	private static final String ENCODING_PREFIX = "base64,";	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
+
 	private final Base64 base64 = new Base64();
 	private String avatarLocation;
 	
+	/**
+	 * Save image from base 64 encoded string
+	 * @param imageEncodedId
+	 * @param avatarDataUrl
+	 */
 	public void saveAvatar(String imageEncodedId, String avatarDataUrl) {
 		final String uploadedFileLocation = avatarLocation + imageEncodedId;
 		
@@ -28,9 +34,7 @@ public class ImageService {
 		saveToFile(new ByteArrayInputStream(imageData), uploadedFileLocation);
 	}
 
-	// save uploaded file to new location
 	private void saveToFile(InputStream uploadedInputStream, String uploadedFileLocation) {
-
 		try {
 			OutputStream out = null;
 			int read = 0;
@@ -43,18 +47,21 @@ public class ImageService {
 			out.flush();
 			out.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Error while saving avatar in " + uploadedFileLocation + " : " + e.getMessage(), e);
 		}
 	}
 
+	/**
+	 * Get avatar byte array
+	 * @param imageUrl
+	 * @return
+	 */
 	public byte[] getAvatar(String imageUrl) {
 	    try {
-	    	BufferedImage image = ImageIO.read(new File(avatarLocation + imageUrl));
-	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(image, "png", baos);
-			return baos.toByteArray();
+			File avatarFile = new File(avatarLocation + imageUrl);
+			return Files.readAllBytes(avatarFile.toPath());
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Error while reading avatar " + avatarLocation + imageUrl + " : " + e.getMessage(), e);
 			return null;
 		}
 	}
