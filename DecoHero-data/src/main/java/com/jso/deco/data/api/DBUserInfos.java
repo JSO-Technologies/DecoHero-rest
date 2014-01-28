@@ -1,7 +1,10 @@
 package com.jso.deco.data.api;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.google.common.collect.Lists;
 import com.jso.deco.api.common.Gender;
 import com.jso.deco.api.common.HouseType;
 import com.jso.deco.api.common.Job;
@@ -29,6 +32,8 @@ public class DBUserInfos extends DBUser {
 	private Style style;
 	
 	private String avatar;
+	
+	private List<String> projects = Lists.newArrayList();
 	
 	public boolean isProfessionnal() {
 		return professionnal;
@@ -114,5 +119,7 @@ public class DBUserInfos extends DBUser {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	
+	public List<String> getProjects() {
+		return projects;
+	}
 }	

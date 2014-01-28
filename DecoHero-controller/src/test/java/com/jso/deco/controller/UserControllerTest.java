@@ -1,8 +1,8 @@
 package com.jso.deco.controller;
 
 import static com.jso.deco.api.exception.DHMessageCode.USER_ALREADY_EXISTS;
-import static com.jso.deco.data.user.UserDataService.EMAIL;
-import static com.jso.deco.data.user.UserDataService.USERNAME;
+import static com.jso.deco.data.service.UserDataService.EMAIL;
+import static com.jso.deco.data.service.UserDataService.USERNAME;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doNothing;
@@ -28,7 +28,7 @@ import com.jso.deco.controller.image.ImageService;
 import com.jso.deco.controller.utils.DefaultTestData;
 import com.jso.deco.data.api.DBUser;
 import com.jso.deco.data.api.DBUserInfos;
-import com.jso.deco.data.user.UserDataService;
+import com.jso.deco.data.service.UserDataService;
 
 
 public class UserControllerTest {
@@ -243,7 +243,7 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void updateAvatar_should_update_avatar_and_update_user_infos_avatar_field() {
+	public void updateAvatar_should_update_avatar_and_update_user_infos_avatar_field() throws DHServiceException {
 		//given
 		String userId = "123";
 		String imageEncodedId = userId;
@@ -262,7 +262,7 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void updateAvatar_should_update_avatar_but_not_update_user_infos_avatar_field() {
+	public void updateAvatar_should_update_avatar_but_not_update_user_infos_avatar_field() throws DHServiceException {
 		//given
 		String userId = "123";
 		String imageEncodedId = userId;

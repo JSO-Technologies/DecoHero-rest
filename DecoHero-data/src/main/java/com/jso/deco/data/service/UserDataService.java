@@ -1,8 +1,7 @@
-package com.jso.deco.data.user;
+package com.jso.deco.data.service;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,7 +19,6 @@ public class UserDataService {
 	public static final String EMAIL = "email";
 	public static final String AVATAR = "avatar";
 
-	@Autowired
 	private MongoTemplate mongoTemplate;
 
 	/**
@@ -125,8 +123,19 @@ public class UserDataService {
 		mongoTemplate.save(user);
 	}
 
+	/**
+	 * Add project reference
+	 * @param userId
+	 * @param projectId
+	 */
+	public void addProjects(String userId, String projectId) {
+		DBUserInfos user = findInfosById(userId);
+		user.getProjects().add(projectId);
+		user.setModificationDate(new Date());
+		mongoTemplate.save(user);
+	}
+
 	public void setMongoTemplate(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
-
 }

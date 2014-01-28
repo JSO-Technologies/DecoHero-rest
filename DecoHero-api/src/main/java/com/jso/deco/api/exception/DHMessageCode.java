@@ -12,5 +12,9 @@ public enum DHMessageCode {
 	/**
 	 * Generic : missing parameter in request
 	 */
-	MISSING_FIELD
+	MISSING_FIELD,
+	/**
+	 * Internal error
+	 */
+	INTERNAL_ERROR
 }

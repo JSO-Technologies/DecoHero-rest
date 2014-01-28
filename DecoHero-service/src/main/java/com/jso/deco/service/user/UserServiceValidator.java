@@ -11,6 +11,7 @@ import com.jso.deco.api.service.request.UserRegisterRequest;
 public class UserServiceValidator {
 	
 	private static final String IMAGE_DATA_URL_TYPE = "data:image/png;base64,";
+	private static final String IMAGE_DATA_URL = "data:image/";
 
 	/**
 	 * Validate registration infos
@@ -67,13 +68,24 @@ public class UserServiceValidator {
 	}
 
 	/**
+	 * Validate png image data url
+	 * @param avatarDataUrl
+	 * @throws DHServiceException 
+	 */
+	public void validatePngImageDataUrl(String avatarDataUrl) throws DHServiceException {
+		if(! avatarDataUrl.startsWith(IMAGE_DATA_URL_TYPE)) {
+			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "Param is not a png image data url");
+		}
+	}
+	
+	/**
 	 * Validate image data url
 	 * @param avatarDataUrl
 	 * @throws DHServiceException 
 	 */
-	public void validateImageDataUrl(String avatarDataUrl) throws DHServiceException {
-		if(! avatarDataUrl.startsWith(IMAGE_DATA_URL_TYPE)) {
-			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "Param is not png image data url");
+	public void validateImageDataUrl(String dataUrl) throws DHServiceException {
+		if(! dataUrl.startsWith(IMAGE_DATA_URL)) {
+			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "Param is not an image data url");
 		}
 	}
 }

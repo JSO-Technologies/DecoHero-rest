@@ -191,7 +191,7 @@ public class UserService {
 		}
 		
 		try {
-			validator.validateImageDataUrl(avatarDataUrl);
+			validator.validatePngImageDataUrl(avatarDataUrl);
 			
 			final String userId = SessionManager.getInstance().getSession().getUserId();
 			UpdateAvatarResponse response = controller.updateAvatar(userId, avatarDataUrl);

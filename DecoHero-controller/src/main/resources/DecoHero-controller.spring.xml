@@ -11,10 +11,14 @@
 
 	<import resource="classpath:DecoHero-data.spring.xml"/>
 	
+	<!-- transverse -->
 	<bean id="imageService" class="com.jso.deco.controller.image.ImageService">
 		<property name="avatarLocation" value="${avatar.location}"/>
+		<property name="projectImgLocation" value="${project.img.location}"/>
+		<property name="projectTmpImgLocation" value="${project.img.location.tmp}"/>
 	</bean>
-        
+    
+    <!-- user -->
 	<bean id="userAdapter" class="com.jso.deco.controller.adapter.UserAdapter"/>
 	
 	<bean id="userController" class="com.jso.deco.controller.UserController">
@@ -22,4 +26,15 @@
 		<property name="adapter" ref="userAdapter" />
 		<property name="imageService" ref="imageService" />
 	</bean>
+	
+	<!-- project -->
+	<bean id="projectAdapter" class="com.jso.deco.controller.adapter.ProjectAdapter"/>
+
+	<bean id="projectController" class="com.jso.deco.controller.ProjectController">
+		<property name="userDataService" ref="userDataService" />
+		<property name="projectDataService" ref="projectDataService" />
+		<property name="adapter" ref="projectAdapter" />
+		<property name="imageService" ref="imageService" />
+	</bean>
+	
 </beans>

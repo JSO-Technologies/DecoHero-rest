@@ -32,7 +32,10 @@
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	
 	<!-- Data services -->
-	<bean id="userDataService" class="com.jso.deco.data.user.UserDataService">
+	<bean id="userDataService" class="com.jso.deco.data.service.UserDataService">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+	</bean>
+	<bean id="projectDataService" class="com.jso.deco.data.service.ProjectDataService">
 		<property name="mongoTemplate" ref="mongoTemplate" />
 	</bean>
 

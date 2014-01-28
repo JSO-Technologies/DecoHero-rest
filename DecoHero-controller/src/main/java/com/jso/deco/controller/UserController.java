@@ -2,8 +2,8 @@ package com.jso.deco.controller;
 
 import static com.jso.deco.api.exception.DHMessageCode.USER_ALREADY_EXISTS;
 import static com.jso.deco.api.exception.DHMessageCode.USER_DOESNT_EXIST;
-import static com.jso.deco.data.user.UserDataService.EMAIL;
-import static com.jso.deco.data.user.UserDataService.USERNAME;
+import static com.jso.deco.data.service.UserDataService.EMAIL;
+import static com.jso.deco.data.service.UserDataService.USERNAME;
 
 import com.jso.deco.api.controller.UpdateAvatarResponse;
 import com.jso.deco.api.controller.UserInfosResponse;
@@ -16,7 +16,7 @@ import com.jso.deco.controller.adapter.UserAdapter;
 import com.jso.deco.controller.image.ImageService;
 import com.jso.deco.data.api.DBUser;
 import com.jso.deco.data.api.DBUserInfos;
-import com.jso.deco.data.user.UserDataService;
+import com.jso.deco.data.service.UserDataService;
 
 public class UserController {
 	private UserAdapter adapter;
@@ -99,8 +99,9 @@ public class UserController {
 	 * @param userId
 	 * @param avatarDataUrl
 	 * @return
+	 * @throws DHServiceException 
 	 */
-	public UpdateAvatarResponse updateAvatar(String userId, String avatarDataUrl) {
+	public UpdateAvatarResponse updateAvatar(String userId, String avatarDataUrl) throws DHServiceException {
 		final String imageEncodedId = userId;
 
 		imageService.saveAvatar(imageEncodedId, avatarDataUrl);

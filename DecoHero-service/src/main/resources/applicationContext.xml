@@ -11,11 +11,16 @@
         
         <import resource="classpath:DecoHero-controller.spring.xml"/>
         
+        <!-- Transverse -->
         <bean id="encoder" class="com.jso.deco.service.utils.Encoder"/>
+        <bean id="serviceResponseAdapter" class="com.jso.deco.service.adapter.ServiceResponseAdapter"/>
+
+		<!-- User -->
         <bean id="userServiceValidator" class="com.jso.deco.service.user.UserServiceValidator"/>
         <bean id="userServiceAdapter" class="com.jso.deco.service.adapter.UserServiceAdapter">
         	<property name="encoder" ref="encoder" />
         </bean>
-        <bean id="serviceResponseAdapter" class="com.jso.deco.service.adapter.ServiceResponseAdapter"/>
 
+		<!-- Project -->
+        <bean id="projectServiceValidator" class="com.jso.deco.service.project.ProjectServiceValidator"/>
 </beans>
