@@ -27,4 +27,10 @@ public class ProjectServiceValidator {
 		}
 	}
 
+	public void validate(String projectId) throws DHServiceException {
+		if(StringUtils.isBlank(projectId)) {
+			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "projectId");
+		}
+	}
+
 }

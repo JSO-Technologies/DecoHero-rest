@@ -3,6 +3,8 @@ package com.jso.deco.data.service;
 import java.util.Date;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.jso.deco.data.api.DBProject;
@@ -18,6 +20,16 @@ public class ProjectDataService {
 	public void create(DBProject project) {
 		project.setCreationDate(new Date());
 		mongoTemplate.save(project);
+	}
+	
+	/**
+	 * Find a project from id
+	 * @param projectId
+	 */
+	public DBProject find(String projectId) {
+		Criteria idCriteria = Criteria.where("id").is(projectId);
+		Query searchProjectQuery = new Query(idCriteria);
+		return mongoTemplate.findOne(searchProjectQuery, DBProject.class);
 	}
 	
 	/**

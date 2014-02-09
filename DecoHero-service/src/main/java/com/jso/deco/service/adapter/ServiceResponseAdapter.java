@@ -20,6 +20,7 @@ public class ServiceResponseAdapter {
 				status = HttpStatus.CONFLICT.value();
 				break;
 			case USER_DOESNT_EXIST: 
+			case PROJECT_DOESNT_EXIST: 
 				status = HttpStatus.NOT_FOUND.value();
 				break;
 			case MISSING_FIELD: 

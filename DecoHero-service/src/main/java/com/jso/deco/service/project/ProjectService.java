@@ -2,8 +2,10 @@ package com.jso.deco.service.project;
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.controller.CreateProjectResponse;
+import com.jso.deco.api.controller.ProjectResponse;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
 import com.jso.deco.api.service.response.ServiceResponse;
@@ -41,6 +44,24 @@ public class ProjectService {
 		try {
 			validator.validate(request);
 			CreateProjectResponse response = controller.createProject(SessionManager.getInstance().getSession().getUserId(), request);
+			
+			return Response.status(HttpStatus.OK.value()).entity(response).build();
+		}
+		catch(DHServiceException e) {
+			ServiceResponse response = errorAdapter.fromException(e);
+			return Response.status(response.getStatus()).entity(response.getContent()).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/{projectId}")
+	public Response getProject(@PathParam("projectId") String projectId) {
+		try {
+			validator.validate(projectId);
+			
+			ProjectResponse response = controller.getProject(projectId);
 			
 			return Response.status(HttpStatus.OK.value()).entity(response).build();
 		}

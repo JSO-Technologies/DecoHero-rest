@@ -10,6 +10,10 @@ public enum DHMessageCode {
 	 */
 	USER_DOESNT_EXIST,
 	/**
+	 * Project : project does not exist
+	 */
+	PROJECT_DOESNT_EXIST,
+	/**
 	 * Generic : missing parameter in request
 	 */
 	MISSING_FIELD,
