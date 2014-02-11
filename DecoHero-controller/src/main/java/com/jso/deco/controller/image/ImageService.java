@@ -59,6 +59,21 @@ public class ImageService {
 	}
 	
 	/**
+	 * Get avatar byte array
+	 * @param imageUrl
+	 * @return
+	 */
+	public byte[] getProjectImage(String projectId, String imageId) {
+	    try {
+			File imageFile = new File(projectImgLocation + projectId + "/" + imageId);
+			return Files.readAllBytes(imageFile.toPath());
+		} catch (IOException e) {
+			LOGGER.error("Error while reading project image " + projectImgLocation + projectId + "/" + imageId + " : " + e.getMessage(), e);
+			return null;
+		}
+	}
+	
+	/**
 	 * Save project images from dataUrls
 	 * @param imgDataUrls
 	 * @return

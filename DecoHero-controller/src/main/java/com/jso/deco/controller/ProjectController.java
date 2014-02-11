@@ -61,6 +61,16 @@ public class ProjectController {
 		
 		return adapter.dbProjectToProjectResponse(project, author);
 	}
+
+	/**
+	 * Get project image
+	 * @param projectId
+	 * @param imageId
+	 * @return
+	 */
+	public byte[] getImage(String projectId, String imageId) {
+		return imageService.getProjectImage(projectId, imageId);
+	}
 	
 	public void setAdapter(ProjectAdapter adapter) {
 		this.adapter = adapter;

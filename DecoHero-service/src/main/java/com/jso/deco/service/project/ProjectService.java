@@ -1,5 +1,7 @@
 package com.jso.deco.service.project;
 
+import java.io.ByteArrayInputStream;
+
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -68,6 +70,20 @@ public class ProjectService {
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
 			return Response.status(response.getStatus()).entity(response.getContent()).build();
+		}
+	}
+	
+	@GET
+	@Produces("image/png")
+	@Path("/image/{projectId}/{imageId}")
+	public Response getAvatar(@PathParam("projectId") String projectId, @PathParam("imageId") String imageId) {
+		byte[] imageData = controller.getImage(projectId, imageId);
+		
+		if(imageData == null) {
+			return Response.status(HttpStatus.NOT_FOUND.value()).build();
+		}
+		else {
+			return Response.ok(new ByteArrayInputStream(imageData)).build();
 		}
 	}
 }
