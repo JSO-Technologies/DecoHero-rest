@@ -2,9 +2,11 @@ package com.jso.deco.controller;
 
 import static com.jso.deco.api.exception.DHMessageCode.PROJECT_DOESNT_EXIST;
 
+import java.util.Date;
 import java.util.List;
 
 import com.jso.deco.api.controller.CreateProjectResponse;
+import com.jso.deco.api.controller.LatestProjectResponse;
 import com.jso.deco.api.controller.ProjectResponse;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
@@ -17,6 +19,7 @@ import com.jso.deco.data.service.UserDataService;
 
 
 public class ProjectController {
+	protected static final int NB_LATEST_PROJECTS = 5;
 	private ProjectAdapter adapter;
 	private UserDataService userDataService;
 	private ProjectDataService projectDataService;
@@ -29,17 +32,17 @@ public class ProjectController {
 	 * @return
 	 * @throws DHServiceException
 	 */
-	public CreateProjectResponse createProject(String userId, ProjectCreationRequest request) throws DHServiceException {
+	public CreateProjectResponse createProject(final String userId, final ProjectCreationRequest request) throws DHServiceException {
 		
-		List<String> imgIds = imageService.saveProjectImg(request.getImages());
-		DBProject dbProject = adapter.projectCreationRequestToDBProject(request, imgIds, userId);
+		final List<String> imgIds = imageService.saveProjectImg(request.getImages());
+		final DBProject dbProject = adapter.projectCreationRequestToDBProject(request, imgIds, userId);
 
 		projectDataService.create(dbProject);
-		String projectId = dbProject.getId();
+		final String projectId = dbProject.getId();
 		imageService.moveProjectImg(projectId, imgIds);
 		userDataService.addProjects(userId, projectId);
 		
-		CreateProjectResponse response = new CreateProjectResponse();
+		final CreateProjectResponse response = new CreateProjectResponse();
 		response.setId(projectId);
 		return response;
 	}
@@ -51,13 +54,13 @@ public class ProjectController {
 	 * @return
 	 * @throws DHServiceException 
 	 */
-	public ProjectResponse getProject(String projectId) throws DHServiceException {
-		DBProject project = projectDataService.find(projectId);
+	public ProjectResponse getProject(final String projectId) throws DHServiceException {
+		final DBProject project = projectDataService.find(projectId);
 		if(project == null) {
 			throw new DHServiceException(PROJECT_DOESNT_EXIST, null);
 		}
 		
-		DBUserInfos author = userDataService.findInfosById(project.getUserId());
+		final DBUserInfos author = userDataService.findInfosById(project.getUserId());
 		
 		return adapter.dbProjectToProjectResponse(project, author);
 	}
@@ -68,8 +71,23 @@ public class ProjectController {
 	 * @param imageId
 	 * @return
 	 */
-	public byte[] getImage(String projectId, String imageId) {
+	public byte[] getImage(final String projectId, final String imageId) {
 		return imageService.getProjectImage(projectId, imageId);
+	}
+	
+	/**
+	 * Get the lastest projects of a specific user
+	 * @param userId
+	 * @param fromDate
+	 * @return
+	 * @throws DHServiceException 
+	 */
+	public LatestProjectResponse getLastestProjects(final String userId, final String fromDateString) throws DHServiceException {
+		final Date fromDate = adapter.fromDateStringToDate(fromDateString);
+		
+		final List<DBProject> dbProjects = projectDataService.findUserLatest(userId, NB_LATEST_PROJECTS, fromDate);
+		
+		return adapter.dbProjectsToLatestProjectResponse(dbProjects);
 	}
 	
 	public void setAdapter(ProjectAdapter adapter) {

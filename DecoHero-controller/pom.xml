@@ -26,5 +26,11 @@
 			<artifactId>commons-codec</artifactId>
 			<version>${common.codec.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda.version}</version>
+		</dependency>
 	</dependencies>
 </project>

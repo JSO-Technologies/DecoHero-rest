@@ -26,7 +26,6 @@ public class ProjectServiceValidatorTest {
 		validator.validate(projectId);
 		
 		//then
-		
 	}
 	
 	@Test
@@ -154,6 +153,54 @@ public class ProjectServiceValidatorTest {
 		catch(DHServiceException e) {
 			assertThat(e.getDhMessage()).isEqualTo(MISSING_FIELD);
 			assertThat(e.getDetails()).isEqualTo("images");
+		}
+	}
+	
+	@Test
+	public void validate_project_user_and_date_should_pass() throws DHServiceException {
+		// given
+		final String userId = "1af569e4bc2";
+		final String fromDate = "20140101210000";
+		
+		// when
+		validator.validate(userId, fromDate);
+		
+		// then
+	}
+	
+	@Test
+	public void validate_project_user_and_date_should_throw_exception_with_blank_user_id() {
+		// given
+		final String userId = " ";
+		final String fromDate = "20140101210000";
+		
+		// when
+		try {
+			validator.validate(userId, fromDate);
+			fail("Should have thrown exception");
+		}
+		// then
+		catch(DHServiceException e) {
+			assertThat(e.getDhMessage()).isEqualTo(MISSING_FIELD);
+			assertThat(e.getDetails()).isEqualTo("userId");
+		}
+	}
+	
+	@Test
+	public void validate_project_user_and_date_should_throw_exception_with_invaid_date() {
+		// given
+		final String userId = "1af569e4bc2";
+		final String fromDate = "20140101";
+		
+		// when
+		try {
+			validator.validate(userId, fromDate);
+			fail("Should have thrown exception");
+		}
+		// then
+		catch(DHServiceException e) {
+			assertThat(e.getDhMessage()).isEqualTo(MISSING_FIELD);
+			assertThat(e.getDetails()).isEqualTo("fromDate");
 		}
 	}
 	

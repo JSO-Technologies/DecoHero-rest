@@ -2,14 +2,19 @@ package com.jso.deco.controller.adapter;
 
 import static com.jso.deco.api.common.Category.RM;
 import static com.jso.deco.api.common.Room.ATC;
+import static com.jso.deco.api.exception.DHMessageCode.MISSING_FIELD;
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
+import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
 import com.jso.deco.api.controller.ProjectResponse;
+import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
 import com.jso.deco.data.api.DBProject;
 import com.jso.deco.data.api.DBUserInfos;
@@ -20,17 +25,17 @@ public class ProjectAdapterTest {
 	@Test
 	public void projectCreationRequestToDBProject_should_adapt_all_fields() {
 		//given
-		ProjectCreationRequest request = new ProjectCreationRequest();
+		final ProjectCreationRequest request = new ProjectCreationRequest();
 		request.setCategory(RM);
 		request.setRoom(ATC);
 		request.setTitle("Title");
 		request.setDescription("Description");
 		
-		List<String> imgIds = Lists.newArrayList("0000000000", "1111111111");
-		String userId = "1zaihe134jlaih";
+		final List<String> imgIds = Lists.newArrayList("0000000000", "1111111111");
+		final String userId = "1zaihe134jlaih";
 		
 		//when
-		DBProject dbProject = adapter.projectCreationRequestToDBProject(request, imgIds, userId);
+		final DBProject dbProject = adapter.projectCreationRequestToDBProject(request, imgIds, userId);
 		
 		//then
 		assertThat(dbProject.getTitle()).isEqualTo(request.getTitle());
@@ -44,7 +49,7 @@ public class ProjectAdapterTest {
 	@Test
 	public void dbProjectToProjectResponse_should_adapt_all_fields() {
 		//given
-		DBProject project = new DBProject();
+		final DBProject project = new DBProject();
 		project.setId("azekrhaueh");
 		project.setCategory("RM");
 		project.setCategory("ATC");
@@ -53,14 +58,14 @@ public class ProjectAdapterTest {
 		project.getImages().add("image1");
 		project.getImages().add("image2");
 		
-		DBUserInfos authorUser = new DBUserInfos();
+		final DBUserInfos authorUser = new DBUserInfos();
 		authorUser.setId("qsdmlkqsdmlk");
 		authorUser.setUsername("username");
 		authorUser.setAvatar("aaaaapppppppmmmmmmm");
 		authorUser.setProfessionnal(true);
 		
 		//when
-		ProjectResponse result = adapter.dbProjectToProjectResponse(project, authorUser);
+		final ProjectResponse result = adapter.dbProjectToProjectResponse(project, authorUser);
 		
 		//then
 		assertThat(result.getId()).isEqualTo(project.getId());
@@ -74,5 +79,40 @@ public class ProjectAdapterTest {
 		assertThat(result.getAuthor().getAvatar()).isEqualTo(authorUser.getAvatar());
 		assertThat(result.getAuthor().isProfessional()).isEqualTo(authorUser.isProfessionnal());
 		
+	}
+	
+	@Test
+	public void fromDateStringToDate_should_convert_date() throws DHServiceException {
+		// given
+		final String fromDateString = "20140101211258";
+		
+		// when
+		final Date resultingDate = adapter.fromDateStringToDate(fromDateString);
+		
+		// then
+		DateTime dateTime = new DateTime(resultingDate); 
+		assertThat(dateTime.getYear()).isEqualTo(2014);
+		assertThat(dateTime.getMonthOfYear()).isEqualTo(1);
+		assertThat(dateTime.getDayOfMonth()).isEqualTo(1);
+		assertThat(dateTime.getHourOfDay()).isEqualTo(21);
+		assertThat(dateTime.getMinuteOfHour()).isEqualTo(12);
+		assertThat(dateTime.getSecondOfMinute()).isEqualTo(58);
+	}
+	
+	@Test
+	public void fromDateStringToDate_should_throw_exception_with_invalid_format() {
+		// given
+		final String fromDateString = "201401a";
+		
+		// when
+		try {
+			adapter.fromDateStringToDate(fromDateString);
+			fail("Should have thrown DHServiceException with invalid date");
+		}
+		// then
+		catch(DHServiceException e) {
+			assertThat(e.getDhMessage()).isEqualTo(MISSING_FIELD);
+			assertThat(e.getDetails()).isEqualTo("fromDate");
+		}
 	}
 }

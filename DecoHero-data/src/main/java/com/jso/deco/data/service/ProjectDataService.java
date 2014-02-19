@@ -1,7 +1,9 @@
 package com.jso.deco.data.service;
 
 import java.util.Date;
+import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,7 +19,7 @@ public class ProjectDataService {
 	 * Create a project in database
 	 * @param project
 	 */
-	public void create(DBProject project) {
+	public void create(final DBProject project) {
 		project.setCreationDate(new Date());
 		mongoTemplate.save(project);
 	}
@@ -26,22 +28,44 @@ public class ProjectDataService {
 	 * Find a project from id
 	 * @param projectId
 	 */
-	public DBProject find(String projectId) {
-		Criteria idCriteria = Criteria.where("id").is(projectId);
-		Query searchProjectQuery = new Query(idCriteria);
+	public DBProject find(final String projectId) {
+		final Criteria idCriteria = Criteria.where("id").is(projectId);
+		final Query searchProjectQuery = new Query(idCriteria);
 		return mongoTemplate.findOne(searchProjectQuery, DBProject.class);
+	}
+	
+	/**
+	 * Find latest projects with user id
+	 * @param userId
+	 * @param limit
+	 * @param fromCreationDate - filter creation date &lt; fromCreationDate
+	 * @return
+	 */
+	public List<DBProject> findUserLatest(final String userId, final int limit, final Date fromCreationDate) {
+		final Criteria userIdCriteria = Criteria.where("userId").is(userId);
+		final Sort sort = new Sort(Sort.Direction.DESC, "creationDate");
+		
+		final Query searchProjectQuery = new Query(userIdCriteria);
+		searchProjectQuery.with(sort);
+		searchProjectQuery.limit(limit);
+		if(fromCreationDate != null) {
+			final Criteria fromDateCriteria = Criteria.where("creationDate").lt(fromCreationDate);
+			searchProjectQuery.addCriteria(fromDateCriteria);
+		}
+		
+		return mongoTemplate.find(searchProjectQuery, DBProject.class);
 	}
 	
 	/**
 	 * Delete a project in database
 	 * @param project
 	 */
-	public void delete(DBProject project) {
+	public void delete(final DBProject project) {
 		project.setDeletionDate(new Date());
 		mongoTemplate.save(project);
 	}
 	
-	public void setMongoTemplate(MongoTemplate mongoTemplate) {
+	public void setMongoTemplate(final MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
 

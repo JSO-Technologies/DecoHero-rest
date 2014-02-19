@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.controller.CreateProjectResponse;
+import com.jso.deco.api.controller.LatestProjectResponse;
 import com.jso.deco.api.controller.ProjectResponse;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
@@ -57,7 +58,6 @@ public class ProjectService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path("/{projectId}")
 	public Response getProject(@PathParam("projectId") String projectId) {
 		try {
@@ -76,7 +76,7 @@ public class ProjectService {
 	@GET
 	@Produces("image/png")
 	@Path("/image/{projectId}/{imageId}")
-	public Response getAvatar(@PathParam("projectId") String projectId, @PathParam("imageId") String imageId) {
+	public Response getImage(@PathParam("projectId") String projectId, @PathParam("imageId") String imageId) {
 		byte[] imageData = controller.getImage(projectId, imageId);
 		
 		if(imageData == null) {
@@ -84,6 +84,30 @@ public class ProjectService {
 		}
 		else {
 			return Response.ok(new ByteArrayInputStream(imageData)).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/latest/{userId}")
+	public Response getLatestProjects(@PathParam("userId") String userId) {
+		return getLatestProjects(userId, null);
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/latest/{userId}/{fromDate}")
+	public Response getLatestProjects(@PathParam("userId") String userId, @PathParam("fromDate") String fromDate) {
+		try {
+			validator.validate(userId, fromDate);
+			
+			LatestProjectResponse response = controller.getLastestProjects(userId, fromDate);
+			
+			return Response.status(HttpStatus.OK.value()).entity(response).build();
+		}
+		catch(DHServiceException e) {
+			ServiceResponse response = errorAdapter.fromException(e);
+			return Response.status(response.getStatus()).entity(response.getContent()).build();
 		}
 	}
 }

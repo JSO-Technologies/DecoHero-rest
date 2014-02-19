@@ -3,6 +3,7 @@ package com.jso.deco.controller;
 import static com.jso.deco.api.common.Category.RM;
 import static com.jso.deco.api.common.Room.ENT;
 import static com.jso.deco.api.exception.DHMessageCode.PROJECT_DOESNT_EXIST;
+import static com.jso.deco.controller.ProjectController.NB_LATEST_PROJECTS;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doNothing;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -20,6 +22,7 @@ import org.mockito.Mockito;
 import com.google.common.collect.Lists;
 import com.jso.deco.api.controller.Author;
 import com.jso.deco.api.controller.CreateProjectResponse;
+import com.jso.deco.api.controller.LatestProjectResponse;
 import com.jso.deco.api.controller.ProjectResponse;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
@@ -49,18 +52,18 @@ public class ProjectControllerTest {
 	@Test
 	public void createProject_should_save_images_create_project_and_update_user() throws DHServiceException {
 		//given
-		String userId = "userId";
-		List<String> imgDataUrls = Lists.newArrayList("image1", "image2");
-		List<String> imgIds = Lists.newArrayList("0000000000", "1111111111");
+		final String userId = "userId";
+		final List<String> imgDataUrls = Lists.newArrayList("image1", "image2");
+		final List<String> imgIds = Lists.newArrayList("0000000000", "1111111111");
 		
-		ProjectCreationRequest request = new ProjectCreationRequest();
+		final ProjectCreationRequest request = new ProjectCreationRequest();
 		request.setImages(imgDataUrls);
 		request.setTitle("Project title");
 		request.setDescription("Project description");
 		request.setCategory(RM);
 		request.setRoom(ENT);
 		
-		DBProject dbProject = new DBProject();
+		final DBProject dbProject = new DBProject();
 		dbProject.setId("projectId");
 
 		when(imageService.saveProjectImg(imgDataUrls)).thenReturn(imgIds);
@@ -70,7 +73,7 @@ public class ProjectControllerTest {
 		doNothing().when(userDataService).addProjects(userId, dbProject.getId());
 		
 		//when
-		CreateProjectResponse response = controller.createProject(userId, request);
+		final CreateProjectResponse response = controller.createProject(userId, request);
 		
 		//then
 		assertThat(response.getId()).isEqualTo(dbProject.getId());
@@ -84,17 +87,17 @@ public class ProjectControllerTest {
 	@Test
 	public void getProject_should_return_project_infos() throws DHServiceException {
 		//given
-		String projectId = "1ab349fe394a958";
-		String userId = "45662ca2346f5e6e";
+		final String projectId = "1ab349fe394a958";
+		final String userId = "45662ca2346f5e6e";
 		
-		DBProject dbProject = new DBProject();
+		final DBProject dbProject = new DBProject();
 		dbProject.setId(projectId);
 		dbProject.setUserId(userId);
 
-		DBUserInfos dbUserInfos = new DBUserInfos();
+		final DBUserInfos dbUserInfos = new DBUserInfos();
 		dbUserInfos.setId(userId);
 
-		ProjectResponse projectResponse = new ProjectResponse();
+		final ProjectResponse projectResponse = new ProjectResponse();
 		projectResponse.setId(projectId);
 		projectResponse.setAuthor(new Author());
 		projectResponse.getAuthor().setId(userId);
@@ -104,7 +107,7 @@ public class ProjectControllerTest {
 		when(projectAdapter.dbProjectToProjectResponse(dbProject, dbUserInfos)).thenReturn(projectResponse);
 		
 		//when
-		ProjectResponse response = controller.getProject(projectId);
+		final ProjectResponse response = controller.getProject(projectId);
 		
 		//then
 		assertThat(response).isSameAs(projectResponse);
@@ -113,7 +116,7 @@ public class ProjectControllerTest {
 	@Test
 	public void getProject_should_throw_exception_when_project_id_doesnt_exists() {
 		//given
-		String projectId = "1ab349fe394a958";
+		final String projectId = "1ab349fe394a958";
 		when(projectDataService.find(projectId)).thenReturn(null);
 		
 		//when
@@ -125,5 +128,26 @@ public class ProjectControllerTest {
 		catch(DHServiceException e) {
 			assertThat(e.getDhMessage()).isEqualTo(PROJECT_DOESNT_EXIST);
 		}
+	}
+	
+	@Test
+	public void getLastestProjects_should_return_latest_projects() throws DHServiceException {
+		// given
+		final String userId = "45662ca2346f5e6e";
+		final String fromDateString = "20146-01-01";
+		final Date date = new Date();
+		final LatestProjectResponse expectedResponse = new LatestProjectResponse();
+		
+		final List<DBProject> projects = Lists.newArrayList(new DBProject(), new DBProject());
+		
+		when(projectAdapter.fromDateStringToDate(fromDateString)).thenReturn(date);
+		when(projectDataService.findUserLatest(userId, NB_LATEST_PROJECTS, date)).thenReturn(projects);
+		when(projectAdapter.dbProjectsToLatestProjectResponse(projects)).thenReturn(expectedResponse);
+		
+		// when
+		final LatestProjectResponse response = controller.getLastestProjects(userId, fromDateString);
+		
+		// then
+		assertThat(response).isSameAs(expectedResponse);
 	}
 }
