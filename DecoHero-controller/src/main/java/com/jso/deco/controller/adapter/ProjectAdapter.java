@@ -1,10 +1,5 @@
 package com.jso.deco.controller.adapter;
 
-import static com.jso.deco.api.exception.DHMessageCode.MISSING_FIELD;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -67,12 +62,7 @@ public class ProjectAdapter {
 	public Date fromDateStringToDate(final String fromDateString) throws DHServiceException {
 		Date fromDate = null;
 		if(fromDateString != null) {
-			final DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-			try {
-				fromDate = df.parse(fromDateString);
-			} catch (ParseException e) {
-				throw new DHServiceException(MISSING_FIELD, "fromDate");
-			}
+			fromDate = new Date(Long.parseLong(fromDateString));
 		}
 		return fromDate;
 	}

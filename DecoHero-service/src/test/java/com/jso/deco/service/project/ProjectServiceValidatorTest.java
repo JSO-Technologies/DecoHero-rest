@@ -190,7 +190,7 @@ public class ProjectServiceValidatorTest {
 	public void validate_project_user_and_date_should_throw_exception_with_invaid_date() {
 		// given
 		final String userId = "1af569e4bc2";
-		final String fromDate = "20140101";
+		final String fromDate = "2014-01-01";
 		
 		// when
 		try {

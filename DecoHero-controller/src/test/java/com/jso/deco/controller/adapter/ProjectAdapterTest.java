@@ -2,9 +2,7 @@ package com.jso.deco.controller.adapter;
 
 import static com.jso.deco.api.common.Category.RM;
 import static com.jso.deco.api.common.Room.ATC;
-import static com.jso.deco.api.exception.DHMessageCode.MISSING_FIELD;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.fail;
 
 import java.util.Date;
 import java.util.List;
@@ -84,7 +82,7 @@ public class ProjectAdapterTest {
 	@Test
 	public void fromDateStringToDate_should_convert_date() throws DHServiceException {
 		// given
-		final String fromDateString = "20140101211258";
+		final String fromDateString = "1391970342000";
 		
 		// when
 		final Date resultingDate = adapter.fromDateStringToDate(fromDateString);
@@ -92,27 +90,10 @@ public class ProjectAdapterTest {
 		// then
 		DateTime dateTime = new DateTime(resultingDate); 
 		assertThat(dateTime.getYear()).isEqualTo(2014);
-		assertThat(dateTime.getMonthOfYear()).isEqualTo(1);
-		assertThat(dateTime.getDayOfMonth()).isEqualTo(1);
-		assertThat(dateTime.getHourOfDay()).isEqualTo(21);
-		assertThat(dateTime.getMinuteOfHour()).isEqualTo(12);
-		assertThat(dateTime.getSecondOfMinute()).isEqualTo(58);
-	}
-	
-	@Test
-	public void fromDateStringToDate_should_throw_exception_with_invalid_format() {
-		// given
-		final String fromDateString = "201401a";
-		
-		// when
-		try {
-			adapter.fromDateStringToDate(fromDateString);
-			fail("Should have thrown DHServiceException with invalid date");
-		}
-		// then
-		catch(DHServiceException e) {
-			assertThat(e.getDhMessage()).isEqualTo(MISSING_FIELD);
-			assertThat(e.getDetails()).isEqualTo("fromDate");
-		}
+		assertThat(dateTime.getMonthOfYear()).isEqualTo(2);
+		assertThat(dateTime.getDayOfMonth()).isEqualTo(9);
+		assertThat(dateTime.getHourOfDay()).isEqualTo(19);
+		assertThat(dateTime.getMinuteOfHour()).isEqualTo(25);
+		assertThat(dateTime.getSecondOfMinute()).isEqualTo(42);
 	}
 }

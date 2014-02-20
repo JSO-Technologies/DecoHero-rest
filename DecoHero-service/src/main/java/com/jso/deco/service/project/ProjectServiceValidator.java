@@ -10,7 +10,7 @@ import com.jso.deco.api.service.request.ProjectCreationRequest;
 
 public class ProjectServiceValidator {
 
-	private static final String DATE_FORMAT = "^[0-9]{14}$";
+	private static final String TIMESTAMP_FORMAT = "^[0-9]+$";
 
 	public void validate(final ProjectCreationRequest request) throws DHServiceException {
 		if(request.getCategory() == null) {
@@ -40,7 +40,7 @@ public class ProjectServiceValidator {
 		if(StringUtils.isBlank(userId)) {
 			throw new DHServiceException(MISSING_FIELD, "userId");
 		}
-		if(fromDate != null && ! fromDate.matches(DATE_FORMAT)) {
+		if(fromDate != null && ! fromDate.matches(TIMESTAMP_FORMAT)) {
 			throw new DHServiceException(MISSING_FIELD, "fromDate");
 		}
 	}
