@@ -65,6 +65,17 @@ public class ProjectDataService {
 		mongoTemplate.save(project);
 	}
 	
+	/**
+	 * Count user projects
+	 * @param userId
+	 * @return
+	 */
+	public long countUserProjects(final String userId) {
+		final Criteria userCriteria = Criteria.where("userId").is(userId);
+		final Query query = new Query(userCriteria );
+		return mongoTemplate.count(query, DBProject.class);
+	}
+	
 	public void setMongoTemplate(final MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}

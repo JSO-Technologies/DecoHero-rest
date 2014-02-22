@@ -28,12 +28,14 @@ import com.jso.deco.controller.image.ImageService;
 import com.jso.deco.controller.utils.DefaultTestData;
 import com.jso.deco.data.api.DBUser;
 import com.jso.deco.data.api.DBUserInfos;
+import com.jso.deco.data.service.ProjectDataService;
 import com.jso.deco.data.service.UserDataService;
 
 
 public class UserControllerTest {
 	private final UserController controller = new UserController();
 	private final UserDataService userDataService = mock(UserDataService.class);
+	private final ProjectDataService projectDataService = mock(ProjectDataService.class);
 	private final ImageService imageService = mock(ImageService.class);
 
 	@Before
@@ -41,6 +43,7 @@ public class UserControllerTest {
 		controller.setUserDataService(userDataService);
 		controller.setAdapter(new UserAdapter());
 		controller.setImageService(imageService);
+		controller.setProjectDataService(projectDataService);
 	}
 
 	@Test
@@ -159,6 +162,7 @@ public class UserControllerTest {
 		//given
 		DBUserInfos dbUserInfos = DefaultTestData.getDefaultDBUserInfos();
 		when(userDataService.findInfosById("1234")).thenReturn(dbUserInfos);
+		when(projectDataService.countUserProjects("1234")).thenReturn(6L);
 
 		//when
 		UserInfosResponse response = controller.getUserInfos("1234", true);
@@ -188,6 +192,8 @@ public class UserControllerTest {
 
 		assertThat(response.getFavorite_color()).isEqualTo(dbUserInfos.getFavorite_color());
 		assertThat(response.getHouse_type()).isEqualTo(dbUserInfos.getHouse_type());
+
+		assertThat(response.getNbProjects()).isEqualTo(6L);
 	}
 
 	@Test
@@ -195,6 +201,7 @@ public class UserControllerTest {
 		//given
 		DBUserInfos dbUserInfos = DefaultTestData.getDefaultDBUserInfos();
 		when(userDataService.findInfosById("1234")).thenReturn(dbUserInfos);
+		when(projectDataService.countUserProjects("1234")).thenReturn(8L);
 
 		//when
 		UserInfosResponse response = controller.getUserInfos("1234", false);
@@ -224,6 +231,8 @@ public class UserControllerTest {
 
 		assertThat(response.getFavorite_color()).isNull();
 		assertThat(response.getHouse_type()).isNull();
+		
+		assertThat(response.getNbProjects()).isEqualTo(8L);
 	}
 
 	@Test

@@ -15,6 +15,9 @@ public class UserPublicInfosResponse {
 	
 	private String avatar;
 	
+	private long nbProjects;
+	private long nbAchievements;
+	
 	public String getId() {
 		return id;
 	}
@@ -56,6 +59,18 @@ public class UserPublicInfosResponse {
 	}
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+	public long getNbProjects() {
+		return nbProjects;
+	}
+	public void setNbProjects(long nbProjects) {
+		this.nbProjects = nbProjects;
+	}
+	public long getNbAchievements() {
+		return nbAchievements;
+	}
+	public void setNbAchievements(long nbAchievements) {
+		this.nbAchievements = nbAchievements;
 	}
 	
 }

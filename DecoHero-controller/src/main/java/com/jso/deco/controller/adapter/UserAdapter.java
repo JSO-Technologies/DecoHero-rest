@@ -32,10 +32,12 @@ public class UserAdapter {
 		return response;
 	}
 
-	public UserInfosResponse dbUserInfosToUserInfosResponse(final DBUserInfos dbUserInfos, final boolean wholeInfos) {
+	public UserInfosResponse dbUserInfosToUserInfosResponse(final DBUserInfos dbUserInfos, long nbProjects, long nbAchievements, final boolean wholeInfos) {
 		final UserInfosResponse response = new UserInfosResponse();
 		
 		fillPublicFields(response, dbUserInfos);
+		response.setNbProjects(nbProjects);
+		response.setNbAchievements(nbAchievements);
 		if(wholeInfos) {
 			fillPrivateFields(response, dbUserInfos);
 		}

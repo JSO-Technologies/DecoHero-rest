@@ -22,8 +22,9 @@
 	<bean id="userAdapter" class="com.jso.deco.controller.adapter.UserAdapter"/>
 	
 	<bean id="userController" class="com.jso.deco.controller.UserController">
-		<property name="userDataService" ref="userDataService" />
 		<property name="adapter" ref="userAdapter" />
+		<property name="userDataService" ref="userDataService" />
+		<property name="projectDataService" ref="projectDataService" />
 		<property name="imageService" ref="imageService" />
 	</bean>
 	

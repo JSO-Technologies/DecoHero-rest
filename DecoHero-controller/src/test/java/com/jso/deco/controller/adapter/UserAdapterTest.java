@@ -69,7 +69,7 @@ public class UserAdapterTest {
 		DBUserInfos dbUserInfos = DefaultTestData.getDefaultDBUserInfos();
 		
 		//when
-		UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, true);
+		UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, 2, 12, true);
 		
 		//then
 		assertThat(response.getId()).isEqualTo(dbUserInfos.getId());
@@ -98,6 +98,9 @@ public class UserAdapterTest {
 		assertThat(response.getHouse_type()).isEqualTo(dbUserInfos.getHouse_type());
 
 		assertThat(response.getAvatar()).isEqualTo(dbUserInfos.getAvatar());
+
+		assertThat(response.getNbProjects()).isEqualTo(2);
+		assertThat(response.getNbAchievements()).isEqualTo(12);
 	}
 
 	@Test
@@ -106,7 +109,7 @@ public class UserAdapterTest {
 		DBUserInfos dbUserInfos = DefaultTestData.getDefaultDBUserInfos();
 		
 		//when
-		UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, false);
+		UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, 1, 8, false);
 		
 		//then
 		assertThat(response.getId()).isEqualTo(dbUserInfos.getId());
@@ -134,6 +137,9 @@ public class UserAdapterTest {
 		
 		assertThat(response.getFavorite_color()).isNull();
 		assertThat(response.getHouse_type()).isNull();
+		
+		assertThat(response.getNbProjects()).isEqualTo(1);
+		assertThat(response.getNbAchievements()).isEqualTo(8);
 	}
 	
 }

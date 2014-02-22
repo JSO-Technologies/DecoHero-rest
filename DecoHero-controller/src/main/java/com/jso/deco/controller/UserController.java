@@ -16,11 +16,13 @@ import com.jso.deco.controller.adapter.UserAdapter;
 import com.jso.deco.controller.image.ImageService;
 import com.jso.deco.data.api.DBUser;
 import com.jso.deco.data.api.DBUserInfos;
+import com.jso.deco.data.service.ProjectDataService;
 import com.jso.deco.data.service.UserDataService;
 
 public class UserController {
 	private UserAdapter adapter;
 	private UserDataService userDataService;
+	private ProjectDataService projectDataService;
 	private ImageService imageService;
 
 	/**
@@ -73,8 +75,11 @@ public class UserController {
 		if(dbUserInfos == null) {
 			throw new DHServiceException(USER_DOESNT_EXIST, null);
 		}
-
-		final UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, wholeInfos);
+		
+		long nbProjects = projectDataService.countUserProjects(userId);
+		long nbAchievements = 0;
+		
+		final UserInfosResponse response = adapter.dbUserInfosToUserInfosResponse(dbUserInfos, nbProjects, nbAchievements, wholeInfos);
 		return response;
 	}
 
@@ -131,5 +136,9 @@ public class UserController {
 
 	public void setImageService(ImageService imageService) {
 		this.imageService = imageService;
+	}
+
+	public void setProjectDataService(ProjectDataService projectDataService) {
+		this.projectDataService = projectDataService;
 	}
 }
