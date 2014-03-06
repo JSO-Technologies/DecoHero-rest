@@ -29,6 +29,7 @@ public class UserAdapter {
 		response.setFirstname(dbUser.getFirstname());
 		response.setLastname(dbUser.getLastname());
 		response.setBirthdate(dbUser.getBirthdate().getTime());
+		response.setAvatar(dbUser.getAvatar());
 		return response;
 	}
 

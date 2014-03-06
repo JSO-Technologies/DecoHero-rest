@@ -50,6 +50,7 @@ public class UserAdapterTest {
 		dbUser.setFirstname("Jimmy");
 		dbUser.setLastname("Somsanith");
 		dbUser.setBirthdate(new Date());
+		dbUser.setAvatar("1234");
 		
 		//when
 		UserLoginResponse userResponse = adapter.dbUserToUserLoginResponse(dbUser);
@@ -61,6 +62,7 @@ public class UserAdapterTest {
 		assertThat(userResponse.getFirstname()).isEqualTo(dbUser.getFirstname());
 		assertThat(userResponse.getLastname()).isEqualTo(dbUser.getLastname());
 		assertThat(userResponse.getBirthdate()).isEqualTo(dbUser.getBirthdate().getTime());
+		assertThat(userResponse.getAvatar()).isEqualTo(dbUser.getAvatar());
 	}
 	
 	@Test
