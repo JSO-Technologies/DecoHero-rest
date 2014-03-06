@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 
 public class Session {
 	private static final String SERIALIZATION_SEPARATOR = ";";
-	private static final int DURATION_IN_MINUTES = 30;
+	private static final int DURATION_IN_MINUTES = 60;
 	
 	private final String userId;
 	private long expirationTime;
