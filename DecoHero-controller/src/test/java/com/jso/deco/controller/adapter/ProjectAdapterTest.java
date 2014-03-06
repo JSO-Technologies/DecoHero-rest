@@ -5,12 +5,12 @@ import static com.jso.deco.api.common.Room.ATC;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.jso.deco.api.controller.ProjectResponse;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
@@ -29,18 +29,20 @@ public class ProjectAdapterTest {
 		request.setTitle("Title");
 		request.setDescription("Description");
 		
-		final List<String> imgIds = Lists.newArrayList("0000000000", "1111111111");
+		final Map<String, String> imgWithIds = Maps.newHashMapWithExpectedSize(2);
+		imgWithIds.put("0000000000", "image1");
+		imgWithIds.put("1111111111", "image2");
 		final String userId = "1zaihe134jlaih";
 		
 		//when
-		final DBProject dbProject = adapter.projectCreationRequestToDBProject(request, imgIds, userId);
+		final DBProject dbProject = adapter.projectCreationRequestToDBProject(request, imgWithIds.keySet(), userId);
 		
 		//then
 		assertThat(dbProject.getTitle()).isEqualTo(request.getTitle());
 		assertThat(dbProject.getDescription()).isEqualTo(request.getDescription());
 		assertThat(dbProject.getCategory()).isEqualTo(request.getCategory().name());
 		assertThat(dbProject.getRoom()).isEqualTo(request.getRoom().name());
-		assertThat(dbProject.getImages()).isEqualTo(imgIds);
+		assertThat(dbProject.getImages()).containsOnly(imgWithIds.keySet().toArray());
 		assertThat(dbProject.getUserId()).isEqualTo(userId);
 	}
 	

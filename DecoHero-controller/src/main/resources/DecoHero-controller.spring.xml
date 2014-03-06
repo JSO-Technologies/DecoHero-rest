@@ -15,7 +15,6 @@
 	<bean id="imageService" class="com.jso.deco.controller.image.ImageService">
 		<property name="avatarLocation" value="${avatar.location}"/>
 		<property name="projectImgLocation" value="${project.img.location}"/>
-		<property name="projectTmpImgLocation" value="${project.img.location.tmp}"/>
 	</bean>
     
     <!-- user -->
@@ -34,6 +33,7 @@
 	<bean id="projectController" class="com.jso.deco.controller.ProjectController">
 		<property name="userDataService" ref="userDataService" />
 		<property name="projectDataService" ref="projectDataService" />
+		<property name="projectIdeaDataService" ref="projectIdeaDataService" />
 		<property name="adapter" ref="projectAdapter" />
 		<property name="imageService" ref="imageService" />
 	</bean>

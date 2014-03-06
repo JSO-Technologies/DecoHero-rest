@@ -66,6 +66,17 @@ public class ProjectDataService {
 	}
 	
 	/**
+	 * Check if project exists
+	 * @param projectId
+	 * @return
+	 */
+	public boolean exists(String projectId) {
+		final Criteria idCriteria = Criteria.where("id").is(projectId);
+		final Query query = new Query(idCriteria);
+		return mongoTemplate.exists(query, DBProject.class);
+	}
+	
+	/**
 	 * Count user projects
 	 * @param userId
 	 * @return

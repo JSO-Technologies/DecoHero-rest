@@ -31,8 +31,6 @@ public class DBUserInfos extends DBUser {
 	private HouseType house_type;
 	private Style style;
 	
-	private String avatar;
-	
 	private List<String> projects = Lists.newArrayList();
 	
 	public boolean isProfessionnal() {
@@ -112,12 +110,6 @@ public class DBUserInfos extends DBUser {
 	}
 	public void setStyle(Style style) {
 		this.style = style;
-	}
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
 	}
 	public List<String> getProjects() {
 		return projects;

@@ -4,17 +4,22 @@ import static com.jso.deco.api.exception.DHMessageCode.PROJECT_DOESNT_EXIST;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.jso.deco.api.controller.CreateProjectResponse;
 import com.jso.deco.api.controller.LatestProjectResponse;
+import com.jso.deco.api.controller.ProjectIdeaResponse;
 import com.jso.deco.api.controller.ProjectResponse;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
+import com.jso.deco.api.service.request.ProjectIdeaCreationRequest;
 import com.jso.deco.controller.adapter.ProjectAdapter;
 import com.jso.deco.controller.image.ImageService;
 import com.jso.deco.data.api.DBProject;
+import com.jso.deco.data.api.DBProjectIdea;
 import com.jso.deco.data.api.DBUserInfos;
 import com.jso.deco.data.service.ProjectDataService;
+import com.jso.deco.data.service.ProjectIdeaDataService;
 import com.jso.deco.data.service.UserDataService;
 
 
@@ -23,6 +28,7 @@ public class ProjectController {
 	private ProjectAdapter adapter;
 	private UserDataService userDataService;
 	private ProjectDataService projectDataService;
+	private ProjectIdeaDataService projectIdeaDataService;
 	private ImageService imageService;
 	
 	/**
@@ -33,13 +39,13 @@ public class ProjectController {
 	 * @throws DHServiceException
 	 */
 	public CreateProjectResponse createProject(final String userId, final ProjectCreationRequest request) throws DHServiceException {
-		
-		final List<String> imgIds = imageService.saveProjectImg(request.getImages());
-		final DBProject dbProject = adapter.projectCreationRequestToDBProject(request, imgIds, userId);
+		final Map<String, String> imgs = imageService.generateIds(request.getImages());
+		final DBProject dbProject = adapter.projectCreationRequestToDBProject(request, imgs.keySet(), userId);
 
 		projectDataService.create(dbProject);
+		
 		final String projectId = dbProject.getId();
-		imageService.moveProjectImg(projectId, imgIds);
+		imageService.saveProjectImg(projectId, imgs);
 		userDataService.addProjects(userId, projectId);
 		
 		final CreateProjectResponse response = new CreateProjectResponse();
@@ -90,6 +96,31 @@ public class ProjectController {
 		return adapter.dbProjectsToLatestProjectResponse(dbProjects);
 	}
 	
+	/**
+	 * Create a project idea
+	 * @param projectId
+	 * @param request
+	 * @param userId 
+	 * @return
+	 * @throws DHServiceException 
+	 */
+	public ProjectIdeaResponse createProjectIdea(final String userId, final String projectId, final ProjectIdeaCreationRequest request) throws DHServiceException {
+		if(! projectDataService.exists(projectId)) {
+			throw new DHServiceException(PROJECT_DOESNT_EXIST, "Project does not exist");
+		}
+		
+		final Map<String, String> imgs = imageService.generateIds(request.getImages());
+		
+		final DBProjectIdea idea = adapter.projectIdeaCreationRequestToDBProjectIdea(userId, projectId, request, imgs.keySet());
+		projectIdeaDataService.create(idea);
+		
+		imageService.saveProjectIdeaImg(projectId, idea.getId(), imgs);
+		
+		final DBUserInfos user = userDataService.findInfosById(userId);
+		
+		return adapter.dbProjectIdeaToCreateProjectIdeaResponse(user, idea);
+	}
+	
 	public void setAdapter(ProjectAdapter adapter) {
 		this.adapter = adapter;
 	}
@@ -104,5 +135,9 @@ public class ProjectController {
 	
 	public void setProjectDataService(ProjectDataService projectDataService) {
 		this.projectDataService = projectDataService;
+	}
+	
+	public void setProjectIdeaDataService(ProjectIdeaDataService projectIdeaDataService) {
+		this.projectIdeaDataService = projectIdeaDataService;
 	}
 }

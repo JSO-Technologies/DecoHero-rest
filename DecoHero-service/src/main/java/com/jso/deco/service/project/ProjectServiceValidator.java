@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import com.jso.deco.api.common.Category;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
+import com.jso.deco.api.service.request.ProjectIdeaCreationRequest;
 
 public class ProjectServiceValidator {
 
@@ -42,6 +43,12 @@ public class ProjectServiceValidator {
 		}
 		if(fromDate != null && ! fromDate.matches(TIMESTAMP_FORMAT)) {
 			throw new DHServiceException(MISSING_FIELD, "fromDate");
+		}
+	}
+	
+	public void validate(final ProjectIdeaCreationRequest request) throws DHServiceException {
+		if(StringUtils.isBlank(request.getDescription())) {
+			throw new DHServiceException(MISSING_FIELD, "description");
 		}
 	}
 }

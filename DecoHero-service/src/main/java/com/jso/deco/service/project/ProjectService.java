@@ -17,9 +17,11 @@ import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.controller.CreateProjectResponse;
 import com.jso.deco.api.controller.LatestProjectResponse;
+import com.jso.deco.api.controller.ProjectIdeaResponse;
 import com.jso.deco.api.controller.ProjectResponse;
 import com.jso.deco.api.exception.DHServiceException;
 import com.jso.deco.api.service.request.ProjectCreationRequest;
+import com.jso.deco.api.service.request.ProjectIdeaCreationRequest;
 import com.jso.deco.api.service.response.ServiceResponse;
 import com.jso.deco.controller.ProjectController;
 import com.jso.deco.service.adapter.ServiceResponseAdapter;
@@ -102,6 +104,30 @@ public class ProjectService {
 			validator.validate(userId, fromDate);
 			
 			LatestProjectResponse response = controller.getLastestProjects(userId, fromDate);
+			
+			return Response.status(HttpStatus.OK.value()).entity(response).build();
+		}
+		catch(DHServiceException e) {
+			ServiceResponse response = errorAdapter.fromException(e);
+			return Response.status(response.getStatus()).entity(response.getContent()).build();
+		}
+	}
+	
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/{projectId}/idea")
+	public Response createProjectIdea(@PathParam("projectId") String projectId, @BeanParam ProjectIdeaCreationRequest request) {
+		if(!SessionManager.getInstance().isAuthenticated()) {
+			return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
+		}
+		
+		try {
+			validator.validate(projectId);
+			validator.validate(request);
+			
+			final String userId = SessionManager.getInstance().getSession().getUserId();
+			final ProjectIdeaResponse response = controller.createProjectIdea(userId , projectId, request);
 			
 			return Response.status(HttpStatus.OK.value()).entity(response).build();
 		}

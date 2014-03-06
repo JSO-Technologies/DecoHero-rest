@@ -117,7 +117,7 @@ public class UserDataService {
 	 * @param imageEncodedId
 	 */
 	public void updateAvatar(String userId, String imageEncodedId) {
-		DBUserInfos user = findInfosById(userId);
+		DBUser user = findInfosById(userId);
 		user.setAvatar(imageEncodedId);
 		user.setModificationDate(new Date());
 		mongoTemplate.save(user);

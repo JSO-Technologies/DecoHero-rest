@@ -15,6 +15,7 @@ public class DBUser extends TimeControleDocument {
 	private String lastname;
 	private Date birthdate;
 	private String password;
+	private String avatar;
 	
 	public String getId() {
 		return id;
@@ -70,5 +71,13 @@ public class DBUser extends TimeControleDocument {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 }	

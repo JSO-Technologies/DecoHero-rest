@@ -8,6 +8,7 @@ public class UserLoginResponse {
 	private String firstname;
 	private String lastname;
 	private Long birthdate;
+	private String avatar;
 	
 	public String getId() {
 		return id;
@@ -57,4 +58,11 @@ public class UserLoginResponse {
 		this.birthdate = birthdate;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+	
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 }	

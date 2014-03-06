@@ -14,12 +14,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.jso.deco.api.controller.Author;
 import com.jso.deco.api.controller.CreateProjectResponse;
 import com.jso.deco.api.controller.LatestProjectResponse;
@@ -54,7 +56,9 @@ public class ProjectControllerTest {
 		//given
 		final String userId = "userId";
 		final List<String> imgDataUrls = Lists.newArrayList("image1", "image2");
-		final List<String> imgIds = Lists.newArrayList("0000000000", "1111111111");
+		final Map<String, String> imgWithIds = Maps.newHashMapWithExpectedSize(2);
+		imgWithIds.put("0000000000", "image1");
+		imgWithIds.put("1111111111", "image2");
 		
 		final ProjectCreationRequest request = new ProjectCreationRequest();
 		request.setImages(imgDataUrls);
@@ -66,10 +70,10 @@ public class ProjectControllerTest {
 		final DBProject dbProject = new DBProject();
 		dbProject.setId("projectId");
 
-		when(imageService.saveProjectImg(imgDataUrls)).thenReturn(imgIds);
-		when(projectAdapter.projectCreationRequestToDBProject(request, imgIds, userId)).thenReturn(dbProject);
+		when(imageService.generateIds(imgDataUrls)).thenReturn(imgWithIds);
+		when(projectAdapter.projectCreationRequestToDBProject(request, imgWithIds.keySet(), userId)).thenReturn(dbProject);
 		doNothing().when(projectDataService).create(Mockito.any(DBProject.class));
-		doNothing().when(imageService).moveProjectImg(dbProject.getId(), imgIds);
+		doNothing().when(imageService).saveProjectImg(dbProject.getId(), imgWithIds);
 		doNothing().when(userDataService).addProjects(userId, dbProject.getId());
 		
 		//when
@@ -77,9 +81,8 @@ public class ProjectControllerTest {
 		
 		//then
 		assertThat(response.getId()).isEqualTo(dbProject.getId());
-		verify(imageService, times(1)).saveProjectImg(request.getImages());
+		verify(imageService, times(1)).saveProjectImg(dbProject.getId(), imgWithIds);
 		verify(projectDataService, times(1)).create(dbProject);
-		verify(imageService, times(1)).moveProjectImg(dbProject.getId(), imgIds);
 		verify(userDataService, times(1)).addProjects(userId, dbProject.getId());
 		
 	}
