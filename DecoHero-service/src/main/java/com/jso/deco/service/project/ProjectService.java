@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.controller.CreateProjectResponse;
+import com.jso.deco.api.controller.LatestProjectIdeasResponse;
 import com.jso.deco.api.controller.LatestProjectResponse;
 import com.jso.deco.api.controller.ProjectIdeaResponse;
 import com.jso.deco.api.controller.ProjectResponse;
@@ -101,7 +102,7 @@ public class ProjectService {
 	@Path("/latest/{userId}/{fromDate}")
 	public Response getLatestProjects(@PathParam("userId") String userId, @PathParam("fromDate") String fromDate) {
 		try {
-			validator.validate(userId, fromDate);
+			validator.validate("userId", userId, fromDate);
 			
 			LatestProjectResponse response = controller.getLastestProjects(userId, fromDate);
 			
@@ -116,7 +117,7 @@ public class ProjectService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Path("/{projectId}/idea")
+	@Path("/{projectId}/ideas")
 	public Response createProjectIdea(@PathParam("projectId") String projectId, @BeanParam ProjectIdeaCreationRequest request) {
 		if(!SessionManager.getInstance().isAuthenticated()) {
 			return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
@@ -128,6 +129,30 @@ public class ProjectService {
 			
 			final String userId = SessionManager.getInstance().getSession().getUserId();
 			final ProjectIdeaResponse response = controller.createProjectIdea(userId , projectId, request);
+			
+			return Response.status(HttpStatus.OK.value()).entity(response).build();
+		}
+		catch(DHServiceException e) {
+			ServiceResponse response = errorAdapter.fromException(e);
+			return Response.status(response.getStatus()).entity(response.getContent()).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{projectId}/ideas")
+	public Response getLastestIdeas(@PathParam("projectId") String projectId) {
+		return getLastestIdeas(projectId, null);
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{projectId}/ideas/{fromDate}")
+	public Response getLastestIdeas(@PathParam("projectId") String projectId, @PathParam("fromDate") String fromDate) {
+		try {
+			validator.validate("projectId", projectId, fromDate);
+			
+			final LatestProjectIdeasResponse response = controller.getLatestProjectIdeas(projectId, fromDate);
 			
 			return Response.status(HttpStatus.OK.value()).entity(response).build();
 		}

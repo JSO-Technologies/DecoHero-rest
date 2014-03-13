@@ -37,9 +37,9 @@ public class ProjectServiceValidator {
 		}
 	}
 
-	public void validate(final String userId, final String fromDate) throws DHServiceException {
-		if(StringUtils.isBlank(userId)) {
-			throw new DHServiceException(MISSING_FIELD, "userId");
+	public void validate(final String fieldName, final String field, final String fromDate) throws DHServiceException {
+		if(StringUtils.isBlank(field)) {
+			throw new DHServiceException(MISSING_FIELD, fieldName);
 		}
 		if(fromDate != null && ! fromDate.matches(TIMESTAMP_FORMAT)) {
 			throw new DHServiceException(MISSING_FIELD, "fromDate");

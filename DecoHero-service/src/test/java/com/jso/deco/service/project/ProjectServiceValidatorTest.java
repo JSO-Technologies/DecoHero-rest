@@ -163,7 +163,7 @@ public class ProjectServiceValidatorTest {
 		final String fromDate = "20140101210000";
 		
 		// when
-		validator.validate(userId, fromDate);
+		validator.validate("userId", userId, fromDate);
 		
 		// then
 	}
@@ -176,7 +176,7 @@ public class ProjectServiceValidatorTest {
 		
 		// when
 		try {
-			validator.validate(userId, fromDate);
+			validator.validate("userId" , userId, fromDate);
 			fail("Should have thrown exception");
 		}
 		// then
@@ -187,14 +187,14 @@ public class ProjectServiceValidatorTest {
 	}
 	
 	@Test
-	public void validate_project_user_and_date_should_throw_exception_with_invaid_date() {
+	public void validate_project_user_and_date_should_throw_exception_with_invalid_date() {
 		// given
 		final String userId = "1af569e4bc2";
 		final String fromDate = "2014-01-01";
 		
 		// when
 		try {
-			validator.validate(userId, fromDate);
+			validator.validate("userId", userId, fromDate);
 			fail("Should have thrown exception");
 		}
 		// then

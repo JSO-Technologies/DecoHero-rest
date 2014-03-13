@@ -2,9 +2,11 @@ package com.jso.deco.controller.adapter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.jso.deco.api.controller.Author;
+import com.jso.deco.api.controller.LatestProjectIdeasResponse;
 import com.jso.deco.api.controller.LatestProjectResponse;
 import com.jso.deco.api.controller.LightProject;
 import com.jso.deco.api.controller.ProjectIdeaResponse;
@@ -92,6 +94,15 @@ public class ProjectAdapter {
 		response.setDescription(idea.getDescription());
 		response.getImages().addAll(idea.getImages());
 		response.setCreationDate(idea.getCreationDate());
+		
+		return response;
+	}
+
+	public LatestProjectIdeasResponse dbProjectIdeasToLatestProjectIdeasResponse(final List<DBProjectIdea> dbProjectIdeas, final Map<String, DBUserInfos> users) {
+		final LatestProjectIdeasResponse response = new LatestProjectIdeasResponse();
+		for(DBProjectIdea idea : dbProjectIdeas) {
+			response.addIdea(dbProjectIdeaToCreateProjectIdeaResponse(users.get(idea.getUserId()), idea));
+		}
 		
 		return response;
 	}

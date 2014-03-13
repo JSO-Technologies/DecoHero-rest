@@ -1,6 +1,8 @@
 package com.jso.deco.data.service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -71,6 +73,17 @@ public class UserDataService {
 	}
 	
 	/**
+	 * Find users infos by set of ids
+	 * @param userIds
+	 * @return
+	 */
+	public List<DBUserInfos> findInfosByIds(Set<String> userIds) {
+		Criteria idCriteria = Criteria.where(ID).in(userIds);
+		Query searchUserQuery = new Query(idCriteria);
+		return mongoTemplate.find(searchUserQuery, DBUserInfos.class);
+	}
+	
+	/**
 	 * Find user from email/encrypted_password
 	 * @param email
 	 * @param password
@@ -138,4 +151,5 @@ public class UserDataService {
 	public void setMongoTemplate(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
+
 }

@@ -1,12 +1,16 @@
 package com.jso.deco.controller;
 
+import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.jso.deco.api.exception.DHMessageCode.PROJECT_DOESNT_EXIST;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.jso.deco.api.controller.CreateProjectResponse;
+import com.jso.deco.api.controller.LatestProjectIdeasResponse;
 import com.jso.deco.api.controller.LatestProjectResponse;
 import com.jso.deco.api.controller.ProjectIdeaResponse;
 import com.jso.deco.api.controller.ProjectResponse;
@@ -25,6 +29,8 @@ import com.jso.deco.data.service.UserDataService;
 
 public class ProjectController {
 	protected static final int NB_LATEST_PROJECTS = 5;
+	protected static final int NB_LATEST_PROJECT_IDEAS = 5;
+	
 	private ProjectAdapter adapter;
 	private UserDataService userDataService;
 	private ProjectDataService projectDataService;
@@ -119,6 +125,32 @@ public class ProjectController {
 		final DBUserInfos user = userDataService.findInfosById(userId);
 		
 		return adapter.dbProjectIdeaToCreateProjectIdeaResponse(user, idea);
+	}
+
+	/**
+	 * Get the lastest project ideas of a specific project
+	 * @param projectId
+	 * @param fromDate
+	 * @return
+	 * @throws DHServiceException 
+	 */
+	public LatestProjectIdeasResponse getLatestProjectIdeas(String projectId, String fromDateString) throws DHServiceException {
+		final Date fromDate = adapter.fromDateStringToDate(fromDateString);
+		
+		final List<DBProjectIdea> dbProjectIdeas = projectIdeaDataService.findProjectLatest(projectId, NB_LATEST_PROJECT_IDEAS, fromDate);
+		
+		final Set<String> userIds = newHashSet(); 
+		for(DBProjectIdea idea : dbProjectIdeas) {
+			userIds.add(idea.getUserId());
+		}
+		final List<DBUserInfos> dbUsers = userDataService.findInfosByIds(userIds);
+		
+		final Map<String, DBUserInfos> dbUsersById = newHashMap();
+		for(DBUserInfos dbUser: dbUsers) {
+			dbUsersById.put(dbUser.getId(), dbUser);
+		}
+		
+		return adapter.dbProjectIdeasToLatestProjectIdeasResponse(dbProjectIdeas, dbUsersById);
 	}
 	
 	public void setAdapter(ProjectAdapter adapter) {

@@ -1,9 +1,13 @@
 package com.jso.deco.controller;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.jso.deco.api.common.Category.RM;
 import static com.jso.deco.api.common.Room.ENT;
 import static com.jso.deco.api.exception.DHMessageCode.PROJECT_DOESNT_EXIST;
 import static com.jso.deco.controller.ProjectController.NB_LATEST_PROJECTS;
+import static com.jso.deco.controller.ProjectController.NB_LATEST_PROJECT_IDEAS;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doNothing;
@@ -24,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jso.deco.api.controller.Author;
 import com.jso.deco.api.controller.CreateProjectResponse;
+import com.jso.deco.api.controller.LatestProjectIdeasResponse;
 import com.jso.deco.api.controller.LatestProjectResponse;
 import com.jso.deco.api.controller.ProjectResponse;
 import com.jso.deco.api.exception.DHServiceException;
@@ -31,8 +36,10 @@ import com.jso.deco.api.service.request.ProjectCreationRequest;
 import com.jso.deco.controller.adapter.ProjectAdapter;
 import com.jso.deco.controller.image.ImageService;
 import com.jso.deco.data.api.DBProject;
+import com.jso.deco.data.api.DBProjectIdea;
 import com.jso.deco.data.api.DBUserInfos;
 import com.jso.deco.data.service.ProjectDataService;
+import com.jso.deco.data.service.ProjectIdeaDataService;
 import com.jso.deco.data.service.UserDataService;
 
 
@@ -40,6 +47,7 @@ public class ProjectControllerTest {
 	private final ProjectController controller = new ProjectController();
 	private final UserDataService userDataService = mock(UserDataService.class);
 	private final ProjectDataService projectDataService = mock(ProjectDataService.class);
+	private final ProjectIdeaDataService projectIdeaDataService = mock(ProjectIdeaDataService.class);
 	private final ImageService imageService = mock(ImageService.class);
 	private final ProjectAdapter projectAdapter = mock(ProjectAdapter.class);
 	
@@ -47,6 +55,7 @@ public class ProjectControllerTest {
 	public void init() {
 		controller.setUserDataService(userDataService);
 		controller.setProjectDataService(projectDataService);
+		controller.setProjectIdeaDataService(projectIdeaDataService);
 		controller.setAdapter(projectAdapter);
 		controller.setImageService(imageService);
 	}
@@ -137,7 +146,7 @@ public class ProjectControllerTest {
 	public void getLastestProjects_should_return_latest_projects() throws DHServiceException {
 		// given
 		final String userId = "45662ca2346f5e6e";
-		final String fromDateString = "20146-01-01";
+		final String fromDateString = "3102948586760";
 		final Date date = new Date();
 		final LatestProjectResponse expectedResponse = new LatestProjectResponse();
 		
@@ -149,6 +158,42 @@ public class ProjectControllerTest {
 		
 		// when
 		final LatestProjectResponse response = controller.getLastestProjects(userId, fromDateString);
+		
+		// then
+		assertThat(response).isSameAs(expectedResponse);
+	}
+	
+	@Test
+	public void getLastestProjects_should_return_latest_project_ideas() throws DHServiceException {
+		// given
+		final String projectId = "45662ca2346f5e6e";
+		final String fromDateString = "3102948586760";
+		final Date date = new Date();
+		final LatestProjectIdeasResponse expectedResponse = new LatestProjectIdeasResponse();
+		
+		final DBUserInfos user1 = new DBUserInfos();
+		user1.setId("1");
+		final DBUserInfos user2 = new DBUserInfos();
+		user2.setId("2");
+		
+		final Map<String, DBUserInfos> usersById = newHashMap();
+		usersById.put("1", user1);
+		usersById.put("2", user2);
+		
+		final DBProjectIdea projectIdea1 = new DBProjectIdea();
+		projectIdea1.setUserId("1");
+		final DBProjectIdea projectIdea2 = new DBProjectIdea();
+		projectIdea2.setUserId("2");
+		
+		final List<DBProjectIdea> projectIdeas = newArrayList(projectIdea1, projectIdea2);
+		
+		when(projectAdapter.fromDateStringToDate(fromDateString)).thenReturn(date);
+		when(projectIdeaDataService.findProjectLatest(projectId, NB_LATEST_PROJECT_IDEAS, date)).thenReturn(projectIdeas);
+		when(projectAdapter.dbProjectIdeasToLatestProjectIdeasResponse(projectIdeas, usersById)).thenReturn(expectedResponse);
+		when(userDataService.findInfosByIds(newHashSet("1", "2"))).thenReturn(newArrayList(user1, user2));
+		
+		// when
+		final LatestProjectIdeasResponse response = controller.getLatestProjectIdeas(projectId, fromDateString);
 		
 		// then
 		assertThat(response).isSameAs(expectedResponse);
