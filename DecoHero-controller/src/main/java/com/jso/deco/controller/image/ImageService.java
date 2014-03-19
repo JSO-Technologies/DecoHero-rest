@@ -73,8 +73,9 @@ public class ImageService {
 	}
 	
 	/**
-	 * Get avatar byte array
-	 * @param imageUrl
+	 * Get project image byte array
+	 * @param projectId
+	 * @param imageId
 	 * @return
 	 */
 	public byte[] getProjectImage(String projectId, String imageId) {
@@ -83,6 +84,23 @@ public class ImageService {
 			return Files.readAllBytes(imageFile.toPath());
 		} catch (IOException e) {
 			LOGGER.error("Error while reading project image " + projectImgLocation + projectId + "/" + imageId + " : " + e.getMessage(), e);
+			return null;
+		}
+	}
+	
+	/**
+	 * Get project idea image byte array
+	 * @param projectId
+	 * @param ideaId
+	 * @param imageId
+	 * @return
+	 */
+	public byte[] getProjectIdeaImage(String projectId, String ideaId, String imageId) {
+		try {
+			File imageFile = new File(projectImgLocation + projectId + "/" + ideaId + "/" + imageId);
+			return Files.readAllBytes(imageFile.toPath());
+		} catch (IOException e) {
+			LOGGER.error("Error while reading project idea image " + projectImgLocation + projectId + "/" + ideaId + "/" + imageId + " : " + e.getMessage(), e);
 			return null;
 		}
 	}
@@ -162,4 +180,5 @@ public class ImageService {
 		this.projectImgLocation = projectImgLocation;
 		createFolderIfNeeded(projectImgLocation);
 	}
+
 }

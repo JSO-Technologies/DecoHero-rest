@@ -164,7 +164,7 @@ public class ProjectControllerTest {
 	}
 	
 	@Test
-	public void getLastestProjects_should_return_latest_project_ideas() throws DHServiceException {
+	public void getLatestProjectIdeas_should_return_latest_project_ideas() throws DHServiceException {
 		// given
 		final String projectId = "45662ca2346f5e6e";
 		final String fromDateString = "3102948586760";

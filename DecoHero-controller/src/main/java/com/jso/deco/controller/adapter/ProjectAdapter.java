@@ -40,6 +40,7 @@ public class ProjectAdapter {
 		response.setCategory(project.getCategory());
 		response.setRoom(project.getRoom());
 		response.setAuthor(dbUserInfosToAuthor(authorUser));
+		response.setCreationDate(project.getCreationDate());
 		return response;
 	}
 

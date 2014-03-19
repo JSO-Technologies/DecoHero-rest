@@ -81,6 +81,7 @@ public class ProjectAdapterTest {
 		assertThat(result.getTitle()).isEqualTo(project.getTitle());
 		assertThat(result.getDescription()).isEqualTo(project.getDescription());
 		assertThat(result.getImages()).containsOnly(project.getImages().toArray());
+		assertThat(result.getCreationDate()).isEqualTo(project.getCreationDate());
 		assertThat(result.getAuthor().getId()).isEqualTo(authorUser.getId());
 		assertThat(result.getAuthor().getUsername()).isEqualTo(authorUser.getUsername());
 		assertThat(result.getAuthor().getAvatar()).isEqualTo(authorUser.getAvatar());

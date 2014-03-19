@@ -1,5 +1,6 @@
 package com.jso.deco.api.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -13,6 +14,7 @@ public class ProjectResponse {
 	private String category;
 	private String room;
 	private Author author;
+	private Date creationDate;
 	
 	public String getId() {
 		return id;
@@ -68,5 +70,13 @@ public class ProjectResponse {
 	
 	public void setAuthor(Author author) {
 		this.author = author;
+	}
+	
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 }

@@ -161,4 +161,18 @@ public class ProjectService {
 			return Response.status(response.getStatus()).entity(response.getContent()).build();
 		}
 	}
+	
+	@GET
+	@Produces("image/png")
+	@Path("/idea/image/{projectId}/{ideaId}/{imageId}")
+	public Response getImage(@PathParam("projectId") String projectId, @PathParam("ideaId") String ideaId, @PathParam("imageId") String imageId) {
+		byte[] imageData = controller.getImage(projectId, ideaId, imageId);
+		
+		if(imageData == null) {
+			return Response.status(HttpStatus.NOT_FOUND.value()).build();
+		}
+		else {
+			return Response.ok(new ByteArrayInputStream(imageData)).build();
+		}
+	}
 }

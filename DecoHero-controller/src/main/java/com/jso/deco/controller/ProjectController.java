@@ -153,6 +153,17 @@ public class ProjectController {
 		return adapter.dbProjectIdeasToLatestProjectIdeasResponse(dbProjectIdeas, dbUsersById);
 	}
 	
+	/**
+	 * Get project idea image
+	 * @param projectId
+	 * @param ideaId
+	 * @param imageId
+	 * @return
+	 */
+	public byte[] getImage(final String projectId, final String ideaId, final String imageId) {
+		return imageService.getProjectIdeaImage(projectId, ideaId, imageId);
+	}
+	
 	public void setAdapter(ProjectAdapter adapter) {
 		this.adapter = adapter;
 	}
