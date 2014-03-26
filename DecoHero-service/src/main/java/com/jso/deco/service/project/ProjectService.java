@@ -9,6 +9,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -25,6 +26,7 @@ import com.jso.deco.api.service.request.ProjectCreationRequest;
 import com.jso.deco.api.service.request.ProjectIdeaCreationRequest;
 import com.jso.deco.api.service.response.ServiceResponse;
 import com.jso.deco.controller.ProjectController;
+import com.jso.deco.controller.image.ImageSize;
 import com.jso.deco.service.adapter.ServiceResponseAdapter;
 import com.jso.deco.service.session.SessionManager;
 
@@ -79,8 +81,8 @@ public class ProjectService {
 	@GET
 	@Produces("image/png")
 	@Path("/image/{projectId}/{imageId}")
-	public Response getImage(@PathParam("projectId") String projectId, @PathParam("imageId") String imageId) {
-		byte[] imageData = controller.getImage(projectId, imageId);
+	public Response getImage(@PathParam("projectId") String projectId, @PathParam("imageId") String imageId, @QueryParam("size") ImageSize size) {
+		byte[] imageData = controller.getImage(projectId, imageId, size);
 		
 		if(imageData == null) {
 			return Response.status(HttpStatus.NOT_FOUND.value()).build();
@@ -165,8 +167,8 @@ public class ProjectService {
 	@GET
 	@Produces("image/png")
 	@Path("/idea/image/{projectId}/{ideaId}/{imageId}")
-	public Response getImage(@PathParam("projectId") String projectId, @PathParam("ideaId") String ideaId, @PathParam("imageId") String imageId) {
-		byte[] imageData = controller.getImage(projectId, ideaId, imageId);
+	public Response getImage(@PathParam("projectId") String projectId, @PathParam("ideaId") String ideaId, @PathParam("imageId") String imageId, @QueryParam("size") ImageSize size) {
+		byte[] imageData = controller.getImage(projectId, ideaId, imageId, size);
 		
 		if(imageData == null) {
 			return Response.status(HttpStatus.NOT_FOUND.value()).build();

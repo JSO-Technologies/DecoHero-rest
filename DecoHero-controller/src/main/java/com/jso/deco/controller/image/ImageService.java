@@ -1,5 +1,7 @@
 package com.jso.deco.controller.image;
 
+import static com.jso.deco.controller.image.ImageSize.FULL;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,6 +26,7 @@ import com.jso.deco.api.exception.DHServiceException;
 public class ImageService {
 	private static final String ENCODING_PREFIX = "base64,";	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
+	private static final String RESIZE_CMD = "convert %s -resize %d %s%s";
 
 	private final Base64 base64 = new Base64();
 	private String avatarLocation;
@@ -76,14 +79,15 @@ public class ImageService {
 	 * Get project image byte array
 	 * @param projectId
 	 * @param imageId
+	 * @param size 
 	 * @return
 	 */
-	public byte[] getProjectImage(String projectId, String imageId) {
-	    try {
-			File imageFile = new File(projectImgLocation + projectId + "/" + imageId);
-			return Files.readAllBytes(imageFile.toPath());
+	public byte[] getProjectImage(String projectId, String imageId, ImageSize size) {
+	    final String imagePath = projectImgLocation + projectId + "/" + imageId;
+		try {
+			return getImage(imagePath, size);
 		} catch (IOException e) {
-			LOGGER.error("Error while reading project image " + projectImgLocation + projectId + "/" + imageId + " : " + e.getMessage(), e);
+			LOGGER.error("Error while reading project image " + imagePath + " : " + e.getMessage(), e);
 			return null;
 		}
 	}
@@ -93,16 +97,37 @@ public class ImageService {
 	 * @param projectId
 	 * @param ideaId
 	 * @param imageId
+	 * @param size 
 	 * @return
 	 */
-	public byte[] getProjectIdeaImage(String projectId, String ideaId, String imageId) {
+	public byte[] getProjectIdeaImage(final String projectId, final String ideaId, final String imageId, final ImageSize size) {
+		final String imagePath = projectImgLocation + projectId + "/" + ideaId + "/" + imageId;
+		
 		try {
-			File imageFile = new File(projectImgLocation + projectId + "/" + ideaId + "/" + imageId);
-			return Files.readAllBytes(imageFile.toPath());
+			return getImage(imagePath, size);
 		} catch (IOException e) {
-			LOGGER.error("Error while reading project idea image " + projectImgLocation + projectId + "/" + ideaId + "/" + imageId + " : " + e.getMessage(), e);
+			LOGGER.error("Error while reading project idea image " + imagePath + " : " + e.getMessage(), e);
 			return null;
 		}
+	}
+	
+	private byte[] getImage(final String imagePath, final ImageSize size) throws IOException {
+		File imageFile = null;
+		if(size != FULL) {
+			final String thumbPath = imagePath + size.getSuffix();
+			imageFile = new File(thumbPath);
+			
+			if(! imageFile.exists()) {
+				boolean resized = resizeImage(imagePath, size);
+				if(!resized) {
+					imageFile = new File(imagePath);
+				}
+			}
+		}
+		else {			
+			imageFile = new File(imagePath);
+		}
+		return Files.readAllBytes(imageFile.toPath());
 	}
 	
 	/**
@@ -161,6 +186,28 @@ public class ImageService {
 		} catch (IOException e) {
 			LOGGER.error("Error while saving avatar in " + uploadedFileLocation + " : " + e.getMessage(), e);
 			throw new DHServiceException(DHMessageCode.MISSING_FIELD, "");
+		}
+	}
+
+	/**
+	 * Create image thumbnail
+	 * @param imagePath
+	 * @param size 
+	 */
+	private boolean resizeImage(final String imagePath, final ImageSize size) {
+		final String command = String.format(RESIZE_CMD, imagePath, size.getSize(), imagePath, size.getSuffix());
+		try {
+			Process p = Runtime.getRuntime().exec(command);
+			p.waitFor();
+			
+			if(p.exitValue() != 0) {
+				LOGGER.error("Error while creating thumbnail : exit value = " + p.exitValue() + " : (" + command + ")");
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			LOGGER.error("Error while creating thumbnail " + imagePath, e);
+			return false;
 		}
 	}
 

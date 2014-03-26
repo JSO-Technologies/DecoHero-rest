@@ -19,6 +19,7 @@ import com.jso.deco.api.service.request.ProjectCreationRequest;
 import com.jso.deco.api.service.request.ProjectIdeaCreationRequest;
 import com.jso.deco.controller.adapter.ProjectAdapter;
 import com.jso.deco.controller.image.ImageService;
+import com.jso.deco.controller.image.ImageSize;
 import com.jso.deco.data.api.DBProject;
 import com.jso.deco.data.api.DBProjectIdea;
 import com.jso.deco.data.api.DBUserInfos;
@@ -81,10 +82,11 @@ public class ProjectController {
 	 * Get project image
 	 * @param projectId
 	 * @param imageId
+	 * @param size
 	 * @return
 	 */
-	public byte[] getImage(final String projectId, final String imageId) {
-		return imageService.getProjectImage(projectId, imageId);
+	public byte[] getImage(final String projectId, final String imageId, final ImageSize size) {
+		return imageService.getProjectImage(projectId, imageId, size);
 	}
 	
 	/**
@@ -158,10 +160,11 @@ public class ProjectController {
 	 * @param projectId
 	 * @param ideaId
 	 * @param imageId
+	 * @param size
 	 * @return
 	 */
-	public byte[] getImage(final String projectId, final String ideaId, final String imageId) {
-		return imageService.getProjectIdeaImage(projectId, ideaId, imageId);
+	public byte[] getImage(final String projectId, final String ideaId, final String imageId, final ImageSize size) {
+		return imageService.getProjectIdeaImage(projectId, ideaId, imageId, size);
 	}
 	
 	public void setAdapter(ProjectAdapter adapter) {
