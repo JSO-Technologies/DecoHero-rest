@@ -1,5 +1,9 @@
 package com.jso.deco.service.user;
 
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
+
 import java.io.ByteArrayInputStream;
 
 import javax.ws.rs.BeanParam;
@@ -16,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.controller.UpdateAvatarResponse;
 import com.jso.deco.api.controller.UserInfosResponse;
@@ -62,7 +65,7 @@ public class UserService {
 			Session session = new Session(loginResponse.getId());
 			SessionManager.getInstance().setSession(session);
 
-			return Response.status(HttpStatus.OK.value()).entity(loginResponse).build();
+			return Response.status(OK).entity(loginResponse).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -85,7 +88,7 @@ public class UserService {
 			Session session = new Session(loginResponse.getId());
 			SessionManager.getInstance().setSession(session);
 
-			return Response.status(HttpStatus.OK.value()).entity(loginResponse).build();
+			return Response.status(OK).entity(loginResponse).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -97,10 +100,10 @@ public class UserService {
 	@Path("/session")
 	public Response getSession() {
 		if(SessionManager.getInstance().isAuthenticated()) {
-			return Response.status(HttpStatus.OK.value()).build();
+			return Response.status(OK).build();
 		}
 		else {
-			return Response.status(HttpStatus.NOT_FOUND.value()).build();
+			return Response.status(NOT_FOUND).build();
 		}
 	}
 
@@ -118,7 +121,7 @@ public class UserService {
 	@Path("/infos")
 	public Response getUserInfos() {
 		if(!SessionManager.getInstance().isAuthenticated()) {
-			return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
+			return Response.status(UNAUTHORIZED).build();
 		}
 
 		try {			
@@ -126,7 +129,7 @@ public class UserService {
 
 			UserInfosResponse response = controller.getUserInfos(userId, true);
 
-			return Response.status(HttpStatus.OK.value()).entity(response).build();
+			return Response.status(OK).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -140,7 +143,7 @@ public class UserService {
 	@Path("/infos")
 	public Response updateUserInfos(@BeanParam UserInfosRequest request) {
 		if(!SessionManager.getInstance().isAuthenticated()) {
-			return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
+			return Response.status(UNAUTHORIZED).build();
 		}
 
 		try {
@@ -151,7 +154,7 @@ public class UserService {
 
 			controller.updateUserInfos(userId, request);
 
-			return Response.status(HttpStatus.OK.value()).build();
+			return Response.status(OK).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -165,7 +168,7 @@ public class UserService {
 	@Path("/infos/{userid}")
 	public Response getUserInfos(@PathParam("userid") String userid) {
 		if(!SessionManager.getInstance().isAuthenticated()) {
-			return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
+			return Response.status(UNAUTHORIZED).build();
 		}
 
 		try {			
@@ -173,7 +176,7 @@ public class UserService {
 
 			UserPublicInfosResponse response = controller.getUserInfos(userId, false);
 
-			return Response.status(HttpStatus.OK.value()).entity(response).build();
+			return Response.status(OK).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -187,7 +190,7 @@ public class UserService {
 	@Path("/infos/avatar")
 	public Response updateAvatar(@FormParam("avatar") String avatarDataUrl) {
 		if(!SessionManager.getInstance().isAuthenticated()) {
-			return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
+			return Response.status(UNAUTHORIZED).build();
 		}
 		
 		try {
@@ -196,7 +199,7 @@ public class UserService {
 			final String userId = SessionManager.getInstance().getSession().getUserId();
 			UpdateAvatarResponse response = controller.updateAvatar(userId, avatarDataUrl);
 			
-			return Response.status(HttpStatus.OK.value()).entity(response).build();
+			return Response.status(OK).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -211,7 +214,7 @@ public class UserService {
 		byte[] imageData = controller.getAvatar(imageUrl);
 		
 		if(imageData == null) {
-			return Response.status(HttpStatus.NOT_FOUND.value()).build();
+			return Response.status(NOT_FOUND).build();
 		}
 		else {
 			return Response.ok(new ByteArrayInputStream(imageData)).build();

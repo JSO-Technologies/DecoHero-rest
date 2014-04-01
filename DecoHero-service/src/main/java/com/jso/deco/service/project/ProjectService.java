@@ -1,5 +1,9 @@
 package com.jso.deco.service.project;
 
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
+
 import java.io.ByteArrayInputStream;
 
 import javax.ws.rs.BeanParam;
@@ -14,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.controller.CreateProjectResponse;
 import com.jso.deco.api.controller.LatestProjectIdeasResponse;
@@ -46,14 +49,14 @@ public class ProjectService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response createProject(@BeanParam ProjectCreationRequest request) {
 		if(!SessionManager.getInstance().isAuthenticated()) {
-			return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
+			return Response.status(UNAUTHORIZED).build();
 		}
 		
 		try {
 			validator.validate(request);
 			CreateProjectResponse response = controller.createProject(SessionManager.getInstance().getSession().getUserId(), request);
 			
-			return Response.status(HttpStatus.OK.value()).entity(response).build();
+			return Response.status(OK).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -70,7 +73,7 @@ public class ProjectService {
 			
 			ProjectResponse response = controller.getProject(projectId);
 			
-			return Response.status(HttpStatus.OK.value()).entity(response).build();
+			return Response.status(OK).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -85,7 +88,7 @@ public class ProjectService {
 		byte[] imageData = controller.getImage(projectId, imageId, size);
 		
 		if(imageData == null) {
-			return Response.status(HttpStatus.NOT_FOUND.value()).build();
+			return Response.status(NOT_FOUND).build();
 		}
 		else {
 			return Response.ok(new ByteArrayInputStream(imageData)).build();
@@ -108,7 +111,7 @@ public class ProjectService {
 			
 			LatestProjectResponse response = controller.getLastestProjects(userId, fromDate);
 			
-			return Response.status(HttpStatus.OK.value()).entity(response).build();
+			return Response.status(OK).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -122,7 +125,7 @@ public class ProjectService {
 	@Path("/{projectId}/ideas")
 	public Response createProjectIdea(@PathParam("projectId") String projectId, @BeanParam ProjectIdeaCreationRequest request) {
 		if(!SessionManager.getInstance().isAuthenticated()) {
-			return Response.status(HttpStatus.UNAUTHORIZED.value()).build();
+			return Response.status(UNAUTHORIZED).build();
 		}
 		
 		try {
@@ -132,7 +135,7 @@ public class ProjectService {
 			final String userId = SessionManager.getInstance().getSession().getUserId();
 			final ProjectIdeaResponse response = controller.createProjectIdea(userId , projectId, request);
 			
-			return Response.status(HttpStatus.OK.value()).entity(response).build();
+			return Response.status(OK).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -156,7 +159,7 @@ public class ProjectService {
 			
 			final LatestProjectIdeasResponse response = controller.getLatestProjectIdeas(projectId, fromDate);
 			
-			return Response.status(HttpStatus.OK.value()).entity(response).build();
+			return Response.status(OK).entity(response).build();
 		}
 		catch(DHServiceException e) {
 			ServiceResponse response = errorAdapter.fromException(e);
@@ -171,7 +174,7 @@ public class ProjectService {
 		byte[] imageData = controller.getImage(projectId, ideaId, imageId, size);
 		
 		if(imageData == null) {
-			return Response.status(HttpStatus.NOT_FOUND.value()).build();
+			return Response.status(NOT_FOUND).build();
 		}
 		else {
 			return Response.ok(new ByteArrayInputStream(imageData)).build();

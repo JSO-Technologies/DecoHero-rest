@@ -1,9 +1,10 @@
 package com.jso.deco.service.adapter;
 
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.CONFLICT;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.springframework.http.HttpStatus;
 
 import com.jso.deco.api.exception.DHMessageCode;
 import com.jso.deco.api.exception.DHServiceException;
@@ -23,7 +24,7 @@ public class ServiceResponseAdapterTest {
 		ServiceResponse response = adapter.fromException(dhServiceException);
 		
 		//then
-		assertThat(response.getStatus()).isEqualTo(HttpStatus.CONFLICT.value());
+		assertThat(response.getStatus()).isEqualTo(CONFLICT);
 		assertThat(response.getContent()).isInstanceOf(ErrorMessageResponse.class);
 		ErrorMessageResponse errorMessageResponse = (ErrorMessageResponse) response.getContent();
 		assertThat(errorMessageResponse.getError()).isEqualTo(DHMessageCode.USER_ALREADY_EXISTS.name());
@@ -40,7 +41,7 @@ public class ServiceResponseAdapterTest {
 		ServiceResponse response = adapter.fromException(dhServiceException);
 		
 		//then
-		assertThat(response.getStatus()).isEqualTo(HttpStatus.CONFLICT.value());
+		assertThat(response.getStatus()).isEqualTo(CONFLICT);
 		assertThat(response.getContent()).isInstanceOf(ErrorMessageResponse.class);
 		ErrorMessageResponse errorMessageResponse = (ErrorMessageResponse) response.getContent();
 		assertThat(errorMessageResponse.getError()).isEqualTo(DHMessageCode.USER_ALREADY_EXISTS.name());
@@ -57,7 +58,7 @@ public class ServiceResponseAdapterTest {
 		ServiceResponse response = adapter.fromException(dhServiceException);
 		
 		//then
-		assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
 		assertThat(response.getContent()).isInstanceOf(ErrorMessageResponse.class);
 		ErrorMessageResponse errorMessageResponse = (ErrorMessageResponse) response.getContent();
 		assertThat(errorMessageResponse.getError()).isEqualTo(DHMessageCode.MISSING_FIELD.name());
