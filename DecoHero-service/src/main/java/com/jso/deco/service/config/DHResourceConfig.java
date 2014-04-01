@@ -5,6 +5,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import com.jso.deco.service.filter.SessionManagerRequestFilter;
 import com.jso.deco.service.filter.SessionManagerResponseFilter;
+import com.jso.deco.service.friends.FriendsService;
 import com.jso.deco.service.project.ProjectService;
 import com.jso.deco.service.user.UserService;
 
@@ -24,5 +25,6 @@ public class DHResourceConfig extends ResourceConfig {
     	//services
     	register(UserService.class);
     	register(ProjectService.class);
+    	register(FriendsService.class);
     }
 }

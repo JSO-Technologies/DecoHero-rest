@@ -38,4 +38,12 @@
 		<property name="imageService" ref="imageService" />
 	</bean>
 	
+	<!-- friends -->
+	<bean id="friendAdapter" class="com.jso.deco.controller.adapter.FriendAdapter"/>
+
+	<bean id="friendsController" class="com.jso.deco.controller.FriendsController">
+		<property name="adapter" ref="friendAdapter" />
+		<property name="userDataService" ref="userDataService" />
+		<property name="projectDataService" ref="projectDataService" />
+	</bean>
 </beans>
