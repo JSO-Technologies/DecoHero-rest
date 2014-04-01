@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.jso.deco.data.api.DBFriend;
 import com.jso.deco.data.api.DBUser;
 import com.jso.deco.data.api.DBUserInfos;
 
@@ -135,17 +136,16 @@ public class UserDataService {
 		user.setModificationDate(new Date());
 		mongoTemplate.save(user);
 	}
-
+	
 	/**
-	 * Add project reference
-	 * @param userId
-	 * @param projectId
+	 * Find friends infos by ids
+	 * @param friendsIds
+	 * @return
 	 */
-	public void addProjects(String userId, String projectId) {
-		DBUserInfos user = findInfosById(userId);
-		user.getProjects().add(projectId);
-		user.setModificationDate(new Date());
-		mongoTemplate.save(user);
+	public List<DBFriend> findFriends(final List<String> friendsIds) {
+		Criteria idCriteria = Criteria.where(ID).in(friendsIds);
+		Query searchFriendsQuery = new Query(idCriteria);
+		return mongoTemplate.find(searchFriendsQuery, DBFriend.class);
 	}
 
 	public void setMongoTemplate(MongoTemplate mongoTemplate) {

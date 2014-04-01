@@ -53,7 +53,6 @@ public class ProjectController {
 		
 		final String projectId = dbProject.getId();
 		imageService.saveProjectImg(projectId, imgs);
-		userDataService.addProjects(userId, projectId);
 		
 		final CreateProjectResponse response = new CreateProjectResponse();
 		response.setId(projectId);

@@ -83,7 +83,6 @@ public class ProjectControllerTest {
 		when(projectAdapter.projectCreationRequestToDBProject(request, imgWithIds.keySet(), userId)).thenReturn(dbProject);
 		doNothing().when(projectDataService).create(Mockito.any(DBProject.class));
 		doNothing().when(imageService).saveProjectImg(dbProject.getId(), imgWithIds);
-		doNothing().when(userDataService).addProjects(userId, dbProject.getId());
 		
 		//when
 		final CreateProjectResponse response = controller.createProject(userId, request);
@@ -92,7 +91,6 @@ public class ProjectControllerTest {
 		assertThat(response.getId()).isEqualTo(dbProject.getId());
 		verify(imageService, times(1)).saveProjectImg(dbProject.getId(), imgWithIds);
 		verify(projectDataService, times(1)).create(dbProject);
-		verify(userDataService, times(1)).addProjects(userId, dbProject.getId());
 		
 	}
 	
