@@ -12,6 +12,7 @@ import com.jso.deco.service.session.SessionManager;
 public class SessionManagerResponseFilter implements ContainerResponseFilter {
 
 	private static final String SET_COOKIE = "Set-Cookie";
+	private static final String PUBLIC_IMAGE_PATH = "/public/image";
 
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
@@ -32,6 +33,9 @@ public class SessionManagerResponseFilter implements ContainerResponseFilter {
 	}
 
 	private void addCookiesInHeader(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
+		if(requestContext.getUriInfo().getPath().startsWith(PUBLIC_IMAGE_PATH)) {
+			return;
+		}
 		if(SessionManager.getInstance().isAuthenticated()) {
 			SessionManager.getInstance().getSession().refreshExpiredDate();
 		}

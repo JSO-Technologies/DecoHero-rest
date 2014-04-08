@@ -4,8 +4,6 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.OK;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 
-import java.io.ByteArrayInputStream;
-
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -207,18 +205,4 @@ public class UserService {
 		}
 	}
 	
-	@GET
-	@Produces("image/png")
-	@Path("/infos/avatar/public/{image}")
-	public Response getAvatar(@PathParam("image") String imageUrl) {
-		byte[] imageData = controller.getAvatar(imageUrl);
-		
-		if(imageData == null) {
-			return Response.status(NOT_FOUND).build();
-		}
-		else {
-			return Response.ok(new ByteArrayInputStream(imageData)).build();
-		}
-	}
-
 }
