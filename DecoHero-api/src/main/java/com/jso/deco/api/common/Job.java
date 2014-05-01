@@ -14,9 +14,12 @@ public enum Job {
 	HOUS("House wife, house husband"),
 	OTHR("Other");
 	
-	private String dictionnary;
+	private final String dictionnary;
 	private Job(String dictionnary) {
 		this.dictionnary = dictionnary;
 	}
 	
+	public String getDictionnary() {
+		return dictionnary;
+	}
 }

@@ -51,9 +51,12 @@ public enum JobField {
 	TOUR("Tourism"),
 	TRSP("Transport - Logistics");
 
-	private String dictionnary;
+	private final String dictionnary;
 	private JobField(String dictionnary) {
 		this.dictionnary = dictionnary;
 	}
 	
+	public String getDictionnary() {
+		return dictionnary;
+	}
 }

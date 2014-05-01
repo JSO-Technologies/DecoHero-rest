@@ -38,13 +38,13 @@ public class UserInfosRequest {
 	
 	@FormParam("job")
 	private Job job;
-	@FormParam("job_field")
-	private JobField job_field;
+	@FormParam("jobField")
+	private JobField jobField;
 	
-	@FormParam("house_type")
-	private HouseType house_type;
-	@FormParam("favorite_color")
-	private String favorite_color;
+	@FormParam("houseType")
+	private HouseType houseType;
+	@FormParam("favoriteColor")
+	private String favoriteColor;
 	@FormParam("style")
 	private Style style;
 
@@ -144,28 +144,28 @@ public class UserInfosRequest {
 		this.job = job;
 	}
 	
-	public JobField getJob_field() {
-		return job_field;
+	public JobField getJobField() {
+		return jobField;
 	}
 	
-	public void setJob_field(JobField job_field) {
-		this.job_field = job_field;
+	public void setJobField(JobField jobField) {
+		this.jobField = jobField;
 	}
 	
-	public HouseType getHouse_type() {
-		return house_type;
+	public HouseType getHouseType() {
+		return houseType;
 	}
 	
-	public void setHouse_type(HouseType house_type) {
-		this.house_type = house_type;
+	public void setHouse_type(HouseType houseType) {
+		this.houseType = houseType;
 	}
 	
-	public String getFavorite_color() {
-		return favorite_color;
+	public String getFavoriteColor() {
+		return favoriteColor;
 	}
 	
-	public void setFavorite_color(String favorite_color) {
-		this.favorite_color = favorite_color;
+	public void setFavoriteColor(String favoriteColor) {
+		this.favoriteColor = favoriteColor;
 	}
 	
 	public Style getStyle() {

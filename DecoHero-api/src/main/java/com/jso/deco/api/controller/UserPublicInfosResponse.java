@@ -10,7 +10,7 @@ public class UserPublicInfosResponse {
 	private boolean professional;
 	private Gender gender;
 	
-	private String favorite_color;
+	private String favoriteColor;
 	private Style style;
 	
 	private String avatar;
@@ -42,11 +42,11 @@ public class UserPublicInfosResponse {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	public String getFavorite_color() {
-		return favorite_color;
+	public String getFavoriteColor() {
+		return favoriteColor;
 	}
-	public void setFavorite_color(String favorite_color) {
-		this.favorite_color = favorite_color;
+	public void setFavorite_color(String favoriteColor) {
+		this.favoriteColor = favoriteColor;
 	}
 	public Style getStyle() {
 		return style;

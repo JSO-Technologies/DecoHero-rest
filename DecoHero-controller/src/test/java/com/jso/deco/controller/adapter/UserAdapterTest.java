@@ -94,10 +94,10 @@ public class UserAdapterTest {
 		assertThat(response.getPhone()).isEqualTo(dbUserInfos.getPhone());
 		
 		assertThat(response.getJob()).isEqualTo(dbUserInfos.getJob());
-		assertThat(response.getJob_field()).isEqualTo(dbUserInfos.getJob_field());
+		assertThat(response.getJobField()).isEqualTo(dbUserInfos.getJob_field());
 		
-		assertThat(response.getFavorite_color()).isEqualTo(dbUserInfos.getFavorite_color());
-		assertThat(response.getHouse_type()).isEqualTo(dbUserInfos.getHouse_type());
+		assertThat(response.getFavoriteColor()).isEqualTo(dbUserInfos.getFavorite_color());
+		assertThat(response.getHouseType()).isEqualTo(dbUserInfos.getHouse_type());
 
 		assertThat(response.getAvatar()).isEqualTo(dbUserInfos.getAvatar());
 
@@ -135,10 +135,10 @@ public class UserAdapterTest {
 		assertThat(response.getPhone()).isNull();
 		
 		assertThat(response.getJob()).isNull();
-		assertThat(response.getJob_field()).isNull();
+		assertThat(response.getJobField()).isNull();
 		
-		assertThat(response.getFavorite_color()).isNull();
-		assertThat(response.getHouse_type()).isNull();
+		assertThat(response.getFavoriteColor()).isNull();
+		assertThat(response.getHouseType()).isNull();
 		
 		assertThat(response.getNbProjects()).isEqualTo(1);
 		assertThat(response.getNbAchievements()).isEqualTo(8);

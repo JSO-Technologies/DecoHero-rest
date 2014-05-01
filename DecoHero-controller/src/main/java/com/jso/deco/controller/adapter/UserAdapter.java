@@ -90,10 +90,10 @@ public class UserAdapter {
 		dbUserInfos.setPhone(request.getPhone());
 		
 		dbUserInfos.setJob(request.getJob());
-		dbUserInfos.setJob_field(request.getJob_field());
+		dbUserInfos.setJob_field(request.getJobField());
 		
-		dbUserInfos.setHouse_type(request.getHouse_type());
-		dbUserInfos.setFavorite_color(request.getFavorite_color());
+		dbUserInfos.setHouse_type(request.getHouseType());
+		dbUserInfos.setFavorite_color(request.getFavoriteColor());
 		dbUserInfos.setStyle(request.getStyle());
 	}
 

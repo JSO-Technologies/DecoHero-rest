@@ -20,9 +20,9 @@ public class UserInfosResponse extends UserPublicInfosResponse {
 	private String phone;
 	
 	private Job job;
-	private JobField job_field;
+	private JobField jobField;
 	
-	private HouseType house_type;
+	private HouseType houseType;
 
 	public String getEmail() {
 		return email;
@@ -112,20 +112,20 @@ public class UserInfosResponse extends UserPublicInfosResponse {
 		this.job = job;
 	}
 
-	public JobField getJob_field() {
-		return job_field;
+	public JobField getJobField() {
+		return jobField;
 	}
 
-	public void setJob_field(JobField job_field) {
-		this.job_field = job_field;
+	public void setJob_field(JobField jobField) {
+		this.jobField = jobField;
 	}
 
-	public HouseType getHouse_type() {
-		return house_type;
+	public HouseType getHouseType() {
+		return houseType;
 	}
 
-	public void setHouse_type(HouseType house_type) {
-		this.house_type = house_type;
+	public void setHouse_type(HouseType houseType) {
+		this.houseType = houseType;
 	}
 	
 }
